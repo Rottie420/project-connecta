@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecta | NFC Pet Tag </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        #location {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .coords {
+            font-weight: bold;
+        }
+        button {
+            background-color: #4CAF50; /* Green background */
+            border: none; /* Remove borders */
+            color: white; /* White text */
+            padding: 15px 32px; /* Padding for button */
+            text-align: center; /* Centered text */
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Inline-block for button */
+            font-size: 16px; /* Font size */
+            margin: 4px 2px; /* Margin around button */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 8px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth background change */
+        }
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+        .contact-container {
+            width: 90%;
+            min-height: 80vh;
+            max-width: 600px;
+            background-image: linear-gradient(to right bottom, #0066ff, #7b88ff, #b0aeff, #dad5ff, #ffffff);
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+        }
+        .profile-pic {
+            display: block;
+            margin: 30px auto 30px auto;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid #1e90ff;
+            object-fit: cover;
+        }
+        .contact-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .contact-info p {
+            margin: 10px 0;
+            font-size: 18px;
+            color: #555;
+        }
+        .contact-info a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .social-icons a {
+            margin: 10px;
+        }
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .button-icon {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .contact-container {
+                margin: 20px auto;
+                padding: 15px;
+                min-height: 90vh;
+            }
+            .contact-info p {
+                font-size: 16px;
+            }
+            .social-icons img {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 24px;
+            }
+            .contact-info p {
+                font-size: 14px;
+            }
+            .social-icons img {
+                width: 30px;
+                height: 30px;
+            }
+            .profile-pic {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <h2 style="font-weight: bold; color: #333; text-align: center; font-size: 28px; margin-top: 150px;">Contact Us</h2>
+
+        <!-- Profile Picture with Round Frame -->
+        <img src="C:\Users\kevin\OneDrive - SATS Ltd\Desktop\project-connecta\assets\dog-pic.jpg" alt="Pet Care Profile" class="profile-pic">
+
+        <div class="contact-info">
+            <p><strong>Timmie The Dog</strong></p>
+            <p>Email: <a href="mailto:callmydaddypls@home.com">callmydaddypls@home.com</a></p>
+            <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+            <p>Address: 123 Pet Lane, Animal Town, PA 12345</p>
+        </div>
+
+        <div class="social-icons">
+            <a href="https://www.facebook.com/petcare" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook">
+            </a>
+            <a href="https://www.twitter.com/petcare" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/X_logo_2023.svg/1024px-X_logo_2023.svg.png" alt="Twitter">
+            </a>
+            <a href="https://www.instagram.com/petcare" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+            </a>
+            <a onclick="getLocation()">
+                <img src="https://static.wikia.nocookie.net/google/images/1/19/Google_Maps_Icon.png/revision/latest?cb=20201022161440" alt="Instagram">
+            </a>
+        </div>
+
+        <div class="button-icon">
+            <!-- <button onclick="getLocation()">Track My Location</button> -->
+            <div id="location"></div>
+        </div>
+    </div>
+
+    <script>
+        function decimalToDMS(degrees) {
+            const d = Math.floor(degrees);
+            const m = Math.floor((degrees - d) * 60);
+            const s = ((degrees - d - m / 60) * 3600).toFixed(1); // One decimal place
+    
+            return { degrees: d, minutes: m, seconds: s };
+        }
+    
+        function convertCoordinates(lat, lon) {
+            const latDMS = decimalToDMS(Math.abs(lat));
+            const lonDMS = decimalToDMS(Math.abs(lon));
+    
+            const latDirection = lat >= 0 ? 'N' : 'S';
+            const lonDirection = lon >= 0 ? 'E' : 'W';
+    
+            const latDMSString = `${latDMS.degrees}°${latDMS.minutes}'${latDMS.seconds}"${latDirection}`;
+            const lonDMSString = `${lonDMS.degrees}°${lonDMS.minutes}'${lonDMS.seconds}"${lonDirection}`;
+    
+            return {
+                latitude: latDMSString,
+                longitude: lonDMSString
+            };
+        }
+    
+        function getLocation() {
+            const locationDiv = document.getElementById('location');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                locationDiv.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+    
+        function showPosition(position) {
+            const dmsCoordinates = convertCoordinates(position.coords.latitude, position.coords.longitude);
+            const locationDiv = document.getElementById('location');
+            locationDiv.innerHTML = `<p><span class="coords">${dmsCoordinates.latitude} ${dmsCoordinates.longitude}</span></p>`;
+        }
+    
+        function showError(error) {
+            const locationDiv = document.getElementById('location');
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    locationDiv.innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    locationDiv.innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    locationDiv.innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    locationDiv.innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+    
+</body>
+</html>
