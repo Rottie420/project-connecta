@@ -1,26 +1,28 @@
 {
-    "test_pet_01": {
-        "name": "test_user_01",
-        "email": "test_email_01_@email.com",
-        "phone": "123456",
-        "address": "123456",
+    "01": {
+        "control_number": "01",
+        "name": "MAU",
+        "email": "MAU@G.COM",
+        "phone": "123",
+        "address": "123",
         "social": {
-            "facebook": "fb",
-            "twitter": "x",
-            "instagram": "ig"
+            "facebook": "FB",
+            "twitter": "X",
+            "instagram": "IG"
         },
-        "photo": "uploads/test_pet_01_462558644_1931481487357583_4032226465868644903_n.jpg"
+        "photo": "uploads/01.webp"
     },
-    "test_pet_02": {
-        "name": "test_user_02",
-        "email": "test_email_02_@email.com",
-        "phone": "123456",
-        "address": "123456",
+    "02": {
+        "control_number": "02",
+        "name": "moew",
+        "email": "meow@g.com",
+        "phone": "12344",
+        "address": "2132313",
         "social": {
             "facebook": "fb",
             "twitter": "x",
             "instagram": "ig"
         },
-        "photo": "uploads/test_pet_02.webp"
+        "photo": "uploads/02.webp"
     }
 }
