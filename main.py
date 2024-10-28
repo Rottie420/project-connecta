@@ -53,7 +53,8 @@ def index():
         return render_template('home.html')
     except Exception as e:
         log_error(f"Index page error: {e}")
-        return render_template('home.html', error="An error occurred loading the homepage.")
+        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
+
 
 @app.route('/pet/<control_number>')
 def pet_profile(control_number):
