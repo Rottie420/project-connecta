@@ -42,7 +42,11 @@ def is_valid_control_number(control_number):
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    try:
+        return render_template('home.html')
+    except Exception as e:
+        print(e)
+        return render_template('home.html')
 
 @app.route('/pet/<control_number>')
 def pet_profile(control_number):
