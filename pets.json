@@ -24,5 +24,18 @@
             "instagram": "ig"
         },
         "photo": "uploads/02.webp"
+    },
+    "03": {
+        "control_number": "03",
+        "name": "timmie",
+        "email": "kevinpaulcastillo@gmail.com",
+        "phone": "+6597845231",
+        "address": "520740, singapore",
+        "social": {
+            "facebook": "https://www.facebook.com/tigztigertigerkz/",
+            "twitter": "x",
+            "instagram": "ig"
+        },
+        "photo": "uploads/03.webp"
     }
 }
