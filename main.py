@@ -11,11 +11,18 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 JSON_FILE_PATH = 'pets.json'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+LOG_FILE_PATH = 'log.txt'  # Path to the log file
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Function to log errors to log.txt
+def log_error(error_message):
+    with open(LOG_FILE_PATH, 'a') as log_file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_file.write(f"{timestamp} - ERROR: {error_message}\n")
 
 # Function to check allowed file extensions
 def allowed_file(filename):
@@ -45,18 +52,21 @@ def index():
     try:
         return render_template('home.html')
     except Exception as e:
-        print(e)
-        return render_template('home.html')
+        log_error(f"Index page error: {e}")
+        return render_template('home.html', error="An error occurred loading the homepage.")
 
 @app.route('/pet/<control_number>')
 def pet_profile(control_number):
-    pet = pets.get(control_number)
-    if pet:
-        timestamp = datetime.now().timestamp()
-        return render_template('pet-profile.html', pet=pet, timestamp=timestamp)
-    else:
-        return "Pet not found", 404
-        
+    try:
+        pet = pets.get(control_number)
+        if pet:
+            timestamp = datetime.now().timestamp()
+            return render_template('pet-profile.html', pet=pet, timestamp=timestamp)
+        else:
+            return "Pet not found", 404
+    except Exception as e:
+        log_error(f"Pet profile error for control number {control_number}: {e}")
+        return "An error occurred while loading the pet profile.", 500
 
 @app.route('/add-pet', methods=['GET', 'POST'])
 def add_pet():
@@ -114,11 +124,8 @@ def add_pet():
         return render_template('add-pet.html')
 
     except Exception as e:
-        print(f"An error occurred: {e}")
+        log_error(f"Add pet error: {e}")
         return render_template('add-pet.html', error="An error occurred while processing your request.")
-
-    
-    
 
 @app.route('/nfc-pet-tag')
 def nfc_pet_tag_page():
