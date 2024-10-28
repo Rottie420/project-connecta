@@ -11,11 +11,18 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 JSON_FILE_PATH = 'pets.json'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+LOG_FILE_PATH = 'log.txt'  # Path to the log file
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Function to log errors to log.txt
+def log_error(error_message):
+    with open(LOG_FILE_PATH, 'a') as log_file:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        log_file.write(f"{timestamp} - ERROR: {error_message}\n")
 
 # Function to check allowed file extensions
 def allowed_file(filename):
@@ -42,70 +49,84 @@ def is_valid_control_number(control_number):
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    try:
+        return render_template('home.html')
+    except Exception as e:
+        log_error(f"Index page error: {e}")
+        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
+
 
 @app.route('/pet/<control_number>')
 def pet_profile(control_number):
-    pet = pets.get(control_number)
-    if pet:
-        timestamp = datetime.now().timestamp()
-        return render_template('pet-profile.html', pet=pet, timestamp=timestamp)
-    else:
-        return "Pet not found", 404
+    try:
+        pet = pets.get(control_number)
+        if pet:
+            timestamp = datetime.now().timestamp()
+            return render_template('pet-profile.html', pet=pet, timestamp=timestamp)
+        else:
+            return "Pet not found", 404
+    except Exception as e:
+        log_error(f"Pet profile error for control number {control_number}: {e}")
+        return "An error occurred while loading the pet profile.", 500
 
 @app.route('/add-pet', methods=['GET', 'POST'])
 def add_pet():
-    if request.method == 'POST':
-        control_number = request.form['control_number']
-        petname = request.form['petname']
-        email = request.form['email']
-        phone = request.form['phone']
-        address = request.form['address']
-        social = {
-            'facebook': request.form['facebook'],
-            'twitter': request.form['twitter'],
-            'instagram': request.form['instagram']
-        }
-
-        if not is_valid_control_number(control_number):
-            return render_template('add-pet.html', error="Invalid or duplicate control number")
-
-        if 'photo' not in request.files:
-            return render_template('add-pet.html', error="No file part")
-        
-        file = request.files['photo']
-        
-        if file.filename == '':
-            return render_template('add-pet.html', error="No selected file")
-        
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            unique_filename = f"{control_number}_{filename}"
-
-            original_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
-            file.save(original_path)
-
-            webp_filename = f"{control_number}.webp"
-            webp_path = os.path.join(app.config['UPLOAD_FOLDER'], webp_filename)
-
-            img = Image.open(original_path)
-            img.save(webp_path, 'webp')
-            os.remove(original_path)
-
-            pets[control_number] = {
-                'control_number': control_number,
-                'name': petname,
-                'email': email,
-                'phone': phone,
-                'address': address,
-                'social': social,
-                'photo': f'uploads/{webp_filename}'
+    try:
+        if request.method == 'POST':
+            control_number = request.form['control_number']
+            petname = request.form['petname']
+            email = request.form['email']
+            phone = request.form['phone']
+            address = request.form['address']
+            social = {
+                'facebook': request.form['facebook'],
+                'twitter': request.form['twitter'],
+                'instagram': request.form['instagram']
             }
 
-            save_pets(pets)
-            return redirect(url_for('pet_profile', control_number=control_number))
-    
-    return render_template('add-pet.html')
+            if not is_valid_control_number(control_number):
+                return render_template('add-pet.html', error="Invalid or duplicate control number")
+
+            if 'photo' not in request.files:
+                return render_template('add-pet.html', error="No file part")
+            
+            file = request.files['photo']
+            
+            if file.filename == '':
+                return render_template('add-pet.html', error="No selected file")
+            
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                unique_filename = f"{control_number}_{filename}"
+
+                original_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+                file.save(original_path)
+
+                webp_filename = f"{control_number}.webp"
+                webp_path = os.path.join(app.config['UPLOAD_FOLDER'], webp_filename)
+
+                img = Image.open(original_path)
+                img.save(webp_path, 'webp')
+                os.remove(original_path)
+
+                pets[control_number] = {
+                    'control_number': control_number,
+                    'name': petname,
+                    'email': email,
+                    'phone': phone,
+                    'address': address,
+                    'social': social,
+                    'photo': f'uploads/{webp_filename}'
+                }
+
+                save_pets(pets)
+                return redirect(url_for('pet_profile', control_number=control_number))
+        
+        return render_template('add-pet.html')
+
+    except Exception as e:
+        log_error(f"Add pet error: {e}")
+        return render_template('add-pet.html', error="An error occurred while processing your request.")
 
 @app.route('/nfc-pet-tag')
 def nfc_pet_tag_page():
