@@ -49,7 +49,6 @@
             border-radius: 25px;
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent white background */
-            backdrop-filter: blur(10px); /* Optional: add a blur effect to the background */
         }
 
         .card:hover {
@@ -166,7 +165,7 @@
     <main class="container mt-5">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
-                <div class="card h-80 shadow-sm">
+                <div class="card h-50 shadow-sm">
                     <img src="{{ url_for('static', filename='mobile-pet-tag.webp') }}" style="border-radius: 20px;" class="card-img-top" alt="Product 1">
                     <div class="card-body text-center" style="margin-bottom: 15px;">
                         <h5 class="card-title">Smart Pet Tag</h5>
@@ -179,7 +178,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
-                <div class="card h-80 shadow-sm">
+                <div class="card h-50 shadow-sm">
                     <img src="{{ url_for('static', filename='mobile-card-tag.webp') }}" style="border-radius: 20px;" class="card-img-top" alt="Product 2">
                     <div class="card-body text-center" style="margin-bottom: 15px;">
                         <h5 class="card-title">Smart Business Card</h5>
@@ -188,7 +187,7 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
-                <div class="card h-80 shadow-sm">
+                <div class="card h-50 shadow-sm">
                     <img src="{{ url_for('static', filename='nfc-of-things.webp') }}" style="border-radius: 15px;" class="card-img-top" alt="Product 2">
                     <div class="card-body text-center" style="margin-bottom: 15px;">
                         <h5 class="card-title">NFC of Things</h5>
