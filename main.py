@@ -55,6 +55,29 @@ def index():
         log_error(f"Index page error: {e}")
         return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
 
+@app.route('/smart-nfc-tag')
+def smart_nfc_tag():
+    try:
+        return render_template('smart-nfc-tag.html')
+    except Exception as e:
+        log_error(f"Index page error: {e}")
+        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
+
+@app.route('/smart-nfc-card')
+def smart_nfc_card():
+    try:
+        return render_template('smart-nfc-card.html')
+    except Exception as e:
+        log_error(f"Index page error: {e}")
+        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
+
+@app.route('/smart-nfc-sticker')
+def smart_nfc_sticker():
+    try:
+        return render_template('smart-nfc-sticker.html')
+    except Exception as e:
+        log_error(f"Index page error: {e}")
+        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
 
 @app.route('/pet/<control_number>')
 def pet_profile(control_number):
