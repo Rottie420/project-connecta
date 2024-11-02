@@ -17,7 +17,8 @@
             font-optical-sizing: auto;
             font-weight: 400;
             color: #333;
-            background-image: linear-gradient(to right bottom, #0066ff, #7b88ff, #b0aeff, #dad5ff, #ffffff);
+            background: #f5f5f5;
+            /* background-image: linear-gradient(to right bottom, #0066ff, #7b88ff, #b0aeff, #dad5ff, #ffffff); */
             height: 100%;
             margin: 0;
             display: flex;
@@ -132,7 +133,18 @@
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
         }
 
+        
+        .card {
+            border-width: 0px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);    
+        }
 
+        .transparent-card {
+            background-color: rgba(255, 255, 255, 0) !important; /* Ensure full transparency */
+            border: none !important; /* Remove border */
+            box-shadow: none !important; /* Remove shadow */
+        }
+            
     </style>
 </head>
 <body>
@@ -150,10 +162,10 @@
                             <a class="nav-link" href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#icon-grid">Use Cases</a>
+                            <a class="nav-link" href="#icon-grid">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#faqAccordion">Faq's</a>
+                            <a class="nav-link" href="#faqAccordion">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -161,19 +173,17 @@
         </nav>
     </header>
 
-    <div style="margin-top: 70px;"></div>
+    <div style="margin-top: 4em;"></div>
 
     <div class="container-fluid text-center py-5" style="background: transparent;">
         <div class="container">
           <h1 class="display-3 fw-bold scribble">Unlock Seamless Interactions with NFC Technology</h1>
-          <p class="lead mt-3">From your pets to your professional network, everything just a tap away.</p>
+          <p class="lead mt-3 fw-bold">From your pets to your professional network, everything just a tap away.</p>
         </div>
     </div>
 
-    <div style="margin-top: 30px;"></div>
-
     <!-- Main Section -->
-    <main class="container mt-5">
+   <!--  <main class="container mt-5">
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100 shadow-sm">
@@ -215,7 +225,46 @@
                 </div>
             </div>
         </div>
-    </main>
+    </main> -->
+
+    <div class="container my-5">
+        <h2 class="text-center mb-4 pb-2">How It Works</h2>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="card mb-4 transparent-card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="{{ url_for('static', filename='nfc-tap.png') }}" alt="Get Started" class="img-fluid" style="width: 20em;">
+                        </div>
+                        <h5 class="card-title">Step 1: Tap the NFC Tag</h5>
+                        <p class="card-text">Hold any NFC-enabled smartphone close to the NFC tag.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 transparent-card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="{{ url_for('static', filename='nfc-cloud.png') }}" alt="Set Up Your Profile" class="img-fluid" style="width: 20em;">
+                        </div>
+                        <h5 class="card-title">Step 2: Access Cloud Data</h5>
+                        <p class="card-text">Retrieve real-time information directly from the cloud.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 transparent-card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <img src="{{ url_for('static', filename='nfc-device.png') }}" alt="Start Using" class="img-fluid" style="width: 20em;">
+                        </div>
+                        <h5 class="card-title">Step 3: Access from Any Device </h5>
+                        <p class="card-text">Update data, view analytics, and manage NFC-tagged items remotely.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div style="margin-top: 70px;"></div>
 
@@ -345,6 +394,8 @@
         </div>
       </div>
       </div>
+
+    <div style="margin-top: 70px;"></div>
 
     <!-- FAQ Section -->
     <section class="container mt-5 faq-section">
