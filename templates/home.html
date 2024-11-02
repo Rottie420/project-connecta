@@ -163,7 +163,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container">
                 <a class="navbar-brand" href="#">Connecta</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -171,8 +171,17 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#icon-grid">Products</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#icon-grid" id="solutionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Solution
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="solutionDropdown">
+                                <li><a class="dropdown-item" href="#nfc-tags">Smart NFC Tags</a></li>
+                                <li><a class="dropdown-item" href="#mobile-payment">Smart NFC Cards</a></li>
+                                <li><a class="dropdown-item" href="#business-cards">Smart NFC Stickers</a></li>
+                                <li><a class="dropdown-item" href="#pet-tags">Smart NFC Wearables</a></li>
+                                <!-- Add more items as needed -->
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#faqAccordion">Contact</a>
@@ -246,7 +255,7 @@
                         <div class="mb-3">
                             <img src="{{ url_for('static', filename='nfc-tap.png') }}" alt="Get Started" class="img-fluid">
                         </div>
-                        <h5 class="card-title">Step 1: Tap the NFC Tag</h5>
+                        <h5 class="card-title">Step 1: Tap the NFC Tag </h5>
                         <p class="card-text">Hold any NFC-enabled smartphone close to the NFC tag.</p>
                     </div>
                 </div>
@@ -257,7 +266,7 @@
                         <div class="mb-3">
                             <img src="{{ url_for('static', filename='nfc-cloud.png') }}" alt="Set Up Your Profile" class="img-fluid">
                         </div>
-                        <h5 class="card-title">Step 2: Access Cloud Data</h5>
+                        <h5 class="card-title">Step 2: Connect to Cloud </h5>
                         <p class="card-text">Retrieve real-time information directly from the cloud.</p>
                     </div>
                 </div>
