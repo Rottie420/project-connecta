@@ -144,7 +144,17 @@
             border: none !important; /* Remove border */
             box-shadow: none !important; /* Remove shadow */
         }
-            
+        
+        .img-fluid {
+            width: 20em;
+        }
+
+        @media (max-width: 768px) {
+            .img-fluid {
+                width: 15em;
+            }
+        }
+        
     </style>
 </head>
 <body>
@@ -234,7 +244,7 @@
                 <div class="card mb-4 transparent-card">
                     <div class="card-body">
                         <div class="mb-3">
-                            <img src="{{ url_for('static', filename='nfc-tap.png') }}" alt="Get Started" class="img-fluid" style="width: 20em;">
+                            <img src="{{ url_for('static', filename='nfc-tap.png') }}" alt="Get Started" class="img-fluid">
                         </div>
                         <h5 class="card-title">Step 1: Tap the NFC Tag</h5>
                         <p class="card-text">Hold any NFC-enabled smartphone close to the NFC tag.</p>
@@ -245,7 +255,7 @@
                 <div class="card mb-4 transparent-card">
                     <div class="card-body">
                         <div class="mb-3">
-                            <img src="{{ url_for('static', filename='nfc-cloud.png') }}" alt="Set Up Your Profile" class="img-fluid" style="width: 20em;">
+                            <img src="{{ url_for('static', filename='nfc-cloud.png') }}" alt="Set Up Your Profile" class="img-fluid">
                         </div>
                         <h5 class="card-title">Step 2: Access Cloud Data</h5>
                         <p class="card-text">Retrieve real-time information directly from the cloud.</p>
@@ -256,7 +266,7 @@
                 <div class="card mb-4 transparent-card">
                     <div class="card-body">
                         <div class="mb-3">
-                            <img src="{{ url_for('static', filename='nfc-device.png') }}" alt="Start Using" class="img-fluid" style="width: 20em;">
+                            <img src="{{ url_for('static', filename='nfc-device.png') }}" alt="Start Using" class="img-fluid">
                         </div>
                         <h5 class="card-title">Step 3: Access from Any Device </h5>
                         <p class="card-text">Update data, view analytics, and manage NFC-tagged items remotely.</p>
