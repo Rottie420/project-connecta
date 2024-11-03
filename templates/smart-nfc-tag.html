@@ -3,52 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connecta | Smart NFC tag</title>
+    <title>Connecta | Smart NFC Tag</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
     <style>
-        /* Base styles */
+        /* Base Styles */
         body {
             font-family: "Inter", sans-serif;
-            font-optical-sizing: auto;
-            font-weight: 400;
             color: #333;
-            background: #f5f5f5;
-            height: 100%;
+            background-color: #fafafa;
             margin: 0;
             display: flex;
             flex-direction: column;
-        }
-
-        /* Main content should take up available space */
-        main {
-            flex-grow: 1;
+            height: 100%;
         }
 
         /* Navbar */
         .navbar-brand {
             font-size: 1.8em;
             font-weight: 600;
+            color: #333;
         }
+
 
         .nav-link {
             font-weight: 500;
-            color: #333 !important;
+            color: #555 !important;
         }
 
         .nav-link:hover {
-            color: #007BFF !important;
+            color: #007bff !important;
         }
 
-        /* Card Styling */
-        .card {
-            border-radius: 25px;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-section p {
+            font-size: 1.25em;
+            margin-bottom: 30px;
+        }
+
+        .btn-startup {
             background-color: white;
+            color: #007bff;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .btn-startup:hover {
+            transform: scale(1.05);
+        }
+
+        /* Product Overview */
+        .product-overview {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .product-overview h2 {
+            font-weight: 600;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        /* Use Cases */
+        #icon-grid {
+            padding: 50px 0;
+            background: transparent;
+            margin-top: 5em;
+            margin-bottom: 15em;
+        }
+
+        .card {
+            border: none;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: #f8f9fa;
+            border-radius: 15px;
         }
 
         .card:hover {
@@ -56,14 +104,28 @@
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
 
-        .card-title {
-            font-size: 1.3em;
-            font-weight: 600;
+        .card i {
+            font-size: 2.5em;
+            color: #007bff;
         }
 
-        .card-text {
-            font-size: 1.2em;
-            color: #007BFF;
+        .card-title {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* FAQ Section */
+        .accordion-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .accordion-button {
+            font-weight: 500;
         }
 
         /* Footer */
@@ -88,52 +150,15 @@
             font-size: 1em;
         }
 
-        .scribble::before {
-            content: "";
-            position: absolute;
-            top: 0.85em;
-            left: -2%;
-            width: 105%;
-            height: 0.3em;
-            background: yellow;
-            z-index: -1;
-            opacity: 0.7;
-            border-radius: 15px / 50%;
-            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3); /* Adds depth for a curled effect */
-        }
-
-        .faq-section {
-            background-color: transparent !important; /* Semi-transparent background */
-            border-radius: 15px; /* Rounded corners for aesthetic */
-            padding: 20px; /* Padding for spacing */
-            backdrop-filter: blur(10px); /* Optional: Blurring background */
-        }
-
-        .accordion {
-            max-width: 800px; /* Set a maximum width for larger screens */
-            margin: 0 auto; /* Center the accordion */
-        }
-
-        .card-img-top {
-            max-width: 288px;
-            max-height: 318px;
-        }
-
-        #icon-grid {
-            background: rgba(255, 255, 255, 0.441);
-            border-radius: 25px;
-            box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
-        }
-
     </style>
 </head>
 <body>
-   <!-- Header -->
-   <header class="bg-white shadow-sm sticky-top">
+     <!-- Header -->
+     <header class="bg-white shadow-sm sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container">
-                <a class="navbar-brand" href="/">Connecta</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand" href="#">Connecta</a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
@@ -141,11 +166,20 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#icon-grid">Use Cases</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="solutionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Solution
+                            </a>
+                            <ul class="dropdown-menu border-0" aria-labelledby="solutionDropdown">
+                                <li><a class="dropdown-item" href="/smart-nfc-tag">Smart NFC Tags</a></li>
+                                <li><a class="dropdown-item" href="/smart-nfc-card">Smart NFC Cards</a></li>
+                                <li><a class="dropdown-item" href="/smart-nfc-stickers">Smart NFC Stickers</a></li>
+                                <li><a class="dropdown-item" href="#smart-nfc-wearables">Smart NFC Wearables</a></li>
+                                <!-- Add more items as needed -->
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#faqAccordion">Faq's</a>
+                            <a class="nav-link" href="#faqAccordion">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -154,57 +188,83 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="text-center mt-5 pt-5">
+    <section class="hero-section">
         <div class="container">
-            <h1>NFC Tag - Connect Instantly</h1>
-            <p>Transform how you share information with our NFC tags. Fast, reliable, and easy to use!</p>
+            <h1>Connect with a Tap</h1>
+            <p>Revolutionize how you share information with Connecta's smart NFC technology.</p>
+            <a href="#icon-grid" class="btn btn-startup">Explore More</a>
         </div>
     </section>
 
-    <!-- Product Details Section -->
-    <section class="container mt-5">
-       
+    <div style="margin-top: 4em;"></div>
+
+    <!-- Product Overview Section -->
+    <section class="product-overview">
+        <div class="container">
             <h2>Product Overview</h2>
-            <p>Our NFC tags are small, lightweight, and can be programmed to perform various actions when scanned. Ideal for businesses and personal use!</p>
+            <p>Our NFC tags are designed for businesses and personal use, offering seamless information sharing at your fingertips.</p>
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <ul class="list-unstyled">
+                        <li>✅ Compatible with all NFC-enabled devices</li>
+                        <li>✅ Water-resistant and durable</li>
+                        <li>✅ Easy programming with our app</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section with Dynamic Layout -->
+    <section id="icon-grid" class="container px-4 py-5">
+        <h2 class="pb-2 border-bottom text-center">NFC Everywhere</h2>
+        <p class="text-center mb-5">Explore the versatility of NFC technology in various real-world applications.</p>
+        
+        <!-- Dynamic Card Layout -->
+        <div class="row g-5">
             
-            <h3>Key Features</h3>
-            <ul>
-                <li>Compatible with all NFC-enabled devices</li>
-                <li>Water-resistant and durable design</li>
-                <li>Customizable data storage for various applications</li>
-                <li>Easy to program with a simple app</li>
-            </ul>
-       
-    </section>
+            <!-- Digital Business Cards (Large, Left-Aligned) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #f0f4f8; border-radius: 15px;">
+                    <i class="bi bi-person-vcard mb-3" style="font-size: 3em; color: #007bff;"></i>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Digital Business Cards</h4>
+                    <p class="card-text">Share your contact information instantly with a simple tap—ideal for professional networking and quick, memorable connections.</p>
+                </div>
+            </div>
+            
+            <!-- Event Check-Ins (Small, Centered) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #eaf2fa; border-radius: 15px;">
+                    <i class="bi bi-calendar-check mb-3" style="font-size: 2.5em; color: #007bff;"></i>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Event Check-Ins</h4>
+                    <p class="card-text">Streamline event access by enabling quick attendee check-ins. Perfect for conferences, workshops, and gatherings.</p>
+                </div>
+            </div>
+            
+        </div>
 
-    <!-- Benefits Section -->
-    <section class="container mt-5">
-      
-            <h2>Why Choose Our NFC Tags?</h2>
-            <p>Utilize the power of NFC technology to simplify your life:</p>
-            <ul>
-                <li><strong>Effortless Sharing:</strong> Share contact details, social media links, and more with a simple tap.</li>
-                <li><strong>Versatile Applications:</strong> Perfect for marketing, event management, and personal use.</li>
-                <li><strong>Cost-Effective:</strong> A one-time investment that offers long-term benefits.</li>
-            </ul>
-        
+        <div class="row g-5 mt-3">
+            
+            <!-- Product Packaging (Centered, Wide) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #f0f4f8; border-radius: 15px;">
+                    <i class="bi bi-box-seam mb-3" style="font-size: 3em; color: #007bff;"></i>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Product Packaging</h4>
+                    <p class="card-text">Give customers direct access to product manuals, usage guides, and promotions right from the packaging. Enhance engagement and support sustainability efforts.</p>
+                </div>
+            </div>
+            
+            <!-- Pet Tags (Left-Aligned, Small) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #eaf2fa; border-radius: 15px;">
+                    <i class="bi bi-shield-shaded mb-3" style="font-size: 2.5em; color: #007bff;"></i>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Pet Tags</h4>
+                    <p class="card-text">Protect your pet by embedding essential contact details in an NFC tag. Provides quick access to your contact information in case of emergencies.</p>
+                </div>
+            </div>
+            
+        </div>
     </section>
-
-    <!-- Use Cases Section -->
-    <section class="container mt-5">
-        
-            <h2>Use Cases</h2>
-            <p>Discover how our NFC tags can be utilized in various settings:</p>
-            <ul>
-                <li><strong>Business Cards:</strong> Create dynamic digital business cards.</li>
-                <li><strong>Event Check-Ins:</strong> Speed up event registration and check-in processes.</li>
-                <li><strong>Product Packaging:</strong> Provide product information and promotions directly on the packaging.</li>
-                <li><strong>Pet Tags:</strong> Safeguard your pet with emergency contact information.</li>
-            </ul>
-        
-    </section>
-
-    <div style="margin-top: 150px;"></div>
 
     <!-- Footer -->
     <footer class="bg-white text-center py-4 mt-5">
@@ -215,7 +275,7 @@
                 <li class="list-inline-item"><a href="#">Terms of Service</a></li>
             </ul>
         </div>
-    </footer>
+    </footer>   
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
