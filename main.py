@@ -181,20 +181,30 @@ def write_data(data):
 @app.route('/api/book-a-demo', methods=['GET', 'POST'])
 def book_demo():
     if request.method == 'POST':
-        booking_info = request.get_json()
+        # Capture form data
+        booking_info = {
+            'name': request.form.get('name'),
+            'email': request.form.get('email'),
+            'phone': request.form.get('phone'),
+            'date': request.form.get('date'),
+            'time': request.form.get('time'),
+            'message': request.form.get('message')
+        }
         
-        if booking_info is None:
-            return jsonify({'error': 'Invalid JSON data'}), 400  # Handle invalid JSON
-
+        # Validate that required fields are filled
+        if not booking_info['name'] or not booking_info['email']:
+            return jsonify({'error': 'Name and email are required.'}), 400  # Handle missing fields
+        
         bookings = read_data()
         bookings.append(booking_info)
         write_data(bookings)
         
         # Return a JSON response indicating success
         return jsonify({'message': 'Demo booked successfully!', 'booking_info': booking_info}), 200
-     
+
     # Handle GET requests (if needed)
     return render_template('book-a-demo.html')  # Just return the form if it's a GET request
+
 
 
 if __name__ == '__main__':
