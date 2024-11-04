@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify,
 from werkzeug.utils import secure_filename
 from PIL import Image
 from datetime import datetime
@@ -151,9 +151,42 @@ def add_pet():
         log_error(f"Add pet error: {e}")
         return render_template('add-pet.html', error="An error occurred while processing your request.")
 
+
 @app.route('/nfc-pet-tag')
 def nfc_pet_tag_page():
     return render_template('nfc-pet-tag.html')
 
+
+# Define the path to the JSON data file
+DATA_FILE = os.path.join('data', 'demo_bookings.json')
+
+# Function to read JSON data from the file
+def read_data():
+    if not os.path.exists(DATA_FILE):
+        return []
+    with open(DATA_FILE, 'r') as file:
+        return json.load(file)
+
+# Function to write JSON data to the file
+def write_data(data):
+    with open(DATA_FILE, 'w') as file:
+        json.dump(data, file, indent=4)
+
+# Route to save demo booking data
+@app.route('/api/book-a-demo', methods=['POST'])
+def book_demo():
+    booking_info = request.json
+    bookings = read_data()
+    bookings.append(booking_info)
+    write_data(bookings)
+    
+    # Render the booking confirmation template with booking details
+    return render_template('book-a-demo.html', **booking_info)
+
+
 if __name__ == '__main__':
+    # Create the data directory and file if they do not exist
+    os.makedirs('data', exist_ok=True)
+    if not os.path.exists(DATA_FILE):
+        write_data([])  # Create an empty JSON file
     app.run(host='0.0.0.0', port=5000)

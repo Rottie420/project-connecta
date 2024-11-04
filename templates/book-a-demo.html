@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecta | Book a Demo</title>
+    <!-- Bootstrap CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: "Inter", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            color: #333;
+            background-color: #fafafa;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Navbar */
+        .navbar-brand {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: #555 !important;
+        }
+
+        .nav-link:hover {
+            color: #007bff !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(to right, #007bff, #0056b3);
+            color: white;
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-section p {
+            font-size: 1.25em;
+            margin-bottom: 30px;
+        }
+
+        .btn-startup {
+            background-color: white;
+            color: #007bff;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .btn-startup:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-image: linear-gradient(to right bottom, #333, #100f0f);
+            height: 150px;
+            padding: 20px 0px;
+            text-align: center;
+            color: white;
+            box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
+            margin-top: auto;  /* Ensure the footer is pushed to the bottom */
+        }
+
+        .list-inline-item a {
+            text-decoration: none;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        .list-inline-item a:hover {
+            color: whitesmoke;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <div class="container">
+                <a class="navbar-brand" href="/">Connecta</a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="solutionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Solution
+                            </a>
+                            <ul class="dropdown-menu border-0" aria-labelledby="solutionDropdown">
+                                <li><a class="dropdown-item" href="/smart-nfc-tag">Smart NFC Tags</a></li>
+                                <li><a class="dropdown-item" href="/smart-nfc-card">Smart NFC Cards</a></li>
+                                <li><a class="dropdown-item" href="/smart-nfc-stickers">Smart NFC Stickers</a></li>
+                                <li><a class="dropdown-item" href="#smart-nfc-wearables">Smart NFC Wearables</a></li>
+                                <!-- Add more items as needed -->
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#faqAccordion">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Book a Demo</h1>
+            <p>Experience our NFC solutions first-hand. Fill out the form below to schedule a demo with us!</p>
+            <a href="#demoForm" class="btn btn-startup">Get Started</a>
+        </div>
+    </section>
+
+    <div style="margin-top: 4em;"></div>
+
+    <form class="container my-5" id="demoForm">
+        <div class="row justify-content-center text-center">
+            <div class="col-12 col-md-8">
+                <form>
+                    <div class="mb-3">
+                        <!-- <label for="name" class="form-label">Name</label> -->
+                        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <!-- <label for="email" class="form-label">Email</label> -->
+                        <input type="email" class="form-control" id="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <!-- <label for="phone" class="form-label">Phone</label> -->
+                        <input type="tel" class="form-control" id="phone" placeholder="Your Phone Number" required>
+                    </div>
+                    <div class="mb-3">
+                        <!-- <label for="date" class="form-label">Preferred Date</label> -->
+                        <input type="date" class="form-control" id="date" required>
+                    </div>
+                    <div class="mb-3">
+                        <!-- <label for="time" class="form-label">Preferred Time</label> -->
+                        <input type="time" class="form-control" id="time" required>
+                    </div>
+                    <div class="mb-3">
+                        <!-- <label for="message" class="form-label">Message</label> -->
+                        <textarea class="form-control" id="message" rows="3" placeholder="Any specific requests or questions?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Book Demo</button>
+                </form>
+            </div>
+        </div>
+    </form>
+    
+    <div style="margin-top: 150px;"></div>
+
+    <!-- Footer -->
+    <footer class="bg-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-1">&copy; 2024 Connecta. All rights reserved.</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                <li class="list-inline-item"><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+    </footer>   
+
+    <script>
+        document.getElementById('demoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const message = document.getElementById('message').value;
+        
+            const bookingInfo = {
+                name: name,
+                email: email,
+                phone: phone,
+                date: date,
+                time: time,
+                message: message
+            };
+        
+            fetch('/api/book-demo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bookingInfo)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Demo booked successfully!');
+                document.getElementById('demoForm').reset(); // Reset the form
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while booking the demo. Please try again.');
+            });
+        });
+        </script>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
