@@ -187,7 +187,7 @@ def book_demo():
     write_data(bookings)
     
     # Render the booking confirmation template with booking details
-    return render_template('book-a-demo.html', **booking_info)
+    return render_template('book-a-demo.html', booking_info)
 
 if __name__ == '__main__':
     # Create the data directory and file if they do not exist
