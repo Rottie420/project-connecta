@@ -1,6 +1,6 @@
 import json
 import os
-from flask import Flask, render_template, request, redirect, url_for, jsonify,
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image
 from datetime import datetime
@@ -13,6 +13,7 @@ UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 LOG_FILE_PATH = 'log.txt'  # Path to the log file
 
+# Create upload folder if it does not exist
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
@@ -53,31 +54,31 @@ def index():
         return render_template('home.html')
     except Exception as e:
         log_error(f"Index page error: {e}")
-        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
+        return "An error occurred loading the homepage.", 500
 
 @app.route('/smart-nfc-tag')
 def smart_nfc_tag():
     try:
         return render_template('smart-nfc-tag.html')
     except Exception as e:
-        log_error(f"Index page error: {e}")
-        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
+        log_error(f"Smart NFC Tag page error: {e}")
+        return "An error occurred loading the Smart NFC Tag page.", 500
 
 @app.route('/smart-nfc-card')
 def smart_nfc_card():
     try:
         return render_template('smart-nfc-card.html')
     except Exception as e:
-        log_error(f"Index page error: {e}")
-        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
+        log_error(f"Smart NFC Card page error: {e}")
+        return "An error occurred loading the Smart NFC Card page.", 500
 
 @app.route('/smart-nfc-sticker')
 def smart_nfc_sticker():
     try:
         return render_template('smart-nfc-sticker.html')
     except Exception as e:
-        log_error(f"Index page error: {e}")
-        return "An error occurred loading the homepage.", 500  # Provide an error message or redirect
+        log_error(f"Smart NFC Sticker page error: {e}")
+        return "An error occurred loading the Smart NFC Sticker page.", 500
 
 @app.route('/pet/<control_number>')
 def pet_profile(control_number):
@@ -125,13 +126,20 @@ def add_pet():
                 original_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
                 file.save(original_path)
 
+                # Convert image to WEBP format
                 webp_filename = f"{control_number}.webp"
                 webp_path = os.path.join(app.config['UPLOAD_FOLDER'], webp_filename)
 
-                img = Image.open(original_path)
-                img.save(webp_path, 'webp')
-                os.remove(original_path)
+                try:
+                    img = Image.open(original_path)
+                    img.save(webp_path, 'webp')
+                except Exception as e:
+                    log_error(f"Image conversion error for {filename}: {e}")
+                    return render_template('add-pet.html', error="Failed to convert image.")
+                finally:
+                    os.remove(original_path)  # Ensure original image is deleted
 
+                # Save pet data
                 pets[control_number] = {
                     'control_number': control_number,
                     'name': petname,
@@ -151,11 +159,9 @@ def add_pet():
         log_error(f"Add pet error: {e}")
         return render_template('add-pet.html', error="An error occurred while processing your request.")
 
-
 @app.route('/nfc-pet-tag')
 def nfc_pet_tag_page():
     return render_template('nfc-pet-tag.html')
-
 
 # Define the path to the JSON data file
 DATA_FILE = os.path.join('data', 'demo_bookings.json')
@@ -182,7 +188,6 @@ def book_demo():
     
     # Render the booking confirmation template with booking details
     return render_template('book-a-demo.html', **booking_info)
-
 
 if __name__ == '__main__':
     # Create the data directory and file if they do not exist
