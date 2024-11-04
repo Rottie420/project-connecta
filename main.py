@@ -181,7 +181,6 @@ def write_data(data):
 @app.route('/api/book-a-demo', methods=['GET', 'POST'])
 def book_demo():
     if request.method == 'POST':
-        # Attempt to parse JSON data
         booking_info = request.get_json()
         
         if booking_info is None:
@@ -191,9 +190,9 @@ def book_demo():
         bookings.append(booking_info)
         write_data(bookings)
         
-        # Render the booking confirmation template with booking details
-        return render_template('book-a-demo.html', booking_info=booking_info)
-    
+        # Return a JSON response indicating success
+        return jsonify({'message': 'Demo booked successfully!', 'booking_info': booking_info}), 200
+     
     # Handle GET requests (if needed)
     return render_template('book-a-demo.html')  # Just return the form if it's a GET request
 
