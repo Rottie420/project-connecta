@@ -3,16 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connecta | Smart NFC Tag</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Connecta | Smart NFC Card</title>
     <!-- Bootstrap CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         /* Base Styles */
         body {
             font-family: "Inter", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
             color: #333;
             background-color: #fafafa;
             margin: 0;
@@ -154,7 +157,7 @@
 </head>
 <body>
      <!-- Header -->
-     <header class="bg-white shadow-sm sticky-top">
+    <header class="bg-white shadow-sm sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container">
                 <a class="navbar-brand" href="#">Connecta</a>
@@ -187,28 +190,55 @@
         </nav>
     </header>
 
+
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <h1>Connect with a Tap</h1>
-            <p>Revolutionize how you share information with Connecta's smart NFC technology.</p>
+            <h1>Connect with Cards</h1>
+            <p>Transform the Way You Share Information with Connecta’s Smart NFC Tags.</p>
             <a href="#icon-grid" class="btn btn-startup">Explore More</a>
         </div>
     </section>
 
     <div style="margin-top: 4em;"></div>
 
+    <div class="container my-5">
+        <div class="row justify-content-center text-center">
+            <div class="col-12 col-md-8">
+                <img src="{{ url_for('static', filename='product-card.webp') }}" class="img-fluid" alt="Product Tag" style="border-radius: 25px;">
+            </div>
+        </div>
+    </div>
+    
+
     <!-- Product Overview Section -->
     <section class="product-overview">
         <div class="container">
-            <h2>Product Overview</h2>
-            <p>Our NFC tags are designed for businesses and personal use, offering seamless information sharing at your fingertips.</p>
+            <h3 class="fw-bold">Product Overview</h3>
+            <p>This smart card is a tech-forward alternative to traditional business cards, designed for professionals who want to make a memorable impression.</p>
             <div class="row justify-content-center">
                 <div class="col-md-10">
                     <ul class="list-unstyled">
                         <li>✅ Compatible with all NFC-enabled devices</li>
-                        <li>✅ Water-resistant and durable</li>
-                        <li>✅ Easy programming with our app</li>
+                        <li>✅ Instant Information Sharing</li>
+                        <li>✅ Customizable Content</li>
+                        <li>✅ Reusable and Eco-Friendly</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-overview">
+        <div class="container">
+            <h3 class="fw-bold">Specifications</h3>
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <ul class="list-unstyled">
+                        <li>Chip: NTAG215</li>
+                        <li>Memory: 504 bytes</li>
+                        <li>Range: 1-2 cm (0.4-0.8 inches)</li>
+                        <li>Dimensions: Customizable available upon request</li>
                     </ul>
                 </div>
             </div>
@@ -217,7 +247,7 @@
 
     <!-- Use Cases Section with Dynamic Layout -->
     <section id="icon-grid" class="container px-4 py-5">
-        <h2 class="pb-2 border-bottom text-center">NFC Everywhere</h2>
+        <h2 class="pb-2 border-bottom text-center">Smart Solutions</h2>
         <p class="text-center mb-5">Explore the versatility of NFC technology in various real-world applications.</p>
         
         <!-- Dynamic Card Layout -->
@@ -227,8 +257,8 @@
             <div class="col-lg-6 d-flex">
                 <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #f0f4f8; border-radius: 15px;">
                     <i class="bi bi-person-vcard mb-3" style="font-size: 3em; color: #007bff;"></i>
-                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Digital Business Cards</h4>
-                    <p class="card-text">Share your contact information instantly with a simple tap—ideal for professional networking and quick, memorable connections.</p>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Instant Contact Exchange</h4>
+                    <p class="card-text">Share your full contact details in seconds. With one tap, avoiding the hassle of data entry.</p>
                 </div>
             </div>
             
@@ -236,8 +266,8 @@
             <div class="col-lg-6 d-flex">
                 <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #eaf2fa; border-radius: 15px;">
                     <i class="bi bi-calendar-check mb-3" style="font-size: 2.5em; color: #007bff;"></i>
-                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Event Check-Ins</h4>
-                    <p class="card-text">Streamline event access by enabling quick attendee check-ins. Perfect for conferences, workshops, and gatherings.</p>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Portfolio and Project</h4>
+                    <p class="card-text">Link to your website, project portfolio, allowing recipients to view your work instantly.</p>
                 </div>
             </div>
             
@@ -249,8 +279,8 @@
             <div class="col-lg-6 d-flex">
                 <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #f0f4f8; border-radius: 15px;">
                     <i class="bi bi-box-seam mb-3" style="font-size: 3em; color: #007bff;"></i>
-                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Product Packaging</h4>
-                    <p class="card-text">Give customers direct access to product manuals, usage guides, and promotions right from the packaging. Enhance engagement and support sustainability efforts.</p>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Social Media Integration</h4>
+                    <p class="card-text">Provide links to your LinkedIn, Twitter, Instagram, or any social media profiles to enhance connectivity and networking.</p>
                 </div>
             </div>
             
@@ -258,8 +288,8 @@
             <div class="col-lg-6 d-flex">
                 <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #eaf2fa; border-radius: 15px;">
                     <i class="bi bi-shield-shaded mb-3" style="font-size: 2.5em; color: #007bff;"></i>
-                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Pet Tags</h4>
-                    <p class="card-text">Protect your pet by embedding essential contact details in an NFC tag. Provides quick access to your contact information in case of emergencies.</p>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Digital Business Profile</h4>
+                    <p class="card-text">nstead of a static card, create a dynamic digital profile that can be updated with new achievements, positions, or contact information.</p>
                 </div>
             </div>
             
