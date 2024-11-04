@@ -179,7 +179,7 @@ def write_data(data):
         json.dump(data, file, indent=4)
 
 # Route to save demo booking data
-@app.route('/api/book-a-demo', methods=['POST'])
+@app.route('/api/book-a-demo', methods=['GET', 'POST'])
 def book_demo():
     booking_info = request.json
     bookings = read_data()
