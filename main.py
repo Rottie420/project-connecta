@@ -178,16 +178,25 @@ def write_data(data):
     with open(DATA_FILE, 'w') as file:
         json.dump(data, file, indent=4)
 
-# Route to save demo booking data
 @app.route('/api/book-a-demo', methods=['GET', 'POST'])
 def book_demo():
-    booking_info = request.json
-    bookings = read_data()
-    bookings.append(booking_info)
-    write_data(bookings)
+    if request.method == 'POST':
+        # Attempt to parse JSON data
+        booking_info = request.get_json()
+        
+        if booking_info is None:
+            return jsonify({'error': 'Invalid JSON data'}), 400  # Handle invalid JSON
+
+        bookings = read_data()
+        bookings.append(booking_info)
+        write_data(bookings)
+        
+        # Render the booking confirmation template with booking details
+        return render_template('book-a-demo.html', booking_info=booking_info)
     
-    # Render the booking confirmation template with booking details
-    return render_template('book-a-demo.html', booking_info)
+    # Handle GET requests (if needed)
+    return render_template('book-a-demo.html')  # Just return the form if it's a GET request
+
 
 if __name__ == '__main__':
     # Create the data directory and file if they do not exist
