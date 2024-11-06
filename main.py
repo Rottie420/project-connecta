@@ -80,6 +80,14 @@ def smart_nfc_sticker():
         log_error(f"Smart NFC Sticker page error: {e}")
         return "An error occurred loading the Smart NFC Sticker page.", 500
 
+@app.route('/smart-nfc-wearables')
+def smart_nfc_wearables():
+    try:
+        return render_template('smart-nfc-wearables.html')
+    except Exception as e:
+        log_error(f"Smart NFC Wearables page error: {e}")
+        return "An error occurred loading the Smart NFC Wearables page.", 500
+
 @app.route('/pet/<control_number>')
 def pet_profile(control_number):
     try:
