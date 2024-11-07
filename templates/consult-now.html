@@ -204,23 +204,23 @@
             fetch('/consult-now', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',  // Ensure this is set correctly
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    name: 'John Doe',
-                    email: 'john@example.com',
-                    phone: '1234567890',
-                    date: '2024-11-06',
-                    time: '15:00',
-                    message: 'Requesting consultation',
-                })
+                body: JSON.stringify(bookingInfo)
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
+                if (data.message) {
+                    console.log('Success:', data);
+                    alert('Demo booked successfully!');
+                    document.getElementById('demoForm').reset(); // Reset the form
+                } else if (data.error) {
+                    alert(data.error);
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
+                alert('An error occurred while booking the demo. Please try again.');
             });
         });
     </script>
