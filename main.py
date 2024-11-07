@@ -114,31 +114,37 @@ def pet_profile(control_number):
         printlog(f"Pet profile error for control number {control_number}: {e}")
         return "An error occurred while loading the pet profile.", 500
 
-@app.route('/add-pet', methods=['GET', 'POST'])
-def add_pet():
+@app.route('/edit-pet-profile', methods=['GET', 'POST'])
+def edit_pet_profile():
     try:
         if request.method == 'POST':
-            control_number = request.form['control_number']
-            petname = request.form['petname']
+            petname = request.form['petNameInput']
+            petage = request.form['petAgeInput']
+            petbreed = request.form['petBreedInput']
             email = request.form['email']
             phone = request.form['phone']
             address = request.form['address']
-            social = {
-                'facebook': request.form['facebook'],
-                'twitter': request.form['twitter'],
-                'instagram': request.form['instagram']
-            }
+            control_number = request.form['petControlNumber']
+            pet_medical_history = request.form['petMedicalHistoryInput']
+            vaccination_date = request.form['vaccinationDateInput']
+            vet_checkup_date = request.form['vetCheckupDateInput']
+            allergy_status = request.form['allergyStatusInput']
+            feed_time = request.form['feedTimeInput']
+            walk_time = request.form['walkTimeInput']
+            vet_appoinment_date = request.form['vetAppointmentDateInput']
+            walk_distance = request.form['walkDistanceInput']
+            last_activity = request.form['lastActivityInput']
 
             if not is_valid_control_number(control_number):
-                return render_template('add-pet.html', error="Invalid or duplicate control number")
+                return render_template('edit-pet-profile.html', error="Invalid or duplicate control number")
 
             if 'photo' not in request.files:
-                return render_template('add-pet.html', error="No file part")
+                return render_template('edit-pet-profile.html', error="No file part")
             
             file = request.files['photo']
             
             if file.filename == '':
-                return render_template('add-pet.html', error="No selected file")
+                return render_template('edit-pet-profile.html', error="No selected file")
             
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
@@ -156,29 +162,39 @@ def add_pet():
                     img.save(webp_path, 'webp')
                 except Exception as e:
                     printlog(f"Image conversion error for {filename}: {e}")
-                    return render_template('add-pet.html', error="Failed to convert image.")
+                    return render_template('edit-pet-profile.html', error="Failed to convert image.")
                 finally:
                     os.remove(original_path)  # Delete original image
 
                 # Save pet data
                 pets[control_number] = {
-                    'control_number': control_number,
-                    'name': petname,
+                    'photo': f'uploads/{webp_filename}',
+                    'petname': petname,
+                    'petage': petage,
+                    'petbreed': petbreed,
                     'email': email,
                     'phone': phone,
                     'address': address,
-                    'social': social,
-                    'photo': f'uploads/{webp_filename}'
+                    'control number': control_number,
+                    'medical history': pet_medical_history,
+                    'vaccination date': vaccination_date,
+                    'vet check-up date': vet_checkup_date,
+                    'allergy status': allergy_status,
+                    'feed time': feed_time,
+                    'walk time': walk_time,
+                    'vet appointment date': vet_appoinment_date,
+                    'walk distance': walk_distance,
+                    'last activity': last_activity            
                 }
 
                 save_pets(pets)
                 return redirect(url_for('pet_profile', control_number=control_number))
         
-        return render_template('add-pet.html')
+        return render_template('edit-pet-profile.html')
 
     except Exception as e:
-        printlog(f"Add pet error: {e}")
-        return render_template('add-pet.html', error="An error occurred while processing your request.")
+        printlog(f"edit pet profile error: {e}")
+        return render_template('edit-pet-profile.html', error="An error occurred while processing your request.")
 
 # Function to read JSON data from the file
 def read_data():

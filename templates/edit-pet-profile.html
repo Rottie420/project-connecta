@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editable Pet Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Font Awesome Icons -->
+  <style>
+    /* Custom styles for a modern, tech-savvy look */
+    body {
+      background-color: #f1f4f8; /* Light grey background */
+      font-family: 'Roboto', sans-serif; /* Techy, modern font */
+      color: #333; /* Dark text for better readability */
+    }
+
+    .container {
+      max-width: 100%;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      background-color: #ffffff;
+      margin-bottom: 2em;
+      overflow: hidden;
+    }
+
+    .profile-header {
+      background-color: #00aaff; /* Lighter blue for tech feel */
+      padding: 24px;
+      text-align: center;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    .profile-header img {
+      max-width: 100%;
+      border-radius: 50%;
+      height: 120px;
+      width: 120px;
+    }
+
+    .profile-header h2 {
+      color: #fff;
+      margin-top: 12px;
+      font-size: 26px;
+      font-weight: 500;
+    }
+
+    .card-header {
+      background-color: #f1f5f9; /* Light grey header */
+      border-bottom: 1px solid #e2e8f0; /* Subtle divider */
+    }
+
+    .list-group-item {
+      background-color: #fff;
+      border: 0;
+      font-size: 18px;
+      color: #4a5568; /* Darker text for list items */
+    }
+
+    /* Rounded corners for the first and last items in list group */
+    .list-group-item:first-child {
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+    }
+
+    .list-group-item:last-child {
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
+    .btn-primary {
+      background-color: #00aaff;
+      border-color: #00aaff;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background-color: #0077cc;
+      border-color: #005fa3;
+    }
+
+    .modal-header {
+      background-color: #00aaff;
+      color: #fff;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .list-group-item .icon {
+      margin-right: 12px;
+      color: #00aaff;
+    }
+
+    .form-control {
+      font-size: 16px;
+    }
+
+    /* Edit icon styling */
+    .edit-icon {
+      float: right;
+      color: #00aaff;
+      cursor: pointer;
+      font-size: 1.3rem;
+    }
+
+    /* Larger buttons and form elements for mobile */
+    .btn, .form-control {
+      padding: 16px;
+      font-size: 18px;
+    }
+
+    @media (max-width: 576px) {
+      .profile-header img {
+        width: 100px;
+        height: 100px;
+      }
+      .container {
+        padding: 10px;
+      }
+    }
+
+    #location {
+        margin-top: 20px;
+        font-size: 1em;
+        color: #333;
+    }
+
+    .profile-pic {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        border: 4px solid #00aaff; /* Border matching the header color */
+        object-fit: cover;
+        margin: 15px auto;
+        transition: transform 0.3s;
+    }
+
+    .profile-pic:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+  
+</head>
+
+<body>
+  <div class="container mt-4">
+    <!-- Pet Profile Section -->
+    <div class="row">
+        <div class="col-12">
+        <div class="card profile-card">
+            <div class="profile-header">
+            <img src="{{ url_for('static', filename=pet.photo) }}" alt="{{ pet.name }} Profile" class="profile-pic">
+            <h2 id="petNameDisplay">{{ pet.name }}</h2>
+            <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editProfileModal"></i>
+            </div>
+            <div class="card-body">
+            <p><strong>Age:</strong> <span id="petAgeDisplay">{{ pet.age }}</span></p>
+            <p><strong>Breed:</strong> <span id="petBreedDisplay">{{ pet.breed }}</span></p>
+            <p><strong>Email:</strong> <a href="mailto:{{ pet.email }}">{{ pet.email }}</a></p>
+            <p><strong>Phone:</strong> <a href="tel:{{ pet.phone }}">{{ pet.phone }}</a></p>
+            <p><strong>Address:</strong> {{ pet.address }}</p>
+            </div>
+           <!--  <div class="social-icons" id="location">
+                <a onclick="getLocation()" class="btn btn-primary btn-sm" role="button">
+                    Open Location
+                </a>                
+            </div> -->
+        </div>
+        </div>
+    </div>
+
+    <!-- Health & Medical Records Section -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card profile-card">
+          <div class="card-header">
+            <h5><i class="fas fa-heartbeat icon"></i> Health & Medical Records <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editProfileModal"></i></h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fas fa-syringe icon"></i> Vaccinated - <span id="vaccinationDateDisplay">Jan 2024</span></li>
+            <li class="list-group-item"><i class="fas fa-clinic-medical icon"></i> Vet Checkup - <span id="vetCheckupDateDisplay">Mar 2024</span></li>
+            <li class="list-group-item"><i class="fas fa-allergies icon"></i> Medical History - <span id="allergyStatusDisplay">Allergy-free</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Care Reminders Section -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card profile-card mt-4">
+          <div class="card-header">
+            <h5><i class="fas fa-bell icon"></i> Care Reminders <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editProfileModal"></i></h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fas fa-utensils icon"></i> Feed Buddy at <span id="feedTimeDisplay">8:00 AM</span></li>
+            <li class="list-group-item"><i class="fas fa-walking icon"></i> Walk Buddy at <span id="walkTimeDisplay">6:00 PM</span></li>
+            <li class="list-group-item"><i class="fas fa-calendar-day icon"></i> Vet Appointment - <span id="vetAppointmentDateDisplay">Nov 15, 2024</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Log Section -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card profile-card mt-4">
+          <div class="card-header">
+            <h5><i class="fas fa-running icon"></i> Activity Log <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editProfileModal"></i></h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><i class="fas fa-walking icon"></i> Walk Distance - <span id="walkDistanceDisplay">3 km</span></li>
+            <li class="list-group-item"><i class="fas fa-paw icon"></i> Last Activity - <span id="activityDisplay">Played Fetch</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Profile Modal (Unified) -->
+    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editProfileModalLabel">Edit Pet Profile</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="editProfileForm">
+              <!-- Profile Information -->
+              <!-- <h6>Pet Information</h6> -->
+              <div class="mb-3">
+                <label for="petUploadPhoto" class="form-label">Upload Photo</label>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required>
+              </div>
+              <div class="mb-3">
+                <label for="petNameInput" class="form-label">Pet Name</label>
+                <input type="text" class="form-control" id="petNameInput" value="">
+              </div>
+              <div class="mb-3">
+                <label for="petAgeInput" class="form-label">Age</label>
+                <input type="number" class="form-control" id="petAgeInput" value="">
+              </div>
+              <div class="mb-3">
+                <label for="petBreedInput" class="form-label">Breed</label>
+                <input type="text" class="form-control" id="petBreedInput" value="">
+              </div>
+              <div class="mb-3">
+                <label for="petControlNumber" class="form-label">Control No.</label>
+                <input type="text" class="form-control" id="petControlNumber" value="">
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="email" value="">
+              </div>
+              <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" class="form-control" id="phone" value="">
+              </div>
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" value="">
+              </div>
+              
+
+              <!-- Medical History -->
+              <h6 class="mt-4">Medical History</h6>
+              <div class="mb-3">
+                <!-- <label for="petMedicalHistoryInput" class="form-label">Medical History</label> -->
+                <textarea class="form-control" id="petMedicalHistoryInput">Vaccinated, No allergies</textarea>
+              </div>
+              <div class="mb-3">
+                <label for="vaccinationDateInput" class="form-label">Vaccination Date</label>
+                <input type="date" class="form-control" id="vaccinationDateInput" value="2024-01-01">
+              </div>
+              <div class="mb-3">
+                <label for="vetCheckupDateInput" class="form-label">Vet Checkup Date</label>
+                <input type="date" class="form-control" id="vetCheckupDateInput" value="2024-03-01">
+              </div>
+              <div class="mb-3">
+                <label for="allergyStatusInput" class="form-label">Allergy Status</label>
+                <input type="text" class="form-control" id="allergyStatusInput" value="Allergy-free">
+              </div>
+
+              <!-- Care Reminders -->
+              <!-- <h6 class="mt-4">Care Reminders</h6> -->
+              <div class="mb-3">
+                <label for="feedTimeInput" class="form-label">Feed Time</label>
+                <input type="time" class="form-control" id="feedTimeInput" value="08:00">
+              </div>
+              <div class="mb-3">
+                <label for="walkTimeInput" class="form-label">Walk Time</label>
+                <input type="time" class="form-control" id="walkTimeInput" value="18:00">
+              </div>
+              <div class="mb-3">
+                <label for="vetAppointmentDateInput" class="form-label">Vet Appointment Date</label>
+                <input type="date" class="form-control" id="vetAppointmentDateInput" value="2024-11-15">
+              </div>
+
+              <!-- Activity Log -->
+              <!-- <h6 class="mt-4">Activity Log</h6> -->
+              <div class="mb-3">
+                <label for="walkDistanceInput" class="form-label">Walk Distance (km)</label>
+                <input type="number" step="0.1" class="form-control" id="walkDistanceInput" value="3">
+              </div>
+              <div class="mb-3">
+                <label for="lastActivityInput" class="form-label">Last Activity</label>
+                <input type="text" class="form-control" id="lastActivityInput" value="Played Fetch">
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100">Save All Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("editProfileForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+  
+      // Get values from modal inputs
+      const petName = document.getElementById("petNameInput").value;
+      const petAge = document.getElementById("petAgeInput").value;
+      const petBreed = document.getElementById("petBreedInput").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const address = document.getElementById("address").value;
+      const petControlNumber = document.getElementById("petControlNumber").value;
+      const petMedicalHistory = document.getElementById("petMedicalHistoryInput").value;
+      const vaccinationDate = document.getElementById("vaccinationDateInput").value;
+      const vetCheckupDate = document.getElementById("vetCheckupDateInput").value;
+      const allergyStatus = document.getElementById("allergyStatusInput").value;
+      const feedTime = document.getElementById("feedTimeInput").value;
+      const walkTime = document.getElementById("walkTimeInput").value;
+      const vetAppointmentDate = document.getElementById("vetAppointmentDateInput").value;
+      const walkDistance = document.getElementById("walkDistanceInput").value;
+      const lastActivity = document.getElementById("lastActivityInput").value;
+  
+      // Update display elements with input values
+      document.getElementById("petNameDisplay").innerText = petName;
+      document.getElementById("petAgeDisplay").innerText = petAge;
+      document.getElementById("petBreedDisplay").innerText = petBreed;
+      document.getElementById("email").innerText = email
+      document.getElementById("phone").innerText = phone
+      document.getElementById("address").innerText = address
+      document.getElementById("petControlNumber").innerText = petControlNumber
+      document.getElementById("petMedicalHistoryDisplay").innerText = petMedicalHistory;
+      document.getElementById("vaccinationDateDisplay").innerText = vaccinationDate;
+      document.getElementById("vetCheckupDateDisplay").innerText = vetCheckupDate;
+      document.getElementById("allergyStatusDisplay").innerText = allergyStatus;
+      document.getElementById("feedTimeDisplay").innerText = feedTime;
+      document.getElementById("walkTimeDisplay").innerText = walkTime;
+      document.getElementById("vetAppointmentDateDisplay").innerText = vetAppointmentDate;
+      document.getElementById("walkDistanceDisplay").innerText = walkDistance + " km"; // Add unit
+      document.getElementById("activityDisplay").innerText = lastActivity;
+  
+      // Close the modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('editProfileModal'));
+      modal.hide();
+    });
+  </script>
+
+    <script>
+        function decimalToDMS(degrees) {
+            const d = Math.floor(degrees);
+            const m = Math.floor((degrees - d) * 60);
+            const s = ((degrees - d - m / 60) * 3600).toFixed(1); 
+            return { degrees: d, minutes: m, seconds: s };
+        }
+
+        function convertCoordinates(lat, lon) {
+            const latDMS = decimalToDMS(Math.abs(lat));
+            const lonDMS = decimalToDMS(Math.abs(lon));
+            const latDirection = lat >= 0 ? 'N' : 'S';
+            const lonDirection = lon >= 0 ? 'E' : 'W';
+            return {
+                latitude: `${latDMS.degrees}°${latDMS.minutes}'${latDMS.seconds}"${latDirection}`,
+                longitude: `${lonDMS.degrees}°${lonDMS.minutes}'${lonDMS.seconds}"${lonDirection}`
+            };
+        }
+
+        function getLocation() {
+            const locationDiv = document.getElementById('location');
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                locationDiv.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            const dmsCoordinates = convertCoordinates(position.coords.latitude, position.coords.longitude);
+            const locationDiv = document.getElementById('location');
+            locationDiv.innerHTML = `<p><span class="coords">${dmsCoordinates.latitude} ${dmsCoordinates.longitude}</span></p>`;
+        }
+
+        function showError(error) {
+            const locationDiv = document.getElementById('location');
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    locationDiv.innerHTML = "Permission denied for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    locationDiv.innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    locationDiv.innerHTML = "Request timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    locationDiv.innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+    </script>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
