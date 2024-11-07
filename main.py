@@ -114,7 +114,7 @@ def pet_profile(control_number):
         printlog(f"Pet profile error for control number {control_number}: {e}")
         return "An error occurred while loading the pet profile.", 500
 
-@@app.route('/edit-pet-profile/<control_number>', methods=['GET', 'POST'])
+@app.route('/edit-pet-profile/<control_number>', methods=['GET', 'POST'])
 def edit_pet_profile(control_number=None):
     try:
         # Load existing pet details if control_number is provided
