@@ -45,15 +45,15 @@
         "email": "kevinpaulcastillo@gmail.com",
         "phone": "+6597845231",
         "address": "520740, singapore",
-        "control number": "03",
-        "medical history": "Allergy Free",
-        "vaccination date": "Jan 2024",
-        "vet check-up date": "Feb 2025",
-        "allergy status": "Allergy Free",
-        "feed time": "08:00 AM",
-        "walk time": "10:00 AM",
-        "vet appointment date": "Feb 2025",
-        "walk distance": "01",
-        "last activity": "Play Dead" 
+        "control_number": "03",
+        "medical_history": "Allergy Free",
+        "vaccination_date": "Jan 2024",
+        "vet_checkup_date": "Feb 2025",
+        "allergy_status": "Allergy Free",
+        "feed_time": "08:00 AM",
+        "walk_time": "10:00 AM",
+        "vet_appointment_date": "Feb 2025",
+        "walk_distance": "01",
+        "last_activity": "Play Dead" 
     }
 }
