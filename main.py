@@ -114,10 +114,12 @@ def pet_profile(control_number):
         printlog(f"Pet profile error for control number {control_number}: {e}")
         return "An error occurred while loading the pet profile.", 500
 
-@app.route('/edit-pet-profile', methods=['GET', 'POST'])
-def edit_pet_profile():
+@@app.route('/edit-pet-profile/<control_number>', methods=['GET', 'POST'])
+def edit_pet_profile(control_number=None):
     try:
+        # Load existing pet details if control_number is provided
         pet = pets.get(control_number) if control_number else None
+
         if request.method == 'POST':
             petname = request.form['petNameInput']
             petage = request.form['petAgeInput']
@@ -137,15 +139,15 @@ def edit_pet_profile():
             last_activity = request.form['lastActivityInput']
 
             if not is_valid_control_number(control_number):
-                return render_template('edit-pet-profile.html', error="Invalid or duplicate control number")
+                return render_template('edit-pet-profile.html', pet=pet, error="Invalid or duplicate control number")
 
             if 'photo' not in request.files:
-                return render_template('edit-pet-profile.html', error="No file part")
+                return render_template('edit-pet-profile.html', pet=pet, error="No file part")
             
             file = request.files['photo']
             
             if file.filename == '':
-                return render_template('edit-pet-profile.html', error="No selected file")
+                return render_template('edit-pet-profile.html', pet=pet, error="No selected file")
             
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
@@ -163,7 +165,7 @@ def edit_pet_profile():
                     img.save(webp_path, 'webp')
                 except Exception as e:
                     printlog(f"Image conversion error for {filename}: {e}")
-                    return render_template('edit-pet-profile.html', error="Failed to convert image.")
+                    return render_template('edit-pet-profile.html', pet=pet, error="Failed to convert image.")
                 finally:
                     os.remove(original_path)  # Delete original image
 
@@ -190,8 +192,8 @@ def edit_pet_profile():
 
                 save_pets(pets)
                 return redirect(url_for('pet_profile', control_number=control_number))
-        
-        return render_template('edit-pet-profile.html')
+
+        return render_template('edit-pet-profile.html', pet=pet)
 
     except Exception as e:
         printlog(f"edit pet profile error: {e}")
