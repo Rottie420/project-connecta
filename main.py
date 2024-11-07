@@ -117,6 +117,7 @@ def pet_profile(control_number):
 @app.route('/edit-pet-profile', methods=['GET', 'POST'])
 def edit_pet_profile():
     try:
+        pet = pets.get(control_number) if control_number else None
         if request.method == 'POST':
             petname = request.form['petNameInput']
             petage = request.form['petAgeInput']
