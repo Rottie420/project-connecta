@@ -250,11 +250,18 @@ def admin_dashboard_page():
         # Load the subscriber data from the JSON file
         df = pd.read_json(DATA_FILE)
 
-        # Convert 'datetime' column to datetime type
-        df['datetime'] = pd.to_datetime(df['datetime'])
+        # Check if 'date' column exists
+        if 'date' not in df.columns:
+            raise KeyError("'date' column is missing from the data")
 
-        # Logs sorted by 'datetime' in descending order
-        logs = sorted(df.to_dict(orient='records'), key=lambda x: x['datetime'], reverse=True)
+        # Convert 'date' column to datetime type, handling errors in case of invalid data
+        try:
+            df['date'] = pd.to_datetime(df['date'])
+        except Exception as e:
+            raise ValueError(f"Error converting 'date' column to datetime: {str(e)}")
+
+        # Logs sorted by 'date' in descending order
+        logs = sorted(df.to_dict(orient='records'), key=lambda x: x['date'], reverse=True)
 
         # Prepare the logs (subscribers with all their info)
         formatted_logs = []
@@ -263,19 +270,19 @@ def admin_dashboard_page():
                 "name": row['name'],
                 "email": row['email'],
                 "phone": row['phone'],
-                "date": row['datetime'].strftime('%Y-%m-%d'),
-                "time": row['datetime'].strftime('%H:%M'),
+                # Format 'date' as 'YYYY-MM-DD' and 'HH:MM'
+                "date": row['date'].strftime('%Y-%m-%d'),
+                "time": row['date'].strftime('%H:%M'),
                 "message": row['message']
             })
 
         # Render the template with the necessary data
         return render_template('admin-dashboard.html', logs=formatted_logs)
-
     
     except Exception as e:
         # Catch any other unforeseen errors
         printlog(f"admin-dashboard error: {e}")
-        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+        return jsonify({'error': 'An error occurred while processing your request.'}), 5000
 
 
 
