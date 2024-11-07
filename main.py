@@ -12,7 +12,7 @@ JSON_FILE_PATH = 'pets.json'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 LOG_FILE_PATH = 'log.txt'
-DATA_FILE = os.path.join('data', 'consultations.json')
+DATA_FILE = 'consultations.json'
 
 # Create upload folder if it doesn't exist
 if not os.path.exists(UPLOAD_FOLDER):
@@ -230,14 +230,5 @@ def write_data(data):
 
 # Initialize application
 if __name__ == '__main__':
-    os.makedirs('data', exist_ok=True)
-    os.makedirs('data')
-    # Check if 'consultations.json' file exists, and create it if missing
-    if not os.path.exists(DATA_FILE):
-        try:
-            with open(DATA_FILE, 'w') as f:
-                json.dump([], f, indent=4)  # Initialize with an empty list
-        except Exception as e:
-            printlog(f"Error creating consultations.json: {e}")
 
     app.run(host='0.0.0.0', port=5000)
