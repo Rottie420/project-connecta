@@ -7,29 +7,28 @@ from datetime import datetime
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
-# Path to the JSON file
+# Paths and configurations
 JSON_FILE_PATH = 'pets.json'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-LOG_FILE_PATH = 'log.txt'  # Path to the log file
-DATA_FILE = os.path.join('data', 'demo_bookings.json') # Define the path to the JSON data file
+LOG_FILE_PATH = 'log.txt'
+DATA_FILE = os.path.join('data', 'demo_bookings.json')
 
-# Create upload folder if it does not exist
+# Create upload folder if it doesn't exist
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Function to log errors to log.txt
-def printlog(*args, **kwargs):   
-    log_path = f"log.txt"
-    now = datetime.now()  
+def printlog(*args, **kwargs):
+    now = datetime.now()
     formatted_date = now.strftime("%d-%m-%Y %H:%M:%S")
-    print(f'{formatted_date} :', *args, **kwargs,)
+    message = f"{formatted_date} : {' '.join(map(str, args))}"
+    print(message, **kwargs)
     
-    with open(log_path, 'a') as file:
-        print(f'{formatted_date} :', *args, **kwargs, file=file)
-
+    with open(LOG_FILE_PATH, 'a') as file:
+        file.write(message + "\n")
 
 # Function to check allowed file extensions
 def allowed_file(filename):
@@ -37,23 +36,30 @@ def allowed_file(filename):
 
 # Function to load pets from JSON file
 def load_pets():
-    if os.path.exists(JSON_FILE_PATH):
-        with open(JSON_FILE_PATH, 'r') as f:
-            return json.load(f)
+    try:
+        if os.path.exists(JSON_FILE_PATH):
+            with open(JSON_FILE_PATH, 'r') as f:
+                return json.load(f)
+    except Exception as e:
+        printlog(f"Error loading pets data: {e}")
     return {}
 
 # Function to save pets to JSON file
 def save_pets(pets):
-    with open(JSON_FILE_PATH, 'w') as f:
-        json.dump(pets, f, indent=4)
+    try:
+        with open(JSON_FILE_PATH, 'w') as f:
+            json.dump(pets, f, indent=4)
+    except Exception as e:
+        printlog(f"Error saving pets data: {e}")
 
-# Load pets into the dictionary
+# Initialize pets data
 pets = load_pets()
 
 # Function to validate control number
 def is_valid_control_number(control_number):
     return control_number.isdigit() and control_number not in pets
 
+# Define routes with error handling
 @app.route('/')
 def index():
     try:
@@ -151,7 +157,7 @@ def add_pet():
                     printlog(f"Image conversion error for {filename}: {e}")
                     return render_template('add-pet.html', error="Failed to convert image.")
                 finally:
-                    os.remove(original_path)  # Ensure original image is deleted
+                    os.remove(original_path)  # Delete original image
 
                 # Save pet data
                 pets[control_number] = {
@@ -173,56 +179,57 @@ def add_pet():
         printlog(f"Add pet error: {e}")
         return render_template('add-pet.html', error="An error occurred while processing your request.")
 
+# Consult Now Route with Error Logging
+@app.route('/consult-now', methods=['GET', 'POST'])
+def book_demo():
+    try:
+        if request.method == 'POST':
+            # Capture form data
+            booking_info = {
+                'name': request.form.get('name'),
+                'email': request.form.get('email'),
+                'phone': request.form.get('phone'),
+                'date': request.form.get('date'),
+                'time': request.form.get('time'),
+                'message': request.form.get('message')
+            }
+            
+            # Validate required fields
+            if not booking_info['name'] or not booking_info['email']:
+                return jsonify({'error': 'Name and email are required.'}), 400
+            
+            bookings = read_data()
+            bookings.append(booking_info)
+            write_data(bookings)
+            
+            return jsonify({'message': 'Booked successfully!', 'booking_info': booking_info}), 200
 
-@app.route('/nfc-pet-tag')
-def nfc_pet_tag_page():
-    return render_template('nfc-pet-tag.html')
+        return render_template('consult-now.html')
+
+    except Exception as e:
+        printlog(f"Book demo error: {e}")
+        return jsonify({'error': 'An error occurred while processing your request.'}), 500
 
 # Function to read JSON data from the file
 def read_data():
     try:
         with open('bookings.json', 'r') as f:
             return json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        printlog(f"Error reading bookings data: {e}")
         return []
 
 # Function to write JSON data to the file
 def write_data(data):
-    with open(DATA_FILE, 'w') as file:
-        json.dump(data, file, indent=4)
-        
+    try:
+        with open(DATA_FILE, 'w') as file:
+            json.dump(data, file, indent=4)
+    except Exception as e:
+        printlog(f"Error writing bookings data: {e}")
 
-@app.route('/consult-now', methods=['GET', 'POST'])
-def book_demo():
-    if request.method == 'POST':
-        # Capture form data
-        booking_info = {
-            'name': request.form.get('name'),
-            'email': request.form.get('email'),
-            'phone': request.form.get('phone'),
-            'date': request.form.get('date'),
-            'time': request.form.get('time'),
-            'message': request.form.get('message')
-        }
-        
-        # Validate that required fields are filled
-        if not booking_info['name'] or not booking_info['email']:
-            return jsonify({'error': 'Name and email are required.'}), 400  # Handle missing fields
-        
-        bookings = read_data()
-        bookings.append(booking_info)
-        write_data(bookings)
-        
-        # Return a JSON response indicating success
-        return jsonify({'message': 'Booked successfully!', 'booking_info': booking_info}), 200
-
-    # Handle GET requests (if needed)
-    return render_template('consult-now.html')  # Just return the form if it's a GET request
-
-
+# Initialize application
 if __name__ == '__main__':
-    # Create the data directory and file if they do not exist
     os.makedirs('data', exist_ok=True)
     if not os.path.exists(DATA_FILE):
-        write_data([])  # Create an empty JSON file
+        write_data([])  # Initialize an empty JSON file
     app.run(host='0.0.0.0', port=5000)
