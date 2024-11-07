@@ -6,29 +6,5 @@
         "date": "2024-12-01",
         "time": "14:00",
         "message": "Looking forward to the demo!"
-    },
-    {
-        "name": "John Doe",
-        "email": "john@example.com",
-        "phone": "1234567890",
-        "date": "2024-11-06",
-        "time": "15:00",
-        "message": "Requesting consultation"
-    },
-    {
-        "name": "John Doe",
-        "email": "john@example.com",
-        "phone": "1234567890",
-        "date": "2024-11-06",
-        "time": "15:00",
-        "message": "Requesting consultation"
-    },
-    {
-        "name": "kevin",
-        "email": "kevin@gmail",
-        "phone": "9784252123",
-        "date": "2024-11-14",
-        "time": "10:48",
-        "message": "tags"
     }
 ]

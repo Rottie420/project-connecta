@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image
 from datetime import datetime
+import pandas as pd
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
@@ -241,6 +242,33 @@ def book_demo():
     except Exception as e:
         printlog(f"Book demo error: {e}")
         return jsonify({'error': 'An error occurred while processing your request.'}), 5000
+
+@app.route('/admin-dashboard')
+def admin_dashboard_page():
+    # Load the subscriber data from the JSON file
+    df = pd.read_json(DATA_FILE)
+
+    # Convert 'datetime' column to datetime type
+    df['datetime'] = pd.to_datetime(df['datetime'])
+
+    # Logs sorted by 'datetime' in descending order
+    logs = sorted(df.to_dict(orient='records'), key=lambda x: x['datetime'], reverse=True)
+
+    # Prepare the logs (subscribers with all their info)
+    formatted_logs = []
+    for index, row in df.iterrows():
+        formatted_logs.append({
+            "name": row['name'],
+            "email": row['email'],
+            "phone": row['phone'],
+            "date": row['datetime'].strftime('%Y-%m-%d'),
+            "time": row['datetime'].strftime('%H:%M'),
+            "message": row['message']
+        })
+
+    # Render the template with the necessary data
+    return render_template('admin-dashboard.html', logs=formatted_logs)
+
 
 # Initialize application
 if __name__ == '__main__':
