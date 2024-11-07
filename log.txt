@@ -2,3 +2,5 @@
 06-11-2024 17:57:18 : Error writing bookings data: [Errno 2] No such file or directory: 'data\\demo_bookings.json'
 06-11-2024 18:02:41 : Error reading bookings data: [Errno 2] No such file or directory: 'consultations.json'
 06-11-2024 18:02:41 : Error writing bookings data: [Errno 2] No such file or directory: 'data\\consultations.json'
+06-11-2024 18:10:05 : Error reading bookings data: [Errno 2] No such file or directory: 'data\\consultations.json'
+06-11-2024 18:10:05 : Error writing bookings data: [Errno 2] No such file or directory: 'data\\consultations.json'
