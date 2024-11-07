@@ -180,7 +180,6 @@ def edit_pet_profile(control_number=None):
                     'email': email,
                     'phone': phone,
                     'address': address,
-                    'control number': control_number,
                     'medical history': pet_medical_history,
                     'vaccination date': vaccination_date,
                     'vet check-up date': vet_checkup_date,
