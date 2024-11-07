@@ -186,18 +186,19 @@ def book_demo():
         if request.method == 'POST':
             # Capture form data
             booking_info = {
-                'name': request.form.get('name'),
-                'email': request.form.get('email'),
-                'phone': request.form.get('phone'),
-                'date': request.form.get('date'),
-                'time': request.form.get('time'),
-                'message': request.form.get('message')
+                'name': request.json.get('name'),
+                'email': request.json.get('email'),
+                'phone': request.json.get('phone'),
+                'date': request.json.get('date'),
+                'time': request.json.get('time'),
+                'message': request.json.get('message')
             }
             
             # Validate required fields
             if not booking_info['name'] or not booking_info['email']:
                 return jsonify({'error': 'Name and email are required.'}), 400
             
+            # Assuming you have functions `read_data` and `write_data` for managing bookings
             bookings = read_data()
             bookings.append(booking_info)
             write_data(bookings)
@@ -207,8 +208,8 @@ def book_demo():
         return render_template('consult-now.html')
 
     except Exception as e:
-        printlog(f"Book demo error: {e}")
-        return jsonify({'error': 'An error occurred while processing your request.'}), 500
+        print(f"Book demo error: {e}")
+        return jsonify({'error': 'An error occurred while processing your request.'}), 5000
 
 # Function to read JSON data from the file
 def read_data():
