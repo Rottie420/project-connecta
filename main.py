@@ -119,7 +119,9 @@ def edit_pet_profile(control_number=None):
     try:
         # Load existing pet details if control_number is provided
         pet = pets.get(control_number) if control_number else None
-
+        if not pet:
+            return "Pet not found or invalid control number", 404
+            
         if request.method == 'POST':
             petname = request.form['petNameInput']
             petage = request.form['petAgeInput']
