@@ -214,7 +214,7 @@ def book_demo():
 # Function to read JSON data from the file
 def read_data():
     try:
-        with open('consultations.json', 'r') as f:
+        with open(DATA_FILE, 'r') as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         printlog(f"Error reading bookings data: {e}")
@@ -233,4 +233,5 @@ if __name__ == '__main__':
     os.makedirs('data', exist_ok=True)
     if not os.path.exists(DATA_FILE):
         write_data([])  # Initialize an empty JSON file
+
     app.run(host='0.0.0.0', port=5000)
