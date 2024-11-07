@@ -23,17 +23,14 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Function to log errors to log.txt
 def printlog(*args, **kwargs):
-    try:
-        now = datetime.now()
-        formatted_date = now.strftime("%d-%m-%Y %H:%M:%S")
-        message = f"{formatted_date} : {' '.join(map(str, args))}"
-        print(message, **kwargs)
-        
-        with open(LOG_FILE_PATH, 'a') as file:
-            file.write(message + "\n")
-    except Exception:
-        pass
-        
+    now = datetime.now()
+    formatted_date = now.strftime("%d-%m-%Y %H:%M:%S")
+    message = f"{formatted_date} : {' '.join(map(str, args))}"
+    print(message, **kwargs)
+    
+    with open(LOG_FILE_PATH, 'a') as file:
+        file.write(message + "\n")
+
 # Function to check allowed file extensions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -60,9 +57,8 @@ def save_pets(pets):
 pets = load_pets()
 
 # Function to validate control number
-def is_valid_control_number(control_number, current_control_number=None):
-    return control_number.isdigit() and (control_number != current_control_number) and control_number not in pets
-
+def is_valid_control_number(control_number):
+    return control_number.isdigit() and control_number not in pets
 
 # Define routes with error handling
 @app.route('/')
@@ -144,9 +140,8 @@ def edit_pet_profile(control_number=None):
             walk_distance = request.form['walkDistanceInput']
             last_activity = request.form['lastActivityInput']
 
-            if not is_valid_control_number(control_number, current_control_number=control_number):
+            if not is_valid_control_number(control_number):
                 return render_template('edit-pet-profile.html', pet=pet, error="Invalid or duplicate control number")
-
 
             if 'photo' not in request.files:
                 return render_template('edit-pet-profile.html', pet=pet, error="No file part")
