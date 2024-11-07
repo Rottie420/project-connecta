@@ -12,6 +12,7 @@ JSON_FILE_PATH = 'pets.json'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 LOG_FILE_PATH = 'log.txt'  # Path to the log file
+DATA_FILE = os.path.join('data', 'demo_bookings.json') # Define the path to the JSON data file
 
 # Create upload folder if it does not exist
 if not os.path.exists(UPLOAD_FOLDER):
@@ -20,10 +21,15 @@ if not os.path.exists(UPLOAD_FOLDER):
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Function to log errors to log.txt
-def log_error(error_message):
-    with open(LOG_FILE_PATH, 'a') as log_file:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        log_file.write(f"{timestamp} - ERROR: {error_message}\n")
+def printlog(*args, **kwargs):   
+    log_path = f"log.txt"
+    now = datetime.now()  
+    formatted_date = now.strftime("%d-%m-%Y %H:%M:%S")
+    print(f'{formatted_date} :', *args, **kwargs,)
+    
+    with open(log_path, 'a') as file:
+        print(f'{formatted_date} :', *args, **kwargs, file=file)
+
 
 # Function to check allowed file extensions
 def allowed_file(filename):
@@ -53,7 +59,7 @@ def index():
     try:
         return render_template('home.html')
     except Exception as e:
-        log_error(f"Index page error: {e}")
+        printlog(f"Index page error: {e}")
         return "An error occurred loading the homepage.", 500
 
 @app.route('/smart-nfc-tag')
@@ -61,7 +67,7 @@ def smart_nfc_tag():
     try:
         return render_template('smart-nfc-tag.html')
     except Exception as e:
-        log_error(f"Smart NFC Tag page error: {e}")
+        printlog(f"Smart NFC Tag page error: {e}")
         return "An error occurred loading the Smart NFC Tag page.", 500
 
 @app.route('/smart-nfc-card')
@@ -69,7 +75,7 @@ def smart_nfc_card():
     try:
         return render_template('smart-nfc-card.html')
     except Exception as e:
-        log_error(f"Smart NFC Card page error: {e}")
+        printlog(f"Smart NFC Card page error: {e}")
         return "An error occurred loading the Smart NFC Card page.", 500
 
 @app.route('/smart-nfc-sticker')
@@ -77,7 +83,7 @@ def smart_nfc_sticker():
     try:
         return render_template('smart-nfc-sticker.html')
     except Exception as e:
-        log_error(f"Smart NFC Sticker page error: {e}")
+        printlog(f"Smart NFC Sticker page error: {e}")
         return "An error occurred loading the Smart NFC Sticker page.", 500
 
 @app.route('/smart-nfc-wearables')
@@ -85,7 +91,7 @@ def smart_nfc_wearables():
     try:
         return render_template('smart-nfc-wearables.html')
     except Exception as e:
-        log_error(f"Smart NFC Wearables page error: {e}")
+        printlog(f"Smart NFC Wearables page error: {e}")
         return "An error occurred loading the Smart NFC Wearables page.", 500
 
 @app.route('/pet/<control_number>')
@@ -98,7 +104,7 @@ def pet_profile(control_number):
         else:
             return "Pet not found", 404
     except Exception as e:
-        log_error(f"Pet profile error for control number {control_number}: {e}")
+        printlog(f"Pet profile error for control number {control_number}: {e}")
         return "An error occurred while loading the pet profile.", 500
 
 @app.route('/add-pet', methods=['GET', 'POST'])
@@ -142,7 +148,7 @@ def add_pet():
                     img = Image.open(original_path)
                     img.save(webp_path, 'webp')
                 except Exception as e:
-                    log_error(f"Image conversion error for {filename}: {e}")
+                    printlog(f"Image conversion error for {filename}: {e}")
                     return render_template('add-pet.html', error="Failed to convert image.")
                 finally:
                     os.remove(original_path)  # Ensure original image is deleted
@@ -164,29 +170,29 @@ def add_pet():
         return render_template('add-pet.html')
 
     except Exception as e:
-        log_error(f"Add pet error: {e}")
+        printlog(f"Add pet error: {e}")
         return render_template('add-pet.html', error="An error occurred while processing your request.")
+
 
 @app.route('/nfc-pet-tag')
 def nfc_pet_tag_page():
     return render_template('nfc-pet-tag.html')
 
-# Define the path to the JSON data file
-DATA_FILE = os.path.join('data', 'demo_bookings.json')
-
 # Function to read JSON data from the file
 def read_data():
-    if not os.path.exists(DATA_FILE):
+    try:
+        with open('bookings.json', 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
         return []
-    with open(DATA_FILE, 'r') as file:
-        return json.load(file)
 
 # Function to write JSON data to the file
 def write_data(data):
     with open(DATA_FILE, 'w') as file:
         json.dump(data, file, indent=4)
+        
 
-@app.route('/api/book-a-demo', methods=['GET', 'POST'])
+@app.route('/consult-now', methods=['GET', 'POST'])
 def book_demo():
     if request.method == 'POST':
         # Capture form data
@@ -208,11 +214,10 @@ def book_demo():
         write_data(bookings)
         
         # Return a JSON response indicating success
-        return jsonify({'message': 'Demo booked successfully!', 'booking_info': booking_info}), 200
+        return jsonify({'message': 'Booked successfully!', 'booking_info': booking_info}), 200
 
     # Handle GET requests (if needed)
-    return render_template('book-a-demo.html')  # Just return the form if it's a GET request
-
+    return render_template('consult-now.html')  # Just return the form if it's a GET request
 
 
 if __name__ == '__main__':
