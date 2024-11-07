@@ -155,13 +155,13 @@
         <div class="col-12">
         <div class="card profile-card">
             <div class="profile-header">
-            <img src="{{ url_for('static', filename=pet.photo) }}" alt="{{ pet.name }} Profile" class="profile-pic">
+            <img src="{{ url_for('static', filename=pet.photo) }}" alt="{{ pet.petname }} Profile" class="profile-pic">
             <h2 id="petNameDisplay">{{ pet.name }}</h2>
             <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal" style="color: white !important;"></i>
             </div>
             <div class="card-body">
-            <p><strong>Age:</strong> <span id="petAgeDisplay">{{ pet.age }}</span></p>
-            <p><strong>Breed:</strong> <span id="petBreedDisplay">{{ pet.breed }}</span></p>
+            <p><strong>Age:</strong> <span id="petAgeDisplay">{{ pet.petage }}</span></p>
+            <p><strong>Breed:</strong> <span id="petBreedDisplay">{{ pet.petbreed }}</span></p>
             <p><strong>Email:</strong> <a href="mailto:{{ pet.email }}">{{ pet.email }}</a></p>
             <p><strong>Phone:</strong> <a href="tel:{{ pet.phone }}">{{ pet.phone }}</a></p>
             <p><strong>Address:</strong> {{ pet.address }}</p>
@@ -178,9 +178,9 @@
             <h5><i class="fas fa-heartbeat icon"></i> Health & Medical Records <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editMedicalHistoryModal"></i></h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fas fa-syringe icon"></i> Vaccinated - <span id="vaccinationDateDisplay">Jan 2024</span></li>
-            <li class="list-group-item"><i class="fas fa-clinic-medical icon"></i> Vet Checkup - <span id="vetCheckupDateDisplay">Mar 2024</span></li>
-            <li class="list-group-item"><i class="fas fa-allergies icon"></i> Medical History - <span id="allergyStatusDisplay">Allergy-free</span></li>
+            <li class="list-group-item"><i class="fas fa-syringe icon"></i> Vaccinated - <span id="vaccinationDateDisplay">{{ pet.vaccination date }}</span></li>
+            <li class="list-group-item"><i class="fas fa-clinic-medical icon"></i> Vet Checkup - <span id="vetCheckupDateDisplay">{{ pet.vet check-up date }}</span></li>
+            <li class="list-group-item"><i class="fas fa-allergies icon"></i> Medical History - <span id="allergyStatusDisplay">{{ pet.allergy status }}</span></li>
           </ul>
         </div>
       </div>
@@ -194,9 +194,9 @@
             <h5><i class="fas fa-bell icon"></i> Care Reminders <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editCareRemindersModal"></i></h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fas fa-utensils icon"></i> Feed Buddy at <span id="feedTimeDisplay">8:00 AM</span></li>
-            <li class="list-group-item"><i class="fas fa-walking icon"></i> Walk Buddy at <span id="walkTimeDisplay">6:00 PM</span></li>
-            <li class="list-group-item"><i class="fas fa-calendar-day icon"></i> Vet Appointment - <span id="vetAppointmentDateDisplay">Nov 15, 2024</span></li>
+            <li class="list-group-item"><i class="fas fa-utensils icon"></i> Feed Buddy at <span id="feedTimeDisplay">{{ pet.feed time }}</span></li>
+            <li class="list-group-item"><i class="fas fa-walking icon"></i> Walk Buddy at <span id="walkTimeDisplay">{{ pet.walk time }}</span></li>
+            <li class="list-group-item"><i class="fas fa-calendar-day icon"></i> Vet Appointment - <span id="vetAppointmentDateDisplay">{{ pet.vet appointment date }}</span></li>
           </ul>
         </div>
       </div>
@@ -210,8 +210,8 @@
             <h5><i class="fas fa-running icon"></i> Activity Log <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editActivityLogModal"></i></h5>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fas fa-walking icon"></i> Walk Distance - <span id="walkDistanceDisplay">3 km</span></li>
-            <li class="list-group-item"><i class="fas fa-paw icon"></i> Last Activity - <span id="activityDisplay">Played Fetch</span></li>
+            <li class="list-group-item"><i class="fas fa-walking icon"></i> Walk Distance - <span id="walkDistanceDisplay">{{ pet.walk distance }}</span></li>
+            <li class="list-group-item"><i class="fas fa-paw icon"></i> Last Activity - <span id="activityDisplay">{{ pet.last activity }}</span></li>
           </ul>
         </div>
       </div>
