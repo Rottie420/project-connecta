@@ -22,12 +22,17 @@ if not os.path.exists(UPLOAD_FOLDER):
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Function to log errors to log.txt
-def printlog(*args, **kwargs):
+def printlog(*args):
     now = datetime.now()
     formatted_date = now.strftime("%d-%m-%Y %H:%M:%S")
-    message = f"{formatted_date} : {' '.join(map(str, args))}"
-    print(message, **kwargs)
     
+    # Join the arguments as a string
+    message = f"{formatted_date} : {' '.join(map(str, args))}"
+    
+    # Print to console
+    print(message)
+    
+    # Write the message to the log file
     with open(LOG_FILE_PATH, 'a') as file:
         file.write(message + "\n")
 
