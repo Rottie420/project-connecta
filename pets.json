@@ -1,41 +1,59 @@
 {
     "01": {
-        "control_number": "01",
-        "name": "MAU",
-        "email": "MAU@G.COM",
-        "phone": "123",
-        "address": "123",
-        "social": {
-            "facebook": "FB",
-            "twitter": "X",
-            "instagram": "IG"
-        },
-        "photo": "uploads/01.webp"
-    },
-    "02": {
-        "control_number": "02",
-        "name": "moew",
-        "email": "meow@g.com",
-        "phone": "12344",
-        "address": "2132313",
-        "social": {
-            "facebook": "fb",
-            "twitter": "x",
-            "instagram": "ig"
-        },
-        "photo": "uploads/02.webp"
-    },
-    "03": {
-        "control_number": "03",
-        "name": "timmie",
+        "photo": "uploads/03.webp",
+        "petname": "Timmie",
+        "petage": "3yrs",
+        "petbreed": "Shih-Tzu",
         "email": "kevinpaulcastillo@gmail.com",
         "phone": "+6597845231",
         "address": "520740, singapore",
-        "social": {
-            "facebook": "https://www.facebook.com/tigztigertigerkz/",
-            "twitter": "x",
-            "instagram": "ig"
-        },
-        "photo": "uploads/03.webp"
+        "control number": "03",
+        "medical history": "Allergy Free",
+        "vaccination date": "Jan 2024",
+        "vet check-up date": "Feb 2025",
+        "allergy status": "Allergy Free",
+        "feed time": "08:00 AM",
+        "walk time": "10:00 AM",
+        "vet appointment date": "Feb 2025",
+        "walk distance": "01",
+        "last activity": "Play Dead" 
+    },
+    "02": {
+        "photo": "uploads/03.webp",
+        "petname": "Timmie",
+        "petage": "3yrs",
+        "petbreed": "Shih-Tzu",
+        "email": "kevinpaulcastillo@gmail.com",
+        "phone": "+6597845231",
+        "address": "520740, singapore",
+        "control number": "03",
+        "medical history": "Allergy Free",
+        "vaccination date": "Jan 2024",
+        "vet check-up date": "Feb 2025",
+        "allergy status": "Allergy Free",
+        "feed time": "08:00 AM",
+        "walk time": "10:00 AM",
+        "vet appointment date": "Feb 2025",
+        "walk distance": "01",
+        "last activity": "Play Dead" 
+    },
+    "03": {
+        "photo": "uploads/03.webp",
+        "petname": "Timmie",
+        "petage": "3yrs",
+        "petbreed": "Shih-Tzu",
+        "email": "kevinpaulcastillo@gmail.com",
+        "phone": "+6597845231",
+        "address": "520740, singapore",
+        "control number": "03",
+        "medical history": "Allergy Free",
+        "vaccination date": "Jan 2024",
+        "vet check-up date": "Feb 2025",
+        "allergy status": "Allergy Free",
+        "feed time": "08:00 AM",
+        "walk time": "10:00 AM",
+        "vet appointment date": "Feb 2025",
+        "walk distance": "01",
+        "last activity": "Play Dead" 
     }
 }
