@@ -60,8 +60,9 @@ def save_pets(pets):
 pets = load_pets()
 
 # Function to validate control number
-def is_valid_control_number(control_number):
-    return control_number.isdigit() and control_number not in pets
+def is_valid_control_number(control_number, current_control_number=None):
+    return control_number.isdigit() and (control_number != current_control_number) and control_number not in pets
+
 
 # Define routes with error handling
 @app.route('/')
@@ -143,8 +144,9 @@ def edit_pet_profile(control_number=None):
             walk_distance = request.form['walkDistanceInput']
             last_activity = request.form['lastActivityInput']
 
-            if not is_valid_control_number(control_number):
+            if not is_valid_control_number(control_number, current_control_number=control_number):
                 return render_template('edit-pet-profile.html', pet=pet, error="Invalid or duplicate control number")
+
 
             if 'photo' not in request.files:
                 return render_template('edit-pet-profile.html', pet=pet, error="No file part")
