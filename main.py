@@ -12,7 +12,7 @@ JSON_FILE_PATH = 'pets.json'
 UPLOAD_FOLDER = 'static/uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 LOG_FILE_PATH = 'log.txt'
-DATA_FILE = os.path.join('data', 'demo_bookings.json')
+DATA_FILE = os.path.join('data', 'consultations.json')
 
 # Create upload folder if it doesn't exist
 if not os.path.exists(UPLOAD_FOLDER):
@@ -214,7 +214,7 @@ def book_demo():
 # Function to read JSON data from the file
 def read_data():
     try:
-        with open('bookings.json', 'r') as f:
+        with open('consultations.json', 'r') as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         printlog(f"Error reading bookings data: {e}")
