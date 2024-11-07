@@ -243,31 +243,40 @@ def book_demo():
         printlog(f"Book demo error: {e}")
         return jsonify({'error': 'An error occurred while processing your request.'}), 5000
 
+
 @app.route('/admin-dashboard')
 def admin_dashboard_page():
-    # Load the subscriber data from the JSON file
-    df = pd.read_json(DATA_FILE)
+    try:
+        # Load the subscriber data from the JSON file
+        df = pd.read_json(DATA_FILE)
 
-    # Convert 'datetime' column to datetime type
-    df['datetime'] = pd.to_datetime(df['datetime'])
+        # Convert 'datetime' column to datetime type
+        df['datetime'] = pd.to_datetime(df['datetime'])
 
-    # Logs sorted by 'datetime' in descending order
-    logs = sorted(df.to_dict(orient='records'), key=lambda x: x['datetime'], reverse=True)
+        # Logs sorted by 'datetime' in descending order
+        logs = sorted(df.to_dict(orient='records'), key=lambda x: x['datetime'], reverse=True)
 
-    # Prepare the logs (subscribers with all their info)
-    formatted_logs = []
-    for index, row in df.iterrows():
-        formatted_logs.append({
-            "name": row['name'],
-            "email": row['email'],
-            "phone": row['phone'],
-            "date": row['datetime'].strftime('%Y-%m-%d'),
-            "time": row['datetime'].strftime('%H:%M'),
-            "message": row['message']
-        })
+        # Prepare the logs (subscribers with all their info)
+        formatted_logs = []
+        for index, row in df.iterrows():
+            formatted_logs.append({
+                "name": row['name'],
+                "email": row['email'],
+                "phone": row['phone'],
+                "date": row['datetime'].strftime('%Y-%m-%d'),
+                "time": row['datetime'].strftime('%H:%M'),
+                "message": row['message']
+            })
 
-    # Render the template with the necessary data
-    return render_template('admin-dashboard.html', logs=formatted_logs)
+        # Render the template with the necessary data
+        return render_template('admin-dashboard.html', logs=formatted_logs)
+
+    
+    except Exception as e:
+        # Catch any other unforeseen errors
+        printlog(f"admin-dashboard error: {e}")
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
 
 
 # Initialize application
