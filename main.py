@@ -109,36 +109,33 @@ def pet_profile_edit(control_number=None):
         pet = pets.get(control_number) if control_number else None
         if not pet:
             return "Pet not found or invalid control number", 404
-            
+
         if request.method == 'POST':
-            petname = request.form['petNameInput']
-            petage = request.form['petAgeInput']
-            petbreed = request.form['petBreedInput']
-            email = request.form['email']
-            phone = request.form['phone']
-            address = request.form['address']
-            control_number = request.form['petControlNumber']
-            pet_medical_history = request.form['petMedicalHistoryInput']
-            vaccination_date = request.form['vaccinationDateInput']
-            vet_checkup_date = request.form['vetCheckupDateInput']
-            allergy_status = request.form['allergyStatusInput']
-            feed_time = request.form['feedTimeInput']
-            walk_time = request.form['walkTimeInput']
-            vet_appoinment_date = request.form['vetAppointmentDateInput']
-            walk_distance = request.form['walkDistanceInput']
-            last_activity = request.form['lastActivityInput']
+            # Receiving the data from frontend (JSON)
+            data = request.get_json()
 
+            petname = data.get('petName')
+            petage = data.get('petAge')
+            petbreed = data.get('petBreed')
+            email = data.get('petEmail')
+            phone = data.get('petPhone')
+            address = data.get('petAddress')
+            pet_medical_history = data.get('petMedicalHistory')
+            vaccination_date = data.get('vaccinationDate')
+            vet_checkup_date = data.get('vetCheckupDate')
+            allergy_status = data.get('allergyStatus')
+            feed_time = data.get('feedTime')
+            walk_time = data.get('walkTime')
+            vet_appointment_date = data.get('vetAppointmentDate')
+            walk_distance = data.get('walkDistance')
+            last_activity = data.get('lastActivity')
+
+            # Check for valid control number
             if not is_valid_control_number(control_number):
-                return render_template('pet-profile-edit.html', pet=pet, error="Invalid or duplicate control number")
+                return jsonify({"error": "Invalid or duplicate control number"}), 400
 
-            if 'photo' not in request.files:
-                return render_template('pet-profile-edit.html', pet=pet, error="No file part")
-            
-            file = request.files['photo']
-            
-            if file.filename == '':
-                return render_template('pet-profile-edit.html', pet=pet, error="No selected file")
-            
+            # Handle the uploaded photo
+            file = request.files.get('photo')
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 unique_filename = f"{control_number}_{filename}"
@@ -154,39 +151,45 @@ def pet_profile_edit(control_number=None):
                     img = Image.open(original_path)
                     img.save(webp_path, 'webp')
                 except Exception as e:
-                    printlog(f"Image conversion error for {filename}: {e}")
-                    return render_template('pet-profile-edit.html', pet=pet, error="Failed to convert image.")
+                    print(f"Image conversion error for {filename}: {e}")
+                    return jsonify({"error": "Failed to convert image"}), 500
                 finally:
-                    os.remove(original_path)  # Delete original image
+                    os.remove(original_path)  # Delete the original image
 
-                # Save pet data
-                pets[control_number] = {
-                    'photo': f'uploads/{webp_filename}',
-                    'petname': petname,
-                    'petage': petage,
-                    'petbreed': petbreed,
-                    'email': email,
-                    'phone': phone,
-                    'address': address,
-                    'medical history': pet_medical_history,
-                    'vaccination date': vaccination_date,
-                    'vet check-up date': vet_checkup_date,
-                    'allergy status': allergy_status,
-                    'feed time': feed_time,
-                    'walk time': walk_time,
-                    'vet appointment date': vet_appoinment_date,
-                    'walk distance': walk_distance,
-                    'last activity': last_activity            
-                }
+                pet_photo = f'uploads/{webp_filename}'
+            else:
+                pet_photo = pet.get('photo', None)
 
-                save_pets(pets)
-                return redirect(url_for('pet_profile', control_number=control_number))
+            # Save pet data
+            pets[control_number] = {
+                'photo': pet_photo,
+                'petname': petname,
+                'petage': petage,
+                'petbreed': petbreed,
+                'email': email,
+                'phone': phone,
+                'address': address,
+                'medical_history': pet_medical_history,
+                'vaccination_date': vaccination_date,
+                'vet_checkup_date': vet_checkup_date,
+                'allergy_status': allergy_status,
+                'feed_time': feed_time,
+                'walk_time': walk_time,
+                'vet_appointment_date': vet_appointment_date,
+                'walk_distance': walk_distance,
+                'last_activity': last_activity
+            }
+
+            save_pets(pets)
+
+            # Respond back with updated pet details
+            return jsonify({"message": "Pet profile updated successfully", "pet": pets[control_number]}), 200
 
         return render_template('pet-profile-edit.html', pet=pet)
 
     except Exception as e:
-        printlog(f"edit pet profile error: {e}")
-        return render_template('pet-profile-edit.html', error="An error occurred while processing your request.")
+        print(f"Edit pet profile error: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
 
 @app.route('/pet-profile-view/<control_number>', methods=['GET', 'POST'])
 def pet_profile_view(control_number=None):

@@ -347,73 +347,114 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
   <script>
-    // Function to save all profile information by making an AJAX request
-    function saveProfile(controlNumber) {
-      const data = {
+    // Function to save profile information and send to backend
+    function saveProfileInfo() {
+      const profileData = {
         petName: document.getElementById("nameInput").value,
         petAge: document.getElementById("ageInput").value,
         petBreed: document.getElementById("breedInput").value,
-        email: document.getElementById("emailInput").value,
-        phone: document.getElementById("phoneInput").value,
-        address: document.getElementById("addressInput").value,
-        vaccinationDate: document.getElementById("vaccinationDateInput").value,
-        vetCheckupDate: document.getElementById("vetCheckupDateInput").value,
-        allergyStatus: document.getElementById("allergyStatusInput").value,
-        feedTime: document.getElementById("feedTimeInput").value,
-        walkTime: document.getElementById("walkTimeInput").value,
-        vetAppointmentDate: document.getElementById("vetAppointmentDateInput").value,
-        walkDistance: document.getElementById("walkDistanceInput").value,
-        lastActivity: document.getElementById("activityInput").value
+        petEmail: document.getElementById("emailInput").value,
+        petPhone: document.getElementById("phoneInput").value,
+        petAddress: document.getElementById("addressInput").value
       };
 
-      // AJAX request to save profile
-      fetch(`/pet-profile-edit/${controlNumber}`, {
+      fetch('/save_profile', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(profileData)
       })
       .then(response => response.json())
-      .then(result => {
-        if (result.success) {
-          // Update display elements with new values
-          document.getElementById("petNameDisplay").textContent = data.petName;
-          document.getElementById("petAgeDisplay").textContent = data.petAge;
-          document.getElementById("petBreedDisplay").textContent = data.petBreed;
-          document.getElementById("petEmailDisplay").textContent = data.email;
-          document.getElementById("petPhoneDisplay").textContent = data.phone;
-          document.getElementById("petAddressDisplay").textContent = data.address;
-          document.getElementById("vaccinationDateDisplay").textContent = data.vaccinationDate;
-          document.getElementById("vetCheckupDateDisplay").textContent = data.vetCheckupDate;
-          document.getElementById("allergyStatusDisplay").textContent = data.allergyStatus;
-          document.getElementById("feedTimeDisplay").textContent = data.feedTime;
-          document.getElementById("walkTimeDisplay").textContent = data.walkTime;
-          document.getElementById("vetAppointmentDateDisplay").textContent = data.vetAppointmentDate;
-          document.getElementById("walkDistanceDisplay").textContent = data.walkDistance;
-          document.getElementById("activityDisplay").textContent = data.lastActivity;
-
-          // Hide all modals
-          bootstrap.Modal.getInstance(document.getElementById("editProfileInfoModal")).hide();
-          bootstrap.Modal.getInstance(document.getElementById("editMedicalHistoryModal")).hide();
-          bootstrap.Modal.getInstance(document.getElementById("editCareRemindersModal")).hide();
-          bootstrap.Modal.getInstance(document.getElementById("editActivityLogModal")).hide();
-        } else {
-          alert("Error saving profile information.");
-        }
+      .then(data => {
+        document.getElementById("petNameDisplay").textContent = profileData.petName;
+        document.getElementById("petAgeDisplay").textContent = profileData.petAge;
+        document.getElementById("petBreedDisplay").textContent = profileData.petBreed;
+        document.getElementById("petEmailDisplay").textContent = profileData.petEmail;
+        document.getElementById("petPhoneDisplay").textContent = profileData.petPhone;
+        document.getElementById("petAddressDisplay").textContent = profileData.petAddress;
+        const profileModal = bootstrap.Modal.getInstance(document.getElementById("editProfileInfoModal"));
+        profileModal.hide();
       })
-      .catch(error => {
-        console.error("Error saving profile information:", error);
-        alert("An error occurred while saving profile information.");
-      });
+      .catch(error => console.error('Error:', error));
     }
 
-    // Example of calling saveProfile with a specific control number
-    // Replace `controlNumber` with the actual control number
-    const controlNumber = /* retrieve control number from context */;
-    document.getElementById("saveProfileButton").addEventListener("click", () => saveProfile(controlNumber));
-    document.getElementById("saveMedicalHistoryButton").addEventListener("click", () => saveProfile(controlNumber));
-    document.getElementById("saveCareRemindersButton").addEventListener("click", () => saveProfile(controlNumber));
-    document.getElementById("saveActivityLogButton").addEventListener("click", () => saveProfile(controlNumber));
-</script>
+    // Function to save medical history information and send to backend
+    function saveMedicalHistory() {
+      const medicalData = {
+        vaccinationDate: document.getElementById("vaccinationDateInput").value,
+        vetCheckupDate: document.getElementById("vetCheckupDateInput").value,
+        allergyStatus: document.getElementById("allergyStatusInput").value
+      };
 
+      fetch('/save_medical_history', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(medicalData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("vaccinationDateDisplay").textContent = medicalData.vaccinationDate;
+        document.getElementById("vetCheckupDateDisplay").textContent = medicalData.vetCheckupDate;
+        document.getElementById("allergyStatusDisplay").textContent = medicalData.allergyStatus;
+        const medicalHistoryModal = bootstrap.Modal.getInstance(document.getElementById("editMedicalHistoryModal"));
+        medicalHistoryModal.hide();
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+    // Function to save care reminders information and send to backend
+    function saveCareReminders() {
+      const careData = {
+        feedTime: document.getElementById("feedTimeInput").value,
+        walkTime: document.getElementById("walkTimeInput").value,
+        vetAppointmentDate: document.getElementById("vetAppointmentDateInput").value
+      };
+
+      fetch('/save_care_reminders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(careData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("feedTimeDisplay").textContent = careData.feedTime;
+        document.getElementById("walkTimeDisplay").textContent = careData.walkTime;
+        document.getElementById("vetAppointmentDateDisplay").textContent = careData.vetAppointmentDate;
+        const careRemindersModal = bootstrap.Modal.getInstance(document.getElementById("editCareRemindersModal"));
+        careRemindersModal.hide();
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+    // Function to save activity log information and send to backend
+    function saveActivityLog() {
+      const activityData = {
+        walkDistance: document.getElementById("walkDistanceInput").value,
+        activity: document.getElementById("activityInput").value
+      };
+
+      fetch('/save_activity_log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(activityData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("walkDistanceDisplay").textContent = activityData.walkDistance;
+        document.getElementById("activityDisplay").textContent = activityData.activity;
+        const activityLogModal = bootstrap.Modal.getInstance(document.getElementById("editActivityLogModal"));
+        activityLogModal.hide();
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+  </script>
 </body>
 </html>
