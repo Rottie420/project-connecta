@@ -358,7 +358,7 @@
         petAddress: document.getElementById("addressInput").value
       };
 
-      fetch('/pet-profile-edit/{{ pet }}', {
+      fetch('/pet-profile-edit/${pet}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -387,7 +387,7 @@
         allergyStatus: document.getElementById("allergyStatusInput").value
       };
 
-      fetch('/pet-profile-edit/{{ pet }}', {
+      fetch('pet-profile-edit/${pet}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -413,7 +413,7 @@
         vetAppointmentDate: document.getElementById("vetAppointmentDateInput").value
       };
 
-      fetch('/pet-profile-edit/{{ pet }}', {
+      fetch('pet-profile-edit/${pet}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -438,7 +438,7 @@
         activity: document.getElementById("activityInput").value
       };
 
-      fetch('/pet-profile-edit/{{ pet }}', {
+      fetch('pet-profile-edit/${pet}', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
