@@ -251,7 +251,7 @@
                 <label for="addressInput" class="form-label">Address</label>
                 <input type="text" class="form-control" id="addressInput" value="{{ pet.address }}">
               </div>
-              <button type="submit" class="btn btn-primary" onclick="saveProfileInfo()">Save Changes</button>
+              <button type="submit" class="btn btn-primary" onclick="saveProfileInfo(event)">Save Changes</button>
             </form>
           </div>
         </div>
@@ -280,7 +280,7 @@
                 <label for="allergyStatusInput" class="form-label">Allergy Status</label>
                 <input type="text" class="form-control" id="allergyStatusInput">
               </div>
-              <button type="submit" class="btn btn-primary" onclick="saveMedicalHistory()">Save Changes</button>
+              <button type="submit" class="btn btn-primary" onclick="saveMedicalHistory(event)">Save Changes</button>
             </form>
           </div>
         </div>
@@ -309,7 +309,7 @@
                 <label for="vetAppointmentDateInput" class="form-label">Vet Appointment Date</label>
                 <input type="date" class="form-control" id="vetAppointmentDateInput">
               </div>
-              <button type="submit" class="btn btn-primary" onclick="saveCareReminders()">Save Changes</button>
+              <button type="submit" class="btn btn-primary" onclick="saveCareReminders(event)">Save Changes</button>
             </form>
           </div>
         </div>
@@ -334,7 +334,7 @@
                 <label for="activityInput" class="form-label">Activity</label>
                 <input type="text" class="form-control" id="activityInput">
               </div>
-              <button type="submit" class="btn btn-primary" onclick="saveActivityLog()">Save Changes</button>
+              <button type="submit" class="btn btn-primary" onclick="saveActivityLog(event)">Save Changes</button>
             </form>
           </div>
         </div>
@@ -355,7 +355,8 @@
     }
   
     // Function to save profile information and send to backend
-    function saveProfileInfo() {
+    function saveProfileInfo(event) {
+      event.preventDefault();
       const control_number = getControlNumber(); // Get the control number from URL
       const profileData = {
         petName: document.getElementById("nameInput").value,
@@ -388,7 +389,8 @@
     }
   
     // Function to save medical history information and send to backend
-    function saveMedicalHistory() {
+    function saveMedicalHistory(event) {
+      event.preventDefault();
       const control_number = getControlNumber(); // Get the control number from URL
       const medicalData = {
         vaccinationDate: document.getElementById("vaccinationDateInput").value,
@@ -415,7 +417,8 @@
     }
   
     // Function to save care reminders information and send to backend
-    function saveCareReminders() {
+    function saveCareReminders(event) {
+      event.preventDefault();
       const control_number = getControlNumber(); // Get the control number from URL
       const careData = {
         feedTime: document.getElementById("feedTimeInput").value,
@@ -442,7 +445,8 @@
     }
   
     // Function to save activity log information and send to backend
-    function saveActivityLog() {
+    function saveActivityLog(event) {
+      event.preventDefault();
       const control_number = getControlNumber(); // Get the control number from URL
       const activityData = {
         walkDistance: document.getElementById("walkDistanceInput").value,
