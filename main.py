@@ -101,7 +101,7 @@ def smart_nfc_wearables():
         printlog(f"Smart NFC Wearables page error: {e}")
         return "An error occurred loading the Smart NFC Wearables page.", 500
 
-@app.route('/pet/<control_number>')
+""" @app.route('/pet/<control_number>')
 def pet_profile(control_number):
     try:
         pet = pets.get(control_number)
@@ -112,7 +112,7 @@ def pet_profile(control_number):
             return "Pet not found", 404
     except Exception as e:
         printlog(f"Pet profile error for control number {control_number}: {e}")
-        return "An error occurred while loading the pet profile.", 500
+        return "An error occurred while loading the pet profile.", 500 """
 
 @app.route('/edit-pet-profile/<control_number>', methods=['GET', 'POST'])
 def edit_pet_profile(control_number=None):
@@ -192,7 +192,7 @@ def edit_pet_profile(control_number=None):
                 }
 
                 save_pets(pets)
-                return redirect(url_for('pet_profile', control_number=control_number))
+                """ return redirect(url_for('pet_profile', control_number=control_number)) """
 
         return render_template('edit-pet-profile.html', pet=pet)
 
