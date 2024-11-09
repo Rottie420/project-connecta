@@ -12,6 +12,8 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+pet_handler = PetHandler()
+
 # Function to log errors to log.txt
 def printlog(*args, **kwargs):
     now = datetime.now()
@@ -67,12 +69,12 @@ def smart_nfc_wearables():
 
 @app.route('/pet-profile-edit/<control_number>', methods=['GET', 'POST'])
 def pet_profile_edit(control_number=None):
-    return pet_manager.pet_profile_edit(control_number)
+    return pet_handler.pet_profile_edit(control_number)
 
 
 @app.route('/pet-profile-view/<control_number>', methods=['GET', 'POST'])
 def pet_profile_view(control_number=None):
-    return pet_manager.pet_profile_view(control_number)
+    return pet_handler.pet_profile_view(control_number)
   
 
 # Function to read JSON data from the file
