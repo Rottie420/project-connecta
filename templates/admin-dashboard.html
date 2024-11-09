@@ -8,155 +8,177 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Hide horizontal scroll */
+            width: 100%;
+        }
+    
         /* Sidebar styles */
         .sidebar {
             height: 100vh;
             background-color: #343a40;
+            border-right: 1px solid #e1e4e8;
             padding-top: 20px;
             position: fixed;
             left: 0;
             top: 0;
             bottom: 0;
             width: 250px;
-            transition: transform 0.3s ease;
             z-index: 100;
         }
-
-        .sidebar.open {
-            transform: translateX(0);
+    
+        .sidebar h3 {
+            color: white;
+            padding-left: 20px;
         }
-
+    
         .sidebar ul {
             list-style-type: none;
             padding-left: 0;
         }
-
+    
         .sidebar a {
             color: white;
             text-decoration: none;
-            font-size: 1.1rem;
-            padding: 12px 16px;
+            font-size: 1rem;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
+            border-radius: 6px;
             transition: background-color 0.3s ease;
         }
-
+    
         .sidebar a:hover {
-            background-color: #007bff;
+            background-color: #e1e4e8;
         }
-
+    
         .sidebar a i {
             margin-right: 10px;
         }
-
-        .sidebar-toggle {
-            display: none;
-            cursor: pointer;
-        }
-
+    
         /* Main content area */
         .main-content {
             margin-left: 250px;
-            transition: margin-left 0.3s ease;
+            padding-top: 20px;
         }
-
-        .main-content.sidebar-open {
-            margin-left: 0;
-        }
-
-        .main-content .table-responsive {
-            overflow-x: auto;
-        }
-
+    
         .container-fluid {
             padding-top: 20px;
         }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                transform: translateX(-250px);
-                position: absolute;
-                width: 250px;
-                z-index: 99;
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .sidebar-toggle {
-                display: block;
-                cursor: pointer;
-                margin: 20px;
-                font-size: 1.5rem;
-                color: #007bff;
-            }
-
-            .main-content {
-                margin-left: 0;
-            }
-
-            .sidebar a {
-                font-size: 1rem;
-                padding: 10px 14px;
-            }
+    
+        /* Updated card and table styles without borders */
+        .card {
+            box-shadow: none; /* Removed box shadow */
+            max-width: 85%;
+            margin: 25px;
         }
-
+    
         .card-header {
-            background-color: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
+            background-color: #f6f8fa;
+            font-weight: bold;
+            color: #24292f;
         }
-
+    
         .card-body {
             background-color: #ffffff;
         }
-
-        /* Custom scrollbar for the table */
-        .table-responsive::-webkit-scrollbar {
-            height: 8px;
+    
+        /* Table styles to remove lines */
+        .table {
+            border-collapse: collapse; /* Remove space between cells */
         }
-
-        .table-responsive::-webkit-scrollbar-thumb {
-            background-color: #007bff;
-            border-radius: 10px;
+    
+        .table th, .table td {
+            border: none; /* Remove borders from table cells */
+            padding: 8px; /* Optional padding for cell content */
         }
-
-        .table-responsive::-webkit-scrollbar-track {
-            background: #f1f1f1;
+    
+        .table-striped tbody tr:nth-child(odd) {
+            background-color: #f9f9f9; /* Optional: Add alternating row colors */
+        }
+    
+        /* Mobile-friendly log cards */
+        .log-card {
+            display: none;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+        }
+    
+        .log-card .log-field {
+            font-weight: bold;
+            color: #586069;
+        }
+    
+        @media (max-width: 768px) {
+            .table-responsive {
+                display: none;
+            }
+    
+            .log-card {
+                display: block;
+            }
+    
+            .sidebar {
+                transform: translateX(-250px);
+                transition: transform 0.3s ease;
+            }
+    
+            .sidebar.open {
+                transform: translateX(0);
+            }
+    
+            .sidebar-toggle {
+                display: block;
+                margin-left: 10px;
+            }
+    
+            .main-content {
+                margin-left: 0;
+            }
+    
+            .card {
+                max-width: 100%;
+                margin: 5px;
+            }
         }
     </style>
+    
+
 </head>
 
 <body>
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <div class="sidebar p-3">
-            <h3 class="text-white">Admin Dashboard</h3>
-            <ul>
-                <li><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                <li><a href="#"><i class="fas fa-users"></i> Subscribers</a></li>
-                <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
-                <li><a href="#" onclick="toggleSidebar()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-            </ul>
+    <div class="sidebar">
+        <div class="d-flex align-items-center justify-content-between px-3">
+            <h3>Connecta</h3>
+            <i class="fas fa-times close-btn d-md-none" onclick="toggleSidebar()" style="cursor: pointer; font-size: 1.2rem; color: white;"></i>
         </div>
+        <ul>
+            <li><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Subscribers</a></li>
+            <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+            <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </div>
+    
+ 
 
+        
         <!-- Main Content -->
-        <div class="main-content container-fluid p-4">
-            <!-- Mobile Sidebar Toggle -->
-            <div class="sidebar-toggle d-md-none">
-                <i class="fas fa-bars" onclick="toggleSidebar()"></i>
+        <div class="main-content container-fluid">
+            <div class="sidebar-toggle d-md-none" onclick="toggleSidebar()">
+                <i class="fas fa-bars"></i> <span>&nbsp;&nbsp;Connecta</span>
             </div>
-
+        
             <div class="row">
-                <div class="col-12 mb-4">
-                    <h3>Conslutation Logs</h3>
-                </div>
-
-                <!-- Logs Table -->
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card mt-5">
                         <div class="card-header">
-                            <h5>Recent Consultation Logs</h5>
+                            Recent Consultation Logs
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -172,7 +194,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- End Example Log Entry -->
                                         {% for log in logs %}
                                         <tr>
                                             <td>{{ log.name }}</td>
@@ -186,6 +207,18 @@
                                     </tbody>
                                 </table>
                             </div>
+
+                            <!-- Mobile-friendly log cards -->
+                            {% for log in logs %}
+                            <div class="log-card">
+                                <div><span class="log-field">Name:</span> {{ log.name }}</div>
+                                <div><span class="log-field">Email:</span> {{ log.email }}</div>
+                                <div><span class="log-field">Phone:</span> {{ log.phone }}</div>
+                                <div><span class="log-field">Date:</span> {{ log.date }}</div>
+                                <div><span class="log-field">Time:</span> {{ log.time }}</div>
+                                <div><span class="log-field">Message:</span> {{ log.message }}</div>
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -196,10 +229,13 @@
     <script>
         function toggleSidebar() {
             document.querySelector('.sidebar').classList.toggle('open');
-            document.querySelector('.main-content').classList.toggle('sidebar-open');
+        }
+    
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
         }
     </script>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
