@@ -168,7 +168,7 @@ def pet_profile_edit(control_number=None):
                     'email': email,
                     'phone': phone,
                     'address': address,
-                    "control_number": pet,
+                    "control_number": control_number,
                     'medical history': pet_medical_history,
                     'vaccination date': vaccination_date,
                     'vet check-up date': vet_checkup_date,
