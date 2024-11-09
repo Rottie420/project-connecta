@@ -347,43 +347,73 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
   <script>
-    // Function to save profile information
-    function saveProfileInfo() {
-      document.getElementById("petNameDisplay").textContent = document.getElementById("nameInput").value;
-      document.getElementById("petAgeDisplay").textContent = document.getElementById("ageInput").value;
-      document.getElementById("petBreedDisplay").textContent = document.getElementById("breedInput").value;
-      document.getElementById("petEmailDisplay").textContent = document.getElementById("emailInput").value;
-      document.getElementById("petPhoneDisplay").textContent = document.getElementById("phoneInput").value;
-      document.getElementById("petAddressDisplay").textContent = document.getElementById("addressInput").value;
-      const profileModal = bootstrap.Modal.getInstance(document.getElementById("editProfileInfoModal"));
-      profileModal.hide();
+    // Function to save all profile information by making an AJAX request
+    function saveProfile(controlNumber) {
+      const data = {
+        petName: document.getElementById("nameInput").value,
+        petAge: document.getElementById("ageInput").value,
+        petBreed: document.getElementById("breedInput").value,
+        email: document.getElementById("emailInput").value,
+        phone: document.getElementById("phoneInput").value,
+        address: document.getElementById("addressInput").value,
+        vaccinationDate: document.getElementById("vaccinationDateInput").value,
+        vetCheckupDate: document.getElementById("vetCheckupDateInput").value,
+        allergyStatus: document.getElementById("allergyStatusInput").value,
+        feedTime: document.getElementById("feedTimeInput").value,
+        walkTime: document.getElementById("walkTimeInput").value,
+        vetAppointmentDate: document.getElementById("vetAppointmentDateInput").value,
+        walkDistance: document.getElementById("walkDistanceInput").value,
+        lastActivity: document.getElementById("activityInput").value
+      };
+
+      // AJAX request to save profile
+      fetch(`/pet-profile-edit/${controlNumber}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          // Update display elements with new values
+          document.getElementById("petNameDisplay").textContent = data.petName;
+          document.getElementById("petAgeDisplay").textContent = data.petAge;
+          document.getElementById("petBreedDisplay").textContent = data.petBreed;
+          document.getElementById("petEmailDisplay").textContent = data.email;
+          document.getElementById("petPhoneDisplay").textContent = data.phone;
+          document.getElementById("petAddressDisplay").textContent = data.address;
+          document.getElementById("vaccinationDateDisplay").textContent = data.vaccinationDate;
+          document.getElementById("vetCheckupDateDisplay").textContent = data.vetCheckupDate;
+          document.getElementById("allergyStatusDisplay").textContent = data.allergyStatus;
+          document.getElementById("feedTimeDisplay").textContent = data.feedTime;
+          document.getElementById("walkTimeDisplay").textContent = data.walkTime;
+          document.getElementById("vetAppointmentDateDisplay").textContent = data.vetAppointmentDate;
+          document.getElementById("walkDistanceDisplay").textContent = data.walkDistance;
+          document.getElementById("activityDisplay").textContent = data.lastActivity;
+
+          // Hide all modals
+          bootstrap.Modal.getInstance(document.getElementById("editProfileInfoModal")).hide();
+          bootstrap.Modal.getInstance(document.getElementById("editMedicalHistoryModal")).hide();
+          bootstrap.Modal.getInstance(document.getElementById("editCareRemindersModal")).hide();
+          bootstrap.Modal.getInstance(document.getElementById("editActivityLogModal")).hide();
+        } else {
+          alert("Error saving profile information.");
+        }
+      })
+      .catch(error => {
+        console.error("Error saving profile information:", error);
+        alert("An error occurred while saving profile information.");
+      });
     }
-  
-    // Function to save medical history information
-    function saveMedicalHistory() {
-      document.getElementById("vaccinationDateDisplay").textContent = document.getElementById("vaccinationDateInput").value;
-      document.getElementById("vetCheckupDateDisplay").textContent = document.getElementById("vetCheckupDateInput").value;
-      document.getElementById("allergyStatusDisplay").textContent = document.getElementById("allergyStatusInput").value;
-      const medicalHistoryModal = bootstrap.Modal.getInstance(document.getElementById("editMedicalHistoryModal"));
-      medicalHistoryModal.hide();
-    }
-  
-    // Function to save care reminders information
-    function saveCareReminders() {
-      document.getElementById("feedTimeDisplay").textContent = document.getElementById("feedTimeInput").value;
-      document.getElementById("walkTimeDisplay").textContent = document.getElementById("walkTimeInput").value;
-      document.getElementById("vetAppointmentDateDisplay").textContent = document.getElementById("vetAppointmentDateInput").value;
-      const careRemindersModal = bootstrap.Modal.getInstance(document.getElementById("editCareRemindersModal"));
-      careRemindersModal.hide();
-    }
-  
-    // Function to save activity log information
-    function saveActivityLog() {
-      document.getElementById("walkDistanceDisplay").textContent = document.getElementById("walkDistanceInput").value;
-      document.getElementById("activityDisplay").textContent = document.getElementById("activityInput").value;
-      const activityLogModal = bootstrap.Modal.getInstance(document.getElementById("editActivityLogModal"));
-      activityLogModal.hide();
-    }
-  </script>
+
+    // Example of calling saveProfile with a specific control number
+    // Replace `controlNumber` with the actual control number
+    const controlNumber = /* retrieve control number from context */;
+    document.getElementById("saveProfileButton").addEventListener("click", () => saveProfile(controlNumber));
+    document.getElementById("saveMedicalHistoryButton").addEventListener("click", () => saveProfile(controlNumber));
+    document.getElementById("saveCareRemindersButton").addEventListener("click", () => saveProfile(controlNumber));
+    document.getElementById("saveActivityLogButton").addEventListener("click", () => saveProfile(controlNumber));
+</script>
+
 </body>
 </html>
