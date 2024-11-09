@@ -29,55 +29,59 @@ class PetHandler:
     def is_valid_control_number(self, control_number):
         return control_number.isdigit() and control_number not in self.pets
 
+    def get_pet_data_from_form(self):
+        """Helper to extract pet data from form and validate."""
+        return {
+            'petname': request.form.get('petNameInput', ''),
+            'petage': request.form.get('petAgeInput', ''),
+            'petbreed': request.form.get('petBreedInput', ''),
+            'email': request.form.get('email', ''),
+            'phone': request.form.get('phone', ''),
+            'address': request.form.get('address', ''),
+            "control_number": request.form.get('petControlNumber', ''),
+            'medical history': request.form.get('petMedicalHistoryInput', ''),
+            'vaccination date': request.form.get('vaccinationDateInput', ''),
+            'vet check-up date': request.form.get('vetCheckupDateInput', ''),
+            'allergy status': request.form.get('allergyStatusInput', ''),
+            'feed time': request.form.get('feedTimeInput', ''),
+            'walk time': request.form.get('walkTimeInput', ''),
+            'vet appointment date': request.form.get('vetAppointmentDateInput', ''),
+            'walk distance': request.form.get('walkDistanceInput', ''),
+            'last activity': request.form.get('lastActivityInput', '')
+        }
+
+    def handle_file_upload(self, file, control_number):
+        """Helper method to handle file upload and convert it to the required format."""
+        if file.filename == '':
+            raise ValueError("No selected file")
+        if file and FileHandler.allowed_file(file.filename):
+            return FileHandler.save_and_convert_image(file, control_number)
+        raise ValueError("Invalid file type")
+
     def pet_profile_edit(self, control_number):
         try:
-            pet = self.pets.get(control_number) if control_number else None
+            pet = self.pets.get(control_number)
             if not pet:
                 return "Pet not found or invalid control number", 404
 
             if request.method == 'POST':
-                # Collect form data
-                pet_data = {
-                    'petname': request.form.get('petNameInput', ''),
-                    'petage': request.form.get('petAgeInput', ''),
-                    'petbreed': request.form.get('petBreedInput', ''),
-                    'email': request.form.get('email', ''),
-                    'phone': request.form.get('phone', ''),
-                    'address': request.form.get('address', ''),
-                    "control_number": request.form.get('petControlNumber', ''),
-                    'medical history': request.form.get('petMedicalHistoryInput', ''),
-                    'vaccination date': request.form.get('vaccinationDateInput', ''),
-                    'vet check-up date': request.form.get('vetCheckupDateInput', ''),
-                    'allergy status': request.form.get('allergyStatusInput', ''),
-                    'feed time': request.form.get('feedTimeInput', ''),
-                    'walk time': request.form.get('walkTimeInput', ''),
-                    'vet appointment date': request.form.get('vetAppointmentDateInput', ''),
-                    'walk distance': request.form.get('walkDistanceInput', ''),
-                    'last activity': request.form.get('lastActivityInput', '')
-                }
-
+                pet_data = self.get_pet_data_from_form()
                 control_number = pet_data["control_number"]
-                
-                # Validate control number
+
                 if not self.is_valid_control_number(control_number):
                     return render_template('pet-profile-edit.html', pet=pet, error="Invalid or duplicate control number")
 
-                # Handle file upload
                 if 'photo' not in request.files:
                     return render_template('pet-profile-edit.html', pet=pet, error="No file part")
-                file = request.files['photo']
-                if file.filename == '':
-                    return render_template('pet-profile-edit.html', pet=pet, error="No selected file")
-                if file and FileHandler.allowed_file(file.filename):
-                    try:
-                        pet_data['photo'] = FileHandler.save_and_convert_image(file, control_number)
-                    except Exception as e:
-                        return render_template('pet-profile-edit.html', pet=pet, error="Failed to convert image.")
+                
+                try:
+                    pet_data['photo'] = self.handle_file_upload(request.files['photo'], control_number)
+                except ValueError as e:
+                    return render_template('pet-profile-edit.html', pet=pet, error=str(e))
 
-                    # Save pet data
-                    self.pets[control_number] = pet_data
-                    self.save_pets()
-            
+                self.pets[control_number] = pet_data
+                self.save_pets()
+
             return render_template('pet-profile-edit.html', pet=pet)
 
         except Exception as e:
@@ -86,53 +90,10 @@ class PetHandler:
 
     def pet_profile_view(self, control_number):
         try:
-            pet = self.pets.get(control_number) if control_number else None
+            pet = self.pets.get(control_number)
             if not pet:
                 return "Pet not found or invalid control number", 404
 
-            if request.method == 'POST':
-                # Collect form data
-                pet_data = {
-                    'petname': request.form.get('petNameInput', ''),
-                    'petage': request.form.get('petAgeInput', ''),
-                    'petbreed': request.form.get('petBreedInput', ''),
-                    'email': request.form.get('email', ''),
-                    'phone': request.form.get('phone', ''),
-                    'address': request.form.get('address', ''),
-                    "control_number": request.form.get('petControlNumber', ''),
-                    'medical history': request.form.get('petMedicalHistoryInput', ''),
-                    'vaccination date': request.form.get('vaccinationDateInput', ''),
-                    'vet check-up date': request.form.get('vetCheckupDateInput', ''),
-                    'allergy status': request.form.get('allergyStatusInput', ''),
-                    'feed time': request.form.get('feedTimeInput', ''),
-                    'walk time': request.form.get('walkTimeInput', ''),
-                    'vet appointment date': request.form.get('vetAppointmentDateInput', ''),
-                    'walk distance': request.form.get('walkDistanceInput', ''),
-                    'last activity': request.form.get('lastActivityInput', '')
-                }
-
-                control_number = pet_data["control_number"]
-                
-                # Validate control number
-                if not self.is_valid_control_number(control_number):
-                    return render_template('pet-profile-view.html', pet=pet, error="Invalid or duplicate control number")
-
-                # Handle file upload
-                if 'photo' not in request.files:
-                    return render_template('pet-profile-view.html', pet=pet, error="No file part")
-                file = request.files['photo']
-                if file.filename == '':
-                    return render_template('pet-profile-view.html', pet=pet, error="No selected file")
-                if file and FileHandler.allowed_file(file.filename):
-                    try:
-                        pet_data['photo'] = FileHandler.save_and_convert_image(file, control_number)
-                    except Exception as e:
-                        return render_template('pet-profile-view.html', pet=pet, error="Failed to convert image.")
-
-                    # Save pet data
-                    self.pets[control_number] = pet_data
-                    self.save_pets()
-            
             return render_template('pet-profile-view.html', pet=pet)
 
         except Exception as e:
