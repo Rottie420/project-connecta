@@ -347,8 +347,16 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 
   <script>
+    // Function to extract the control number from the URL
+    function getControlNumber() {
+      const pathParts = window.location.pathname.split('/');
+      // Remove empty parts and get the last element, which should be the control number
+      return pathParts.filter(Boolean).pop();
+    }
+  
     // Function to save profile information and send to backend
     function saveProfileInfo() {
+      const control_number = getControlNumber(); // Get the control number from URL
       const profileData = {
         petName: document.getElementById("nameInput").value,
         petAge: document.getElementById("ageInput").value,
@@ -357,8 +365,8 @@
         petPhone: document.getElementById("phoneInput").value,
         petAddress: document.getElementById("addressInput").value
       };
-
-      fetch('/pet-profile-edit/${pet}', {
+  
+      fetch(`/pet-profile-edit/${control_number}`, {  // Use the control_number in the URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -378,16 +386,17 @@
       })
       .catch(error => console.error('Error:', error));
     }
-
+  
     // Function to save medical history information and send to backend
     function saveMedicalHistory() {
+      const control_number = getControlNumber(); // Get the control number from URL
       const medicalData = {
         vaccinationDate: document.getElementById("vaccinationDateInput").value,
         vetCheckupDate: document.getElementById("vetCheckupDateInput").value,
         allergyStatus: document.getElementById("allergyStatusInput").value
       };
-
-      fetch('pet-profile-edit/${pet}', {
+  
+      fetch(`/pet-profile-edit/${control_number}`, {  // Use the control_number in the URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -404,16 +413,17 @@
       })
       .catch(error => console.error('Error:', error));
     }
-
+  
     // Function to save care reminders information and send to backend
     function saveCareReminders() {
+      const control_number = getControlNumber(); // Get the control number from URL
       const careData = {
         feedTime: document.getElementById("feedTimeInput").value,
         walkTime: document.getElementById("walkTimeInput").value,
         vetAppointmentDate: document.getElementById("vetAppointmentDateInput").value
       };
-
-      fetch('pet-profile-edit/${pet}', {
+  
+      fetch(`/pet-profile-edit/${control_number}`, {  // Use the control_number in the URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -430,15 +440,16 @@
       })
       .catch(error => console.error('Error:', error));
     }
-
+  
     // Function to save activity log information and send to backend
     function saveActivityLog() {
+      const control_number = getControlNumber(); // Get the control number from URL
       const activityData = {
         walkDistance: document.getElementById("walkDistanceInput").value,
         activity: document.getElementById("activityInput").value
       };
-
-      fetch('pet-profile-edit/${pet}', {
+  
+      fetch(`/pet-profile-edit/${control_number}`, {  // Use the control_number in the URL
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -454,7 +465,7 @@
       })
       .catch(error => console.error('Error:', error));
     }
-
   </script>
+  
 </body>
 </html>
