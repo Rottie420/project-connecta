@@ -102,7 +102,7 @@ def smart_nfc_wearables():
         return "An error occurred loading the Smart NFC Wearables page.", 500
 
 
-@@app.route('/pet-profile-edit/<control_number>', methods=['GET', 'POST'])
+@app.route('/pet-profile-edit/<control_number>', methods=['GET', 'POST'])
 def pet_profile_edit(control_number=None):
     try:
         # Load existing pet details if control_number is provided
