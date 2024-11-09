@@ -251,7 +251,7 @@
                 <label for="addressInput" class="form-label">Address</label>
                 <input type="text" class="form-control" id="addressInput" value="{{ pet.address }}">
               </div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
+              <button type="submit" class="btn btn-primary" onclick="saveProfileInfo()">Save Changes</button>
             </form>
           </div>
         </div>
@@ -280,7 +280,7 @@
                 <label for="allergyStatusInput" class="form-label">Allergy Status</label>
                 <input type="text" class="form-control" id="allergyStatusInput">
               </div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
+              <button type="submit" class="btn btn-primary" onclick="saveMedicalHistory()">Save Changes</button>
             </form>
           </div>
         </div>
@@ -309,7 +309,7 @@
                 <label for="vetAppointmentDateInput" class="form-label">Vet Appointment Date</label>
                 <input type="date" class="form-control" id="vetAppointmentDateInput">
               </div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
+              <button type="submit" class="btn btn-primary" onclick="saveCareReminders()">Save Changes</button>
             </form>
           </div>
         </div>
@@ -334,7 +334,7 @@
                 <label for="activityInput" class="form-label">Activity</label>
                 <input type="text" class="form-control" id="activityInput">
               </div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
+              <button type="submit" class="btn btn-primary" onclick="saveActivityLog()">Save Changes</button>
             </form>
           </div>
         </div>
@@ -345,5 +345,45 @@
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+  <script>
+    // Function to save profile information
+    function saveProfileInfo() {
+      document.getElementById("petNameDisplay").textContent = document.getElementById("nameInput").value;
+      document.getElementById("petAgeDisplay").textContent = document.getElementById("ageInput").value;
+      document.getElementById("petBreedDisplay").textContent = document.getElementById("breedInput").value;
+      document.getElementById("petEmailDisplay").textContent = document.getElementById("emailInput").value;
+      document.getElementById("petPhoneDisplay").textContent = document.getElementById("phoneInput").value;
+      document.getElementById("petAddressDisplay").textContent = document.getElementById("addressInput").value;
+      const profileModal = bootstrap.Modal.getInstance(document.getElementById("editProfileInfoModal"));
+      profileModal.hide();
+    }
+  
+    // Function to save medical history information
+    function saveMedicalHistory() {
+      document.getElementById("vaccinationDateDisplay").textContent = document.getElementById("vaccinationDateInput").value;
+      document.getElementById("vetCheckupDateDisplay").textContent = document.getElementById("vetCheckupDateInput").value;
+      document.getElementById("allergyStatusDisplay").textContent = document.getElementById("allergyStatusInput").value;
+      const medicalHistoryModal = bootstrap.Modal.getInstance(document.getElementById("editMedicalHistoryModal"));
+      medicalHistoryModal.hide();
+    }
+  
+    // Function to save care reminders information
+    function saveCareReminders() {
+      document.getElementById("feedTimeDisplay").textContent = document.getElementById("feedTimeInput").value;
+      document.getElementById("walkTimeDisplay").textContent = document.getElementById("walkTimeInput").value;
+      document.getElementById("vetAppointmentDateDisplay").textContent = document.getElementById("vetAppointmentDateInput").value;
+      const careRemindersModal = bootstrap.Modal.getInstance(document.getElementById("editCareRemindersModal"));
+      careRemindersModal.hide();
+    }
+  
+    // Function to save activity log information
+    function saveActivityLog() {
+      document.getElementById("walkDistanceDisplay").textContent = document.getElementById("walkDistanceInput").value;
+      document.getElementById("activityDisplay").textContent = document.getElementById("activityInput").value;
+      const activityLogModal = bootstrap.Modal.getInstance(document.getElementById("editActivityLogModal"));
+      activityLogModal.hide();
+    }
+  </script>
 </body>
 </html>
