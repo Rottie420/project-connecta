@@ -4,20 +4,11 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from werkzeug.utils import secure_filename
 from PIL import Image
 from datetime import datetime
+from config import UPLOAD_FOLDER
 import pandas as pd
+from PetHandler import PetHandler
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
-
-# Paths and configurations
-JSON_FILE_PATH = 'pets.json'
-UPLOAD_FOLDER = 'static/uploads'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-LOG_FILE_PATH = 'log.txt'
-DATA_FILE = 'consultations.json'
-
-# Create upload folder if it doesn't exist
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -31,34 +22,6 @@ def printlog(*args, **kwargs):
     with open(LOG_FILE_PATH, 'a') as file:
         file.write(message + "\n")
 
-# Function to check allowed file extensions
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# Function to load pets from JSON file
-def load_pets():
-    try:
-        if os.path.exists(JSON_FILE_PATH):
-            with open(JSON_FILE_PATH, 'r') as f:
-                return json.load(f)
-    except Exception as e:
-        printlog(f"Error loading pets data: {e}")
-    return {}
-
-# Function to save pets to JSON file
-def save_pets(pets):
-    try:
-        with open(JSON_FILE_PATH, 'w') as f:
-            json.dump(pets, f, indent=4)
-    except Exception as e:
-        printlog(f"Error saving pets data: {e}")
-
-# Initialize pets data
-pets = load_pets()
-
-# Function to validate control number
-def is_valid_control_number(control_number):
-    return control_number.isdigit() and control_number not in pets
 
 # Define routes with error handling
 @app.route('/')
@@ -104,175 +67,13 @@ def smart_nfc_wearables():
 
 @app.route('/pet-profile-edit/<control_number>', methods=['GET', 'POST'])
 def pet_profile_edit(control_number=None):
-    try:
-        # Load existing pet details if control_number is provided
-        pet = pets.get(control_number) if control_number else None
-        if not pet:
-            return "Pet not found or invalid control number", 404
-            
-        if request.method == 'POST':
-            petname = request.form['petNameInput']
-            petage = request.form['petAgeInput']
-            petbreed = request.form['petBreedInput']
-            email = request.form['email']
-            phone = request.form['phone']
-            address = request.form['address']
-            control_number = request.form['petControlNumber']
-            pet_medical_history = request.form['petMedicalHistoryInput']
-            vaccination_date = request.form['vaccinationDateInput']
-            vet_checkup_date = request.form['vetCheckupDateInput']
-            allergy_status = request.form['allergyStatusInput']
-            feed_time = request.form['feedTimeInput']
-            walk_time = request.form['walkTimeInput']
-            vet_appoinment_date = request.form['vetAppointmentDateInput']
-            walk_distance = request.form['walkDistanceInput']
-            last_activity = request.form['lastActivityInput']
-
-            if not is_valid_control_number(control_number):
-                return render_template('pet-profile-edit.html', pet=pet, error="Invalid or duplicate control number")
-
-            if 'photo' not in request.files:
-                return render_template('pet-profile-edit.html', pet=pet, error="No file part")
-            
-            file = request.files['photo']
-            
-            if file.filename == '':
-                return render_template('pet-profile-edit.html', pet=pet, error="No selected file")
-            
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                unique_filename = f"{control_number}_{filename}"
-
-                original_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
-                file.save(original_path)
-
-                # Convert image to WEBP format
-                webp_filename = f"{control_number}.webp"
-                webp_path = os.path.join(app.config['UPLOAD_FOLDER'], webp_filename)
-
-                try:
-                    img = Image.open(original_path)
-                    img.save(webp_path, 'webp')
-                except Exception as e:
-                    printlog(f"Image conversion error for {filename}: {e}")
-                    return render_template('pet-profile-edit.html', pet=pet, error="Failed to convert image.")
-                finally:
-                    os.remove(original_path)  # Delete original image
-
-                # Save pet data
-                pets[control_number] = {
-                    'photo': f'uploads/{webp_filename}',
-                    'petname': petname,
-                    'petage': petage,
-                    'petbreed': petbreed,
-                    'email': email,
-                    'phone': phone,
-                    'address': address,
-                    "control_number": control_number,
-                    'medical history': pet_medical_history,
-                    'vaccination date': vaccination_date,
-                    'vet check-up date': vet_checkup_date,
-                    'allergy status': allergy_status,
-                    'feed time': feed_time,
-                    'walk time': walk_time,
-                    'vet appointment date': vet_appoinment_date,
-                    'walk distance': walk_distance,
-                    'last activity': last_activity            
-                }
-
-                save_pets(pets)
-        
-        return render_template('pet-profile-edit.html', pet=pet)
-
-    except Exception as e:
-        printlog(f"edit pet profile error: {e}")
-        return render_template('pet-profile-edit.html', error="An error occurred while processing your request.")
+    return pet_manager.pet_profile_edit(control_number)
 
 
 @app.route('/pet-profile-view/<control_number>', methods=['GET', 'POST'])
 def pet_profile_view(control_number=None):
-    try:
-        # Load existing pet details if control_number is provided
-        pet = pets.get(control_number) if control_number else None
-        if not pet:
-            return "Pet not found or invalid control number", 404
-            
-        if request.method == 'POST':
-            petname = request.form['petNameInput']
-            petage = request.form['petAgeInput']
-            petbreed = request.form['petBreedInput']
-            email = request.form['email']
-            phone = request.form['phone']
-            address = request.form['address']
-            control_number = request.form['petControlNumber']
-            pet_medical_history = request.form['petMedicalHistoryInput']
-            vaccination_date = request.form['vaccinationDateInput']
-            vet_checkup_date = request.form['vetCheckupDateInput']
-            allergy_status = request.form['allergyStatusInput']
-            feed_time = request.form['feedTimeInput']
-            walk_time = request.form['walkTimeInput']
-            vet_appoinment_date = request.form['vetAppointmentDateInput']
-            walk_distance = request.form['walkDistanceInput']
-            last_activity = request.form['lastActivityInput']
-
-            if not is_valid_control_number(control_number):
-                return render_template('pet-profile-view.html', pet=pet, error="Invalid or duplicate control number")
-
-            if 'photo' not in request.files:
-                return render_template('pet-profile-view.html', pet=pet, error="No file part")
-            
-            file = request.files['photo']
-            
-            if file.filename == '':
-                return render_template('pet-profile-view.html', pet=pet, error="No selected file")
-            
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                unique_filename = f"{control_number}_{filename}"
-
-                original_path = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
-                file.save(original_path)
-
-                # Convert image to WEBP format
-                webp_filename = f"{control_number}.webp"
-                webp_path = os.path.join(app.config['UPLOAD_FOLDER'], webp_filename)
-
-                try:
-                    img = Image.open(original_path)
-                    img.save(webp_path, 'webp')
-                except Exception as e:
-                    printlog(f"Image conversion error for {filename}: {e}")
-                    return render_template('pet-profile-view.html', pet=pet, error="Failed to convert image.")
-                finally:
-                    os.remove(original_path)  # Delete original image
-
-                # Save pet data
-                pets[control_number] = {
-                    'photo': f'uploads/{webp_filename}',
-                    'petname': petname,
-                    'petage': petage,
-                    'petbreed': petbreed,
-                    'email': email,
-                    'phone': phone,
-                    'address': address,
-                    'medical history': pet_medical_history,
-                    'vaccination date': vaccination_date,
-                    'vet check-up date': vet_checkup_date,
-                    'allergy status': allergy_status,
-                    'feed time': feed_time,
-                    'walk time': walk_time,
-                    'vet appointment date': vet_appoinment_date,
-                    'walk distance': walk_distance,
-                    'last activity': last_activity            
-                }
-
-                save_pets(pets)
-
-        return render_template('pet-profile-view.html', pet=pet)
-
-    except Exception as e:
-        printlog(f"edit pet profile error: {e}")
-        return render_template('pet-profile-view.html', error="An error occurred while processing your request.")
+    return pet_manager.pet_profile_view(control_number)
+  
 
 # Function to read JSON data from the file
 def read_data():
