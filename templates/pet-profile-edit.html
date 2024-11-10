@@ -352,7 +352,6 @@
 
 
     <script>
-      // For the 'profile' form
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -379,14 +378,15 @@
           formData.append('address', petData.address);
           formData.append('photo', photoInput.files[0]);
 
-          savePetData(`/pet/${controlNumber}/edit`, 'POST', formData); // Adjusted URL to match Flask route
+          // Pass formData directly when there’s a photo
+          savePetData(`/api/pet/update`, 'POST', formData);
         } else {
-          // If no photo is uploaded, use the regular data
-          savePetData(`/pet/${controlNumber}/edit`, 'POST', petData);
+          // If no photo is uploaded, send regular JSON data
+          savePetData(`/api/pet/update`, 'POST', { control_number: controlNumber, ...petData });
         }
       });
 
-    
+  
       // For the 'medicalHistory' form
       document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
         e.preventDefault();
