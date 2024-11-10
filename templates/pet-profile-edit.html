@@ -227,6 +227,7 @@
           </div>
           <div class="modal-body">
             <form id="profileForm">
+              <input type="hidden" id="controlNumberInput" value="{{ pet.control_number }}">
               <div class="mb-3">
                 <label for="nameInput" class="form-label">Pet Name</label>
                 <input type="text" class="form-control" id="nameInput" value="{{ pet.name }}">
@@ -268,6 +269,7 @@
           </div>
           <div class="modal-body">
             <form id="medicalHistoryForm">
+              <input type="hidden" id="controlNumberInput" value="{{ pet.control_number }}">
               <div class="mb-3">
                 <label for="vaccinationDateInput" class="form-label">Vaccination Date</label>
                 <input type="date" class="form-control" id="vaccinationDateInput">
@@ -297,6 +299,7 @@
           </div>
           <div class="modal-body">
             <form id="careRemindersForm">
+              <input type="hidden" id="controlNumberInput" value="{{ pet.control_number }}">
               <div class="mb-3">
                 <label for="feedTimeInput" class="form-label">Feed Time</label>
                 <input type="time" class="form-control" id="feedTimeInput">
@@ -326,6 +329,7 @@
           </div>
           <div class="modal-body">
             <form id="activityLogForm">
+              <input type="hidden" id="controlNumberInput" value="{{ pet.control_number }}">
               <div class="mb-3">
                 <label for="walkDistanceInput" class="form-label">Walk Distance</label>
                 <input type="text" class="form-control" id="walkDistanceInput">
