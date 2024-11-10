@@ -229,6 +229,10 @@
             <form id="profileForm">
               <input type="hidden" id="controlNumberInput" value="{{ pet.control_number }}">
               <div class="mb-3">
+                <label for="petUploadPhoto" class="form-label">Upload Photo</label>
+                <input type="file" class="form-control" id="photo" name="photo" accept="image/*" required>
+              </div>
+              <div class="mb-3">
                 <label for="nameInput" class="form-label">Pet Name</label>
                 <input type="text" class="form-control" id="nameInput" value="{{ pet.name }}">
               </div>
@@ -350,7 +354,7 @@
       // For the 'profile' form
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
-    
+
         const petData = {
           petname: document.getElementById('nameInput').value,
           petage: document.getElementById('ageInput').value,
@@ -359,10 +363,30 @@
           phone: document.getElementById('phoneInput').value,
           address: document.getElementById('addressInput').value,
         };
-    
-        const controlNumber = document.getElementById('controlNumberInput').value;  // Make sure to get control number from a form field
-        savePetData(`/pet/${controlNumber}/edit`, 'POST', petData);  // Adjusted URL to match Flask route
+
+        const controlNumber = document.getElementById('controlNumberInput').value; // Make sure to get control number from a form field
+
+        // Check if the file input has a file, if so, append it to the data
+        const photoInput = document.getElementById('photoInput');
+        if (photoInput.files.length > 0) {
+          const formData = new FormData();
+          formData.append('control_number', controlNumber);
+          formData.append('petname', petData.petname);
+          formData.append('petage', petData.petage);
+          formData.append('petbreed', petData.petbreed);
+          formData.append('email', petData.email);
+          formData.append('phone', petData.phone);
+          formData.append('address', petData.address);
+          formData.append('photo', photoInput.files[0]);
+
+          savePetData(`/pet/${controlNumber}/edit`, 'POST', formData); // Adjusted URL to match Flask route
+
+        } else {
+          // If no photo is uploaded, use the original data
+          savePetData(`/pet/${controlNumber}/edit`, 'POST', petData);
+        }
       });
+
     
       // For the 'medicalHistory' form
       document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
