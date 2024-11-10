@@ -386,7 +386,7 @@
       // Handling profile form submission
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
-    
+
         const petData = {
           control_number: document.getElementById('controlNumberInput').value,
           petname: document.getElementById('nameInput').value,
@@ -396,19 +396,21 @@
           phone: document.getElementById('phoneInput').value,
           address: document.getElementById('addressInput').value,
         };
-    
+
         const photoInput = document.getElementById('photo');
+        const formData = new FormData();
+
+        // Append pet data to FormData
+        Object.entries(petData).forEach(([key, value]) => formData.append(key, value));
+
+        // If there's a file to upload, append it as well
         if (photoInput && photoInput.files.length > 0) {
-          const formData = new FormData();
-          Object.entries(petData).forEach(([key, value]) => formData.append(key, value));
           formData.append('photo', photoInput.files[0]);
-    
-          handleFormSubmission('profileForm', '/api/pet/update', formData, true);
-        } else {
-          handleFormSubmission('profileForm', '/api/pet/update', petData);
         }
+
+        handleFormSubmission('profileForm', '/api/pet/update', formData, true);
       });
-    
+          
       // Handling medical history form submission
       document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
         e.preventDefault();
