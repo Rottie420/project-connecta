@@ -343,9 +343,10 @@
 
 
     <script>
+      // For the 'profile' form
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
+    
         const petData = {
           petname: document.getElementById('nameInput').value,
           petage: document.getElementById('ageInput').value,
@@ -354,69 +355,77 @@
           phone: document.getElementById('phoneInput').value,
           address: document.getElementById('addressInput').value,
         };
-
+    
         const controlNumber = document.getElementById('controlNumberInput').value;  // Make sure to get control number from a form field
         savePetData(controlNumber, 'profile', petData);
       });
-
+    
+      // For the 'medicalHistory' form
       document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
+    
         const medicalData = {
           vaccination_date: document.getElementById('vaccinationDateInput').value,
           vet_checkup_date: document.getElementById('vetCheckupDateInput').value,
           allergy_status: document.getElementById('allergyStatusInput').value,
         };
-
+    
         const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
         savePetData(controlNumber, 'medicalHistory', medicalData);
       });
-
+    
+      // For the 'careReminders' form
       document.getElementById('careRemindersForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
+    
         const careData = {
           feed_time: document.getElementById('feedTimeInput').value,
           walk_time: document.getElementById('walkTimeInput').value,
           vet_appointment_date: document.getElementById('vetAppointmentDateInput').value,
         };
-
+    
         const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
         savePetData(controlNumber, 'careReminders', careData);
       });
-
+    
+      // For the 'activityLog' form
       document.getElementById('activityLogForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
+    
         const activityData = {
           walk_distance: document.getElementById('walkDistanceInput').value,
           last_activity: document.getElementById('activityInput').value,
         };
-
+    
         const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
         savePetData(controlNumber, 'activityLog', activityData);
       });
-
+    
+      // Function to save pet data using Fetch API
       function savePetData(controlNumber, type, data) {
         fetch(`/pet-profile-edit/${controlNumber}/${type}`, {  // Pass controlNumber and type in the URL
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(data),  // Send data as a JSON string
         })
         .then(response => response.json())
-        .then(data => {
-          if (data.success) {
+        .then(responseData => {
+          if (responseData.success) {
             alert(`${type} updated successfully!`);
           } else {
             alert(`Error updating ${type}`);
           }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while updating the pet data.');
+        });
       }
-
+    
     </script>
+    
     
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
