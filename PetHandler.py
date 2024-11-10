@@ -88,6 +88,7 @@ class PetHandler:
         return self.handle_pet_profile(control_number, 'pet-profile-view.html')
 
     def update_pet_profile(self):
+        """Update the pet profile with data from the form or JSON request."""
         if request.content_type.startswith('multipart/form-data'):
             data = request.form.to_dict()
             file = request.files.get('photo')
@@ -104,6 +105,7 @@ class PetHandler:
 
         pet = self.pets.get(control_number, {})
 
+        # Update pet details
         pet.update({
             'petname': data.get('petname', pet.get('petname')),
             'petage': data.get('petage', pet.get('petage')),
@@ -113,6 +115,7 @@ class PetHandler:
             'address': data.get('address', pet.get('address'))
         })
 
+        # Handle file upload and conversion
         if file and FileHandler.allowed_file(file.filename):
             try:
                 pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
@@ -122,6 +125,7 @@ class PetHandler:
         elif file:
             return jsonify({"success": False, "message": "Invalid file type"}), 400
 
+        # Save updated pet profile data
         self.pets[control_number] = pet
         self.save_pets()
 
