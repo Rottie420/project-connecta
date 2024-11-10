@@ -89,6 +89,7 @@ class PetHandler:
 
     def update_pet_profile(self):
         """Update the pet profile with data from the form or JSON request."""
+        # Check for valid content type
         if request.content_type.startswith('multipart/form-data'):
             data = request.form.to_dict()
             file = request.files.get('photo')
@@ -96,6 +97,8 @@ class PetHandler:
             data = request.get_json()
             file = None
         else:
+            # Return error for unsupported media types
+            Logger.log(f"Unsupported media type encountered: {request.content_type}")
             return jsonify({"success": False, "message": "Unsupported Media Type"}), 415
 
         control_number = data.get('control_number')
@@ -115,15 +118,16 @@ class PetHandler:
             'address': data.get('address', pet.get('address'))
         })
 
-        # Handle file upload and conversion
-        if file and FileHandler.allowed_file(file.filename):
-            try:
-                pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
-            except Exception as e:
-                Logger.log(f"Error saving or converting image: {e}")
-                return jsonify({"success": False, "message": "Failed to convert image."}), 500
-        elif file:
-            return jsonify({"success": False, "message": "Invalid file type"}), 400
+        # Handle file upload and conversion (check for file and its validity)
+        if file:
+            if FileHandler.allowed_file(file.filename):
+                try:
+                    pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
+                except Exception as e:
+                    Logger.log(f"Error saving or converting image: {e}")
+                    return jsonify({"success": False, "message": "Failed to convert image."}), 500
+            else:
+                return jsonify({"success": False, "message": "Invalid file type"}), 400
 
         # Save updated pet profile data
         self.pets[control_number] = pet
