@@ -88,15 +88,29 @@ class PetHandler:
         return self.handle_pet_profile(control_number, 'pet-profile-view.html')
 
     def update_pet_profile(self):
+        # Ensure multipart/form-data is used for file uploads
+        if 'photo' in request.files:
+            file = request.files['photo']
+            if file.filename == '':
+                return render_template('pet-profile-edit.html', error="No selected file")
+            if file and FileHandler.allowed_file(file.filename):
+                try:
+                    # Handle image upload and conversion
+                    pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
+                except Exception as e:
+                    Logger.log(f"Error saving or converting image: {e}")
+                    return render_template('pet-profile-edit.html', error="Failed to convert image.")
+            else:
+                return render_template('pet-profile-edit.html', error="Invalid file type")
+
+        # Handle text data
         data = request.form.to_dict()  # Handles text fields from FormData
         control_number = data.get('control_number')
-        
+
         if not control_number or control_number not in self.pets:
             return {"success": False, "message": "Pet not found"}, 404
-        
-        pet = self.pets[control_number]
 
-        # Update pet details
+        pet = self.pets[control_number]
         pet.update({
             'petname': data.get('petname', pet.get('petname')),
             'petage': data.get('petage', pet.get('petage')),
@@ -106,25 +120,7 @@ class PetHandler:
             'address': data.get('address', pet.get('address'))
         })
 
-        # Validate control number
-        if not self.is_valid_control_number(control_number):
-            return render_template('pet-profile-edit.html', pet=pet, error="Invalid or duplicate control number")
-
-        # Handle file upload
-        if 'photo' in request.files:
-            file = request.files['photo']
-            if file.filename == '':
-                return render_template('pet-profile-edit.html', pet=pet, error="No selected file")
-            if file and FileHandler.allowed_file(file.filename):
-                try:
-                    pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
-                except Exception as e:
-                    Logger.log(f"Error saving or converting image: {e}")
-                    return render_template('pet-profile-edit.html', pet=pet, error="Failed to convert image.")
-            else:
-                return render_template('pet-profile-edit.html', pet=pet, error="Invalid file type")
-
-        # Save the updated pet data
+        # Save updated pet data
         self.pets[control_number] = pet
         self.save_pets()
 

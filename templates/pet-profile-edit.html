@@ -382,7 +382,7 @@
             alert('An error occurred while saving the data.');
           });
       }
-    
+ 
       // Handling profile form submission
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
@@ -408,9 +408,10 @@
           formData.append('photo', photoInput.files[0]);
         }
 
+        // Ensure the request is using multipart/form-data
         handleFormSubmission('profileForm', '/api/pet/update', formData, true);
       });
-          
+      
       // Handling medical history form submission
       document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
         e.preventDefault();
