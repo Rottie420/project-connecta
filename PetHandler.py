@@ -43,7 +43,7 @@ class PetHandler:
                 'email': request.form.get('email', ''),
                 'phone': request.form.get('phone', ''),
                 'address': request.form.get('address', ''),
-                "control_number": control_number
+                "control_number": request.form.get('petControlNumber', ''),
                 'medical history': request.form.get('petMedicalHistoryInput', ''),
                 'vaccination date': request.form.get('vaccinationDateInput', ''),
                 'vet check-up date': request.form.get('vetCheckupDateInput', ''),
