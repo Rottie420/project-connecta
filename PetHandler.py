@@ -87,8 +87,7 @@ class PetHandler:
     def pet_profile_view(self, control_number):
         return self.handle_pet_profile(control_number, 'pet-profile-view.html')
 
-    def update_pet_profile():
-        # Distinguish between JSON and FormData requests
+    def update_pet_profile(self):
         if request.content_type.startswith('multipart/form-data'):
             data = request.form.to_dict()
             file = request.files.get('photo')
@@ -100,12 +99,11 @@ class PetHandler:
 
         control_number = data.get('control_number')
         
-        if not control_number or control_number not in pets:
+        if not control_number or control_number not in self.pets:
             return jsonify({"success": False, "message": "Pet not found"}), 404
 
-        pet = pets.get(control_number, {})
+        pet = self.pets.get(control_number, {})
 
-        # Update pet details
         pet.update({
             'petname': data.get('petname', pet.get('petname')),
             'petage': data.get('petage', pet.get('petage')),
@@ -115,7 +113,6 @@ class PetHandler:
             'address': data.get('address', pet.get('address'))
         })
 
-        # Handle file upload if a photo is included
         if file and FileHandler.allowed_file(file.filename):
             try:
                 pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
@@ -125,10 +122,10 @@ class PetHandler:
         elif file:
             return jsonify({"success": False, "message": "Invalid file type"}), 400
 
-        # Save updated data
-        pets[control_number] = pet
+        self.pets[control_number] = pet
+        self.save_pets()
 
-    return jsonify({"success": True})
+        return jsonify({"success": True})
 
     def update_medical_history(self, data):
         control_number = data.get('control_number')
