@@ -359,11 +359,11 @@
           body: isFormData ? data : JSON.stringify(data)
         };
         
-        // Set Content-Type only if data is not FormData
+        // Only set Content-Type if data is not FormData
         if (!isFormData) {
           options.headers = { 'Content-Type': 'application/json' };
         }
-    
+
         fetch(url, options)
           .then(response => {
             if (!response.ok) throw new Error('Network response was not ok');
