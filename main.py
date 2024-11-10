@@ -37,34 +37,33 @@ def smart_nfc_sticker():
 def smart_nfc_wearables():
     return render_page_with_logging('smart-nfc-wearables.html', "Smart NFC Wearables")
 
-@app.route('/pet-profile-edit/<control_number>/<type>', methods=['GET', 'POST'])
-def pet_profile_edit(control_number, type):
-    if not control_number.isdigit():
-        return jsonify({"success": False, "message": "Invalid control number"}), 400
+@app.route('/pet/<control_number>/edit', methods=['GET', 'POST'])
+def pet_profile_edit(control_number):
+    return pet_handler.pet_profile_edit(control_number)
 
-    # Based on the type (profile, medicalHistory, etc.), call the respective handler method
-    if type == 'profile':
-        result = pet_handler.update_pet_profile(data, control_number)
-    elif type == 'medicalHistory':
-        result = pet_handler.update_medical_history(data, control_number)
-    elif type == 'careReminders':
-        result = pet_handler.update_care_reminders(data, control_number)
-    elif type == 'activityLog':
-        result = pet_handler.update_activity_log(data, control_number)
-    else:
-        return jsonify({"success": False, "message": "Unknown profile type"}), 400
-
-    # If the update was successful, return a success message
-    if result:
-        return jsonify({"success": True, "message": f"{type} updated successfully!"})
-    else:
-        return jsonify({"success": False, "message": f"Failed to update {type}"}), 500
-
-
-
-@app.route('/pet-profile-view/<control_number>', methods=['GET', 'POST'])
-def pet_profile_view(control_number=None):
+@app.route('/pet/<control_number>/view', methods=['GET'])
+def pet_profile_view(control_number):
     return pet_handler.pet_profile_view(control_number)
+
+@app.route('/api/pet/update', methods=['POST'])
+def update_pet_profile():
+    data = request.json
+    return pet_handler.update_pet_profile(data)
+
+@app.route('/api/pet/update/medical', methods=['POST'])
+def update_medical_history():
+    data = request.json
+    return pet_handler.update_medical_history(data)
+
+@app.route('/api/pet/update/care', methods=['POST'])
+def update_care_reminders():
+    data = request.json
+    return pet_handler.update_care_reminders(data)
+
+@app.route('/api/pet/update/activity', methods=['POST'])
+def update_activity_log():
+    data = request.json
+    return pet_handler.update_activity_log(data)
 
 @app.route('/consult-now', methods=['GET', 'POST'])
 def consult_now():
