@@ -352,43 +352,11 @@
 
 
     <script>
-      // Helper function to handle form submissions and send data to the server
-      function handleFormSubmission(formId, url, data, isFormData = false) {
-        const options = {
-          method: 'POST',
-          body: isFormData ? data : JSON.stringify(data)
-        };
-        
-        // Only set Content-Type if data is not FormData
-        if (!isFormData) {
-          options.headers = { 'Content-Type': 'application/json' };
-        }
-
-        fetch(url, options)
-          .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.json();
-          })
-          .then(responseData => {
-            if (responseData.success) {
-              alert('Data saved successfully!');
-              location.reload();
-            } else {
-              alert('Failed to save data. Please try again.');
-            }
-          })
-          .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while saving the data.');
-          });
-      }
-    
-      // Handling profile form submission
+      // For the 'profile' form
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
     
         const petData = {
-          control_number: document.getElementById('controlNumberInput').value,
           petname: document.getElementById('nameInput').value,
           petage: document.getElementById('ageInput').value,
           petbreed: document.getElementById('breedInput').value,
@@ -397,58 +365,74 @@
           address: document.getElementById('addressInput').value,
         };
     
-        const photoInput = document.getElementById('photo');
-        if (photoInput && photoInput.files.length > 0) {
-          const formData = new FormData();
-          Object.entries(petData).forEach(([key, value]) => formData.append(key, value));
-          formData.append('photo', photoInput.files[0]);
-    
-          handleFormSubmission('profileForm', '/api/pet/update', formData, true);
-        } else {
-          handleFormSubmission('profileForm', '/api/pet/update', petData);
-        }
+        const controlNumber = document.getElementById('controlNumberInput').value;  // Make sure to get control number from a form field
+        savePetData(`/pet/${controlNumber}/edit`, 'POST', petData);  // Adjusted URL to match Flask route
       });
     
-      // Handling medical history form submission
+      // For the 'medicalHistory' form
       document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
         e.preventDefault();
     
         const medicalData = {
-          control_number: document.getElementById('controlNumberInput').value,
           vaccination_date: document.getElementById('vaccinationDateInput').value,
           vet_checkup_date: document.getElementById('vetCheckupDateInput').value,
           allergy_status: document.getElementById('allergyStatusInput').value,
         };
     
-        handleFormSubmission('medicalHistoryForm', '/api/pet/update/medical', medicalData);
+        const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
+        savePetData(`/api/pet/update/medical`, 'POST', { control_number: controlNumber, ...medicalData });  // Adjusted URL for medical history update
       });
     
-      // Handling care reminders form submission
+      // For the 'careReminders' form
       document.getElementById('careRemindersForm').addEventListener('submit', function (e) {
         e.preventDefault();
     
         const careData = {
-          control_number: document.getElementById('controlNumberInput').value,
           feed_time: document.getElementById('feedTimeInput').value,
           walk_time: document.getElementById('walkTimeInput').value,
           vet_appointment_date: document.getElementById('vetAppointmentDateInput').value,
         };
     
-        handleFormSubmission('careRemindersForm', '/api/pet/update/care', careData);
+        const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
+        savePetData(`/api/pet/update/care`, 'POST', { control_number: controlNumber, ...careData });  // Adjusted URL for care reminders update
       });
     
-      // Handling activity log form submission
+      // For the 'activityLog' form
       document.getElementById('activityLogForm').addEventListener('submit', function (e) {
         e.preventDefault();
     
         const activityData = {
-          control_number: document.getElementById('controlNumberInput').value,
           walk_distance: document.getElementById('walkDistanceInput').value,
           last_activity: document.getElementById('activityInput').value,
         };
     
-        handleFormSubmission('activityLogForm', '/api/pet/update/activity', activityData);
+        const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
+        savePetData(`/api/pet/update/activity`, 'POST', { control_number: controlNumber, ...activityData });  // Adjusted URL for activity log update
       });
+    
+      // Function to save pet data using Fetch API
+      function savePetData(url, method, data) {
+        fetch(url, {  
+          method: method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),  // Send data as a JSON string
+        })
+        .then(response => response.json())
+        .then(responseData => {
+          if (responseData.success) {
+            alert(`${data.control_number ? 'Updated' : 'Saved'} successfully!`);
+            location.reload()
+          } else {
+            alert(`Error updating data`);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while updating the pet data.');
+        });
+      }
     </script>
        
   <!-- Bootstrap JS and dependencies -->

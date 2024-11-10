@@ -106,12 +106,25 @@ class PetHandler:
             'address': data.get('address', pet.get('address'))
         })
 
-        # Handle file upload if photo exists in files
+        control_number = pet_data["control_number"]
+                
+        # Validate control number
+        if not self.is_valid_control_number(control_number):
+            return render_template(template, pet=pet, error="Invalid or duplicate control number")
+
+        # Handle file upload
         if 'photo' in request.files:
             file = request.files['photo']
+            if file.filename == '':
+                return render_template(template, pet=pet, error="No selected file")
             if file and FileHandler.allowed_file(file.filename):
-                photo_path = FileHandler.save_and_convert_image(file, control_number)
-                pet['photo'] = photo_path  # Save the new photo path
+                try:
+                    pet_data['photo'] = FileHandler.save_and_convert_image(file, control_number)
+                except Exception as e:
+                    Logger.log(f"Error saving or converting image: {e}")
+                    return render_template(template, pet=pet, error="Failed to convert image.")
+            else:
+                return render_template(template, pet=pet, error="Invalid file type")
 
         # Save the updated pet data
         self.pets[control_number] = pet
