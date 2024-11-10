@@ -352,6 +352,7 @@
 
     <script>
       // For the 'profile' form
+      // For the 'profile' form
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -366,8 +367,8 @@
 
         const controlNumber = document.getElementById('controlNumberInput').value; // Make sure to get control number from a form field
         
-        const photoInput = document.getElementById('photoInput');
-        
+        const photoInput = document.getElementById('photo');  // Corrected here to match the HTML
+
         if (photoInput && photoInput.files.length > 0) { // Check if photoInput exists and contains files
           const formData = new FormData();
           formData.append('control_number', controlNumber);

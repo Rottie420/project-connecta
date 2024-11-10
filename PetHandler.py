@@ -89,7 +89,7 @@ class PetHandler:
     def update_pet_profile(self, data):
         control_number = data.get('control_number')
         if not control_number or control_number not in self.pets:
-            return jsonify({"success": False, "message": "Pet not found"}), 404
+            return {"success": False, "message": "Pet not found"}, 404
 
         pet = self.pets[control_number]
 
@@ -100,13 +100,17 @@ class PetHandler:
         pet['email'] = data.get('email', pet.get('email'))
         pet['phone'] = data.get('phone', pet.get('phone'))
         pet['address'] = data.get('address', pet.get('address'))
-   
+
+        # Update the pet's photo path if a new one was uploaded
+        if data.get('photo'):
+            pet['photo'] = data.get('photo')  # Save the photo path or filename
 
         # Save the updated data
         self.pets[control_number] = pet
         self.save_pets()
 
-        return jsonify({"success": True})
+        return {"success": True}
+
 
     def update_medical_history(self, data):
         control_number = data.get('control_number')
