@@ -3,7 +3,7 @@ import os
 from config import JSON_FILE_PATH
 from Logger import Logger
 from FileHandler import FileHandler
-from flask import request, render_template
+from flask import request, render_template, jsonify
 
 class PetHandler:
     def __init__(self, json_file_path=JSON_FILE_PATH):
@@ -89,7 +89,8 @@ class PetHandler:
     def update_pet_profile(self, data):
         control_number = data.get('control_number')
         if not control_number or control_number not in self.pets:
-            return {"success": False, "message": "Pet not found"}
+            # Return a JSON response with a failure message and success flag
+            return jsonify({"success": False, "message": "Pet not found"}), 404
 
         pet = self.pets[control_number]
 
@@ -114,4 +115,5 @@ class PetHandler:
         self.pets[control_number] = pet
         self.save_pets()
 
-        return {"success": True}
+        # Return a JSON response indicating success
+        return jsonify({"success": True})
