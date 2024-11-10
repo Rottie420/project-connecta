@@ -351,108 +351,109 @@
     </div>
 
 
-  <script>
-    // Helper function to handle form submissions and send data to the server
-    function handleFormSubmission(formId, url, data, isFormData = false) {
-      const options = {
-        method: 'POST',
-        body: isFormData ? data : JSON.stringify(data)
-      };
+    <script>
+      // Helper function to handle form submissions and send data to the server
+      function handleFormSubmission(formId, url, data, isFormData = false) {
+        const options = {
+          method: 'POST',
+          body: isFormData ? data : JSON.stringify(data)
+        };
+        
+        // Only set Content-Type if data is not FormData
+        if (!isFormData) {
+          options.headers = { 'Content-Type': 'application/json' };
+        }
       
-      // Only set Content-Type if data is not FormData
-      if (!isFormData) {
-        options.headers = { 'Content-Type': 'application/json' };
+        fetch(url, options)
+          .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+          })
+          .then(responseData => {
+            if (responseData.success) {
+              alert('Data saved successfully!');
+              location.reload();
+            } else {
+              alert('Failed to save data. Please try again.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while saving the data.');
+          });
       }
     
-      fetch(url, options)
-        .then(response => {
-          if (!response.ok) throw new Error('Network response was not ok');
-          return response.json();
-        })
-        .then(responseData => {
-          if (responseData.success) {
-            alert('Data saved successfully!');
-            location.reload();
-          } else {
-            alert('Failed to save data. Please try again.');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('An error occurred while saving the data.');
-        });
-    }
+      // Handling profile form submission with file upload
+      document.getElementById('profileForm').addEventListener('submit', function (e) {
+        e.preventDefault();
     
-    // Handling profile form submission with file upload
-    document.getElementById('profileForm').addEventListener('submit', function (e) {
-      e.preventDefault();
+        // Retrieve form fields for profile update
+        const petData = {
+          control_number: document.getElementById('controlNumberInput').value,
+          petname: document.getElementById('nameInput').value,
+          petage: document.getElementById('ageInput').value,
+          petbreed: document.getElementById('breedInput').value,
+          email: document.getElementById('emailInput').value,
+          phone: document.getElementById('phoneInput').value,
+          address: document.getElementById('addressInput').value,
+        };
     
-      const petData = {
-        control_number: document.getElementById('controlNumberInput').value,
-        petname: document.getElementById('nameInput').value,
-        petage: document.getElementById('ageInput').value,
-        petbreed: document.getElementById('breedInput').value,
-        email: document.getElementById('emailInput').value,
-        phone: document.getElementById('phoneInput').value,
-        address: document.getElementById('addressInput').value,
-      };
+        const photoInput = document.getElementById('photo');
+        const formData = new FormData();
     
-      const photoInput = document.getElementById('photo');
-      const formData = new FormData();
+        // Append pet data to FormData
+        Object.entries(petData).forEach(([key, value]) => formData.append(key, value));
     
-      // Append pet data to FormData
-      Object.entries(petData).forEach(([key, value]) => formData.append(key, value));
+        // Append the photo file if it exists
+        if (photoInput && photoInput.files.length > 0) {
+          formData.append('photo', photoInput.files[0]);
+        }
     
-      // If there's a file to upload, append it as well
-      if (photoInput && photoInput.files.length > 0) {
-        formData.append('photo', photoInput.files[0]);
-      }
+        // Use FormData for multipart/form-data
+        handleFormSubmission('profileForm', '/api/pet/update', formData, true);
+      });
     
-      // Use FormData for multipart/form-data
-      handleFormSubmission('profileForm', '/api/pet/update', formData, true);
-    });
+      // Handling medical history form submission (JSON data only)
+      document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
+        e.preventDefault();
     
-    // Handling medical history form submission (JSON data only)
-    document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
-      e.preventDefault();
+        const medicalData = {
+          control_number: document.getElementById('controlNumberInput').value,
+          vaccination_date: document.getElementById('vaccinationDateInput').value,
+          vet_checkup_date: document.getElementById('vetCheckupDateInput').value,
+          allergy_status: document.getElementById('allergyStatusInput').value,
+        };
     
-      const medicalData = {
-        control_number: document.getElementById('controlNumberInput').value,
-        vaccination_date: document.getElementById('vaccinationDateInput').value,
-        vet_checkup_date: document.getElementById('vetCheckupDateInput').value,
-        allergy_status: document.getElementById('allergyStatusInput').value,
-      };
+        handleFormSubmission('medicalHistoryForm', '/api/pet/update/medical', medicalData);
+      });
     
-      handleFormSubmission('medicalHistoryForm', '/api/pet/update/medical', medicalData);
-    });
+      // Handling care reminders form submission (JSON data only)
+      document.getElementById('careRemindersForm').addEventListener('submit', function (e) {
+        e.preventDefault();
     
-    // Handling care reminders form submission (JSON data only)
-    document.getElementById('careRemindersForm').addEventListener('submit', function (e) {
-      e.preventDefault();
+        const careData = {
+          control_number: document.getElementById('controlNumberInput').value,
+          feed_time: document.getElementById('feedTimeInput').value,
+          walk_time: document.getElementById('walkTimeInput').value,
+          vet_appointment_date: document.getElementById('vetAppointmentDateInput').value,
+        };
     
-      const careData = {
-        control_number: document.getElementById('controlNumberInput').value,
-        feed_time: document.getElementById('feedTimeInput').value,
-        walk_time: document.getElementById('walkTimeInput').value,
-        vet_appointment_date: document.getElementById('vetAppointmentDateInput').value,
-      };
+        handleFormSubmission('careRemindersForm', '/api/pet/update/care', careData);
+      });
     
-      handleFormSubmission('careRemindersForm', '/api/pet/update/care', careData);
-    });
+      // Handling activity log form submission (JSON data only)
+      document.getElementById('activityLogForm').addEventListener('submit', function (e) {
+        e.preventDefault();
     
-    // Handling activity log form submission (JSON data only)
-    document.getElementById('activityLogForm').addEventListener('submit', function (e) {
-      e.preventDefault();
+        const activityData = {
+          control_number: document.getElementById('controlNumberInput').value,
+          walk_distance: document.getElementById('walkDistanceInput').value,
+          last_activity: document.getElementById('activityInput').value,
+        };
     
-      const activityData = {
-        control_number: document.getElementById('controlNumberInput').value,
-        walk_distance: document.getElementById('walkDistanceInput').value,
-        last_activity: document.getElementById('activityInput').value,
-      };
-    
-      handleFormSubmission('activityLogForm', '/api/pet/update/activity', activityData);
-    });
-  </script>      
+        handleFormSubmission('activityLogForm', '/api/pet/update/activity', activityData);
+      });
+    </script>          
        
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
