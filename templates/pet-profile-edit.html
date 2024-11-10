@@ -234,7 +234,8 @@
               </div>
               <div class="mb-3">
                 <label for="nameInput" class="form-label">Pet Name</label>
-                <input type="text" class="form-control" id="nameInput" value="{{ pet.name }}">
+                <input type="text" class="form-control" id="nameInput" value="{{ pet.petname }}">
+
               </div>
               <div class="mb-3">
                 <label for="ageInput" class="form-label">Age</label>
@@ -352,7 +353,6 @@
 
     <script>
       // For the 'profile' form
-      // For the 'profile' form
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
@@ -366,7 +366,6 @@
         };
 
         const controlNumber = document.getElementById('controlNumberInput').value; // Make sure to get control number from a form field
-        
         const photoInput = document.getElementById('photo');  // Corrected here to match the HTML
 
         if (photoInput && photoInput.files.length > 0) { // Check if photoInput exists and contains files

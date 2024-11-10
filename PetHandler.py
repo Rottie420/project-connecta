@@ -62,21 +62,22 @@ class PetHandler:
                 return render_template(template, pet=pet, error="Invalid or duplicate control number")
 
             # Handle file upload
-            if 'photo' not in request.files:
-                return render_template(template, pet=pet, error="No file part")
-            file = request.files['photo']
-            if file.filename == '':
-                return render_template(template, pet=pet, error="No selected file")
-            if file and FileHandler.allowed_file(file.filename):
-                try:
-                    pet_data['photo'] = FileHandler.save_and_convert_image(file, control_number)
-                except Exception as e:
-                    Logger.log(f"Error saving or converting image: {e}")
-                    return render_template(template, pet=pet, error="Failed to convert image.")
+            if 'photo' in request.files:
+                file = request.files['photo']
+                if file.filename == '':
+                    return render_template(template, pet=pet, error="No selected file")
+                if file and FileHandler.allowed_file(file.filename):
+                    try:
+                        pet_data['photo'] = FileHandler.save_and_convert_image(file, control_number)
+                    except Exception as e:
+                        Logger.log(f"Error saving or converting image: {e}")
+                        return render_template(template, pet=pet, error="Failed to convert image.")
+                else:
+                    return render_template(template, pet=pet, error="Invalid file type")
 
-                # Save pet data
-                self.pets[control_number] = pet_data
-                self.save_pets()
+            # Save pet data
+            self.pets[control_number] = pet_data
+            self.save_pets()
         
         return render_template(template, pet=pet)
 

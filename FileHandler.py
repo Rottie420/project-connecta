@@ -30,3 +30,4 @@ class FileHandler:
         finally:
             os.remove(original_path)  # Clean up original file
         return f"{UPLOAD_FOLDER}/{webp_filename}"
+        
