@@ -418,6 +418,7 @@
         .then(responseData => {
           if (responseData.success) {
             alert(`${data.control_number ? 'Updated' : 'Saved'} successfully!`);
+            location.reload()
           } else {
             alert(`Error updating data`);
           }
