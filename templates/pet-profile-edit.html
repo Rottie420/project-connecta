@@ -352,10 +352,43 @@
 
 
     <script>
+      // Helper function to handle form submissions and send data to the server
+      function handleFormSubmission(formId, url, data, isFormData = false) {
+        const options = {
+          method: 'POST',
+          body: isFormData ? data : JSON.stringify(data)
+        };
+        
+        // Set Content-Type only if data is not FormData
+        if (!isFormData) {
+          options.headers = { 'Content-Type': 'application/json' };
+        }
+    
+        fetch(url, options)
+          .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+          })
+          .then(responseData => {
+            if (responseData.success) {
+              alert('Data saved successfully!');
+              location.reload();
+            } else {
+              alert('Failed to save data. Please try again.');
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while saving the data.');
+          });
+      }
+    
+      // Handling profile form submission
       document.getElementById('profileForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
+    
         const petData = {
+          control_number: document.getElementById('controlNumberInput').value,
           petname: document.getElementById('nameInput').value,
           petage: document.getElementById('ageInput').value,
           petbreed: document.getElementById('breedInput').value,
@@ -363,98 +396,61 @@
           phone: document.getElementById('phoneInput').value,
           address: document.getElementById('addressInput').value,
         };
-
-        const controlNumber = document.getElementById('controlNumberInput').value; // Make sure to get control number from a form field
-        const photoInput = document.getElementById('photo');  // Corrected here to match the HTML
-
-        if (photoInput && photoInput.files.length > 0) { // Check if photoInput exists and contains files
+    
+        const photoInput = document.getElementById('photo');
+        if (photoInput && photoInput.files.length > 0) {
           const formData = new FormData();
-          formData.append('control_number', controlNumber);
-          formData.append('petname', petData.petname);
-          formData.append('petage', petData.petage);
-          formData.append('petbreed', petData.petbreed);
-          formData.append('email', petData.email);
-          formData.append('phone', petData.phone);
-          formData.append('address', petData.address);
+          Object.entries(petData).forEach(([key, value]) => formData.append(key, value));
           formData.append('photo', photoInput.files[0]);
-
-          // Pass formData directly when there’s a photo
-          savePetData(`/api/pet/update`, 'POST', formData);
+    
+          handleFormSubmission('profileForm', '/api/pet/update', formData, true);
         } else {
-          // If no photo is uploaded, send regular JSON data
-          savePetData(`/api/pet/update`, 'POST', { control_number: controlNumber, ...petData });
+          handleFormSubmission('profileForm', '/api/pet/update', petData);
         }
       });
-
-  
-      // For the 'medicalHistory' form
+    
+      // Handling medical history form submission
       document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
         e.preventDefault();
     
         const medicalData = {
+          control_number: document.getElementById('controlNumberInput').value,
           vaccination_date: document.getElementById('vaccinationDateInput').value,
           vet_checkup_date: document.getElementById('vetCheckupDateInput').value,
           allergy_status: document.getElementById('allergyStatusInput').value,
         };
     
-        const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
-        savePetData(`/api/pet/update/medical`, 'POST', { control_number: controlNumber, ...medicalData });  // Adjusted URL for medical history update
+        handleFormSubmission('medicalHistoryForm', '/api/pet/update/medical', medicalData);
       });
     
-      // For the 'careReminders' form
+      // Handling care reminders form submission
       document.getElementById('careRemindersForm').addEventListener('submit', function (e) {
         e.preventDefault();
     
         const careData = {
+          control_number: document.getElementById('controlNumberInput').value,
           feed_time: document.getElementById('feedTimeInput').value,
           walk_time: document.getElementById('walkTimeInput').value,
           vet_appointment_date: document.getElementById('vetAppointmentDateInput').value,
         };
     
-        const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
-        savePetData(`/api/pet/update/care`, 'POST', { control_number: controlNumber, ...careData });  // Adjusted URL for care reminders update
+        handleFormSubmission('careRemindersForm', '/api/pet/update/care', careData);
       });
     
-      // For the 'activityLog' form
+      // Handling activity log form submission
       document.getElementById('activityLogForm').addEventListener('submit', function (e) {
         e.preventDefault();
     
         const activityData = {
+          control_number: document.getElementById('controlNumberInput').value,
           walk_distance: document.getElementById('walkDistanceInput').value,
           last_activity: document.getElementById('activityInput').value,
         };
     
-        const controlNumber = document.getElementById('controlNumberInput').value;  // Ensure you get the control number
-        savePetData(`/api/pet/update/activity`, 'POST', { control_number: controlNumber, ...activityData });  // Adjusted URL for activity log update
+        handleFormSubmission('activityLogForm', '/api/pet/update/activity', activityData);
       });
-    
-      // Function to save pet data using Fetch API
-      function savePetData(url, method, data) {
-        fetch(url, {  
-          method: method,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),  // Send data as a JSON string
-        })
-        .then(response => response.json())
-        .then(responseData => {
-          if (responseData.success) {
-            alert(`${data.control_number ? 'Updated' : 'Saved'} successfully!`);
-            location.reload()
-          } else {
-            alert(`Error updating data`);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          alert('An error occurred while updating the pet data.');
-        });
-      }
     </script>
-    
-    
-    
+       
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
