@@ -87,26 +87,33 @@ class PetHandler:
     def pet_profile_view(self, control_number):
         return self.handle_pet_profile(control_number, 'pet-profile-view.html')
 
-    def update_pet_profile(self, data):
+    def update_pet_profile(self):
+        data = request.form.to_dict()  # Handles text fields from FormData
         control_number = data.get('control_number')
+        
         if not control_number or control_number not in self.pets:
             return {"success": False, "message": "Pet not found"}, 404
-
+        
         pet = self.pets[control_number]
 
-        # Update pet details based on the received data
-        pet['petname'] = data.get('petname', pet.get('petname'))
-        pet['petage'] = data.get('petage', pet.get('petage'))
-        pet['petbreed'] = data.get('petbreed', pet.get('petbreed'))
-        pet['email'] = data.get('email', pet.get('email'))
-        pet['phone'] = data.get('phone', pet.get('phone'))
-        pet['address'] = data.get('address', pet.get('address'))
+        # Update pet details
+        pet.update({
+            'petname': data.get('petname', pet.get('petname')),
+            'petage': data.get('petage', pet.get('petage')),
+            'petbreed': data.get('petbreed', pet.get('petbreed')),
+            'email': data.get('email', pet.get('email')),
+            'phone': data.get('phone', pet.get('phone')),
+            'address': data.get('address', pet.get('address'))
+        })
 
-        # Update the pet's photo path if a new one was uploaded
-        if data.get('photo'):
-            pet['photo'] = data.get('photo')  # Save the photo path or filename
+        # Handle file upload if photo exists in files
+        if 'photo' in request.files:
+            file = request.files['photo']
+            if file and FileHandler.allowed_file(file.filename):
+                photo_path = FileHandler.save_and_convert_image(file, control_number)
+                pet['photo'] = photo_path  # Save the new photo path
 
-        # Save the updated data
+        # Save the updated pet data
         self.pets[control_number] = pet
         self.save_pets()
 
