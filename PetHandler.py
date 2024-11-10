@@ -89,7 +89,6 @@ class PetHandler:
 
     def update_pet_profile(self):
         """Update the pet profile with data from the form or JSON request."""
-        # Check for valid content type
         if request.content_type.startswith('multipart/form-data'):
             data = request.form.to_dict()
             file = request.files.get('photo')
@@ -97,7 +96,6 @@ class PetHandler:
             data = request.get_json()
             file = None
         else:
-            # Return error for unsupported media types
             Logger.log(f"Unsupported media type encountered: {request.content_type}")
             return jsonify({"success": False, "message": "Unsupported Media Type"}), 415
 
@@ -118,7 +116,7 @@ class PetHandler:
             'address': data.get('address', pet.get('address'))
         })
 
-        # Handle file upload and conversion (check for file and its validity)
+        # Handle file upload and conversion
         if file:
             if FileHandler.allowed_file(file.filename):
                 try:
