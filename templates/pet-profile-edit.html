@@ -226,7 +226,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="profileForm">
               <div class="mb-3">
                 <label for="nameInput" class="form-label">Pet Name</label>
                 <input type="text" class="form-control" id="nameInput" value="{{ pet.name }}">
@@ -267,7 +267,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="medicalHistoryForm">
               <div class="mb-3">
                 <label for="vaccinationDateInput" class="form-label">Vaccination Date</label>
                 <input type="date" class="form-control" id="vaccinationDateInput">
@@ -296,7 +296,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="careRemindersForm">
               <div class="mb-3">
                 <label for="feedTimeInput" class="form-label">Feed Time</label>
                 <input type="time" class="form-control" id="feedTimeInput">
@@ -325,7 +325,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form id="activityLogForm">
               <div class="mb-3">
                 <label for="walkDistanceInput" class="form-label">Walk Distance</label>
                 <input type="text" class="form-control" id="walkDistanceInput">
@@ -340,9 +340,81 @@
         </div>
       </div>
     </div>
-  </div>
 
 
+  <script>
+    document.getElementById('profileForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      
+      const petData = {
+        petname: document.getElementById('nameInput').value,
+        petage: document.getElementById('ageInput').value,
+        petbreed: document.getElementById('breedInput').value,
+        email: document.getElementById('emailInput').value,
+        phone: document.getElementById('phoneInput').value,
+        address: document.getElementById('addressInput').value,
+      };
+
+      savePetData('profile', petData);
+    });
+
+    document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      
+      const medicalData = {
+        vaccination_date: document.getElementById('vaccinationDateInput').value,
+        vet_checkup_date: document.getElementById('vetCheckupDateInput').value,
+        allergy_status: document.getElementById('allergyStatusInput').value,
+      };
+
+      savePetData('medicalHistory', medicalData);
+    });
+
+    document.getElementById('careRemindersForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      
+      const careData = {
+        feed_time: document.getElementById('feedTimeInput').value,
+        walk_time: document.getElementById('walkTimeInput').value,
+        vet_appointment_date: document.getElementById('vetAppointmentDateInput').value,
+      };
+
+      savePetData('careReminders', careData);
+    });
+
+    document.getElementById('activityLogForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      
+      const activityData = {
+        walk_distance: document.getElementById('walkDistanceInput').value,
+        last_activity: document.getElementById('activityInput').value,
+      };
+
+      savePetData('activityLog', activityData);
+    });
+
+    function savePetData(type, data) {
+      // Send AJAX request to update pet profile
+      fetch(`/pet-profile-edit/${type}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(`${type} updated successfully!`);
+        } else {
+          alert(`Error updating ${type}`);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    }
+
+  </script>
+  
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
