@@ -24,3 +24,11 @@
 06-11-2024 18:40:05 : Book demo error: 'dict' object has no attribute 'append'
 06-11-2024 18:41:42 : Book demo error: 'dict' object has no attribute 'append'
 06-11-2024 18:41:43 : Book demo error: 'dict' object has no attribute 'append'
+08-11-2024 23:38:13 : edit pet profile error: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+08-11-2024 23:43:42 : edit pet profile error: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+08-11-2024 23:45:29 : edit pet profile error: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+08-11-2024 23:45:30 : edit pet profile error: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+08-11-2024 23:45:31 : edit pet profile error: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+08-11-2024 23:45:31 : edit pet profile error: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
+09-11-2024 06:46:59 : Error loading pets data: name 'os' is not defined
+09-11-2024 06:46:59 : Error loading pets data: name 'os' is not defined

@@ -16,7 +16,7 @@
         "walk time": "10:00 AM",
         "vet appointment date": "Feb 2025",
         "walk distance": "01",
-        "last activity": "Play Dead" 
+        "last activity": "Play Dead"
     },
     "02": {
         "photo": "uploads/03.webp",
@@ -35,7 +35,7 @@
         "walk time": "10:00 AM",
         "vet appointment date": "Feb 2025",
         "walk distance": "01",
-        "last activity": "Play Dead" 
+        "last activity": "Play Dead"
     },
     "03": {
         "photo": "uploads/03.webp",
@@ -47,13 +47,13 @@
         "address": "520740, singapore",
         "control_number": "03",
         "medical_history": "Allergy Free",
-        "vaccination_date": "Jan 2024",
-        "vet_checkup_date": "Feb 2025",
-        "allergy_status": "Allergy Free",
-        "feed_time": "08:00 AM",
-        "walk_time": "10:00 AM",
-        "vet_appointment_date": "Feb 2025",
-        "walk_distance": "01",
-        "last_activity": "Play Dead" 
+        "vaccination_date": "2024-11-16",
+        "vet_checkup_date": "2024-11-21",
+        "allergy_status": "None",
+        "feed_time": "13:19",
+        "walk_time": "14:30",
+        "vet_appointment_date": "2024-11-26",
+        "walk_distance": "10",
+        "last_activity": "Sleep"
     }
 }
