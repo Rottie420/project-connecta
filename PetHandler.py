@@ -89,25 +89,70 @@ class PetHandler:
     def update_pet_profile(self, data):
         control_number = data.get('control_number')
         if not control_number or control_number not in self.pets:
-            # Return a JSON response with a failure message and success flag
             return jsonify({"success": False, "message": "Pet not found"}), 404
 
         pet = self.pets[control_number]
 
-        # Update pet details
+        # Update pet details based on the received data
         pet['petname'] = data.get('petname', pet.get('petname'))
         pet['petage'] = data.get('petage', pet.get('petage'))
         pet['petbreed'] = data.get('petbreed', pet.get('petbreed'))
         pet['email'] = data.get('email', pet.get('email'))
         pet['phone'] = data.get('phone', pet.get('phone'))
         pet['address'] = data.get('address', pet.get('address'))
+   
+
+        # Save the updated data
+        self.pets[control_number] = pet
+        self.save_pets()
+
+        return jsonify({"success": True})
+
+    def update_medical_history(self, data):
+        control_number = data.get('control_number')
+        if not control_number or control_number not in self.pets:
+            return jsonify({"success": False, "message": "Pet not found"}), 404
+
+        pet = self.pets[control_number]
+
+        # Update medical history data
         pet['medical_history'] = data.get('medical_history', pet.get('medical_history'))
         pet['vaccination_date'] = data.get('vaccination_date', pet.get('vaccination_date'))
         pet['vet_checkup_date'] = data.get('vet_checkup_date', pet.get('vet_checkup_date'))
         pet['allergy_status'] = data.get('allergy_status', pet.get('allergy_status'))
+
+        # Save updated pet data
+        self.pets[control_number] = pet
+        self.save_pets()
+
+        return jsonify({"success": True})
+
+    def update_care_reminders(self, data):
+        control_number = data.get('control_number')
+        if not control_number or control_number not in self.pets:
+            return jsonify({"success": False, "message": "Pet not found"}), 404
+
+        pet = self.pets[control_number]
+
+        # Update care reminder data
         pet['feed_time'] = data.get('feed_time', pet.get('feed_time'))
         pet['walk_time'] = data.get('walk_time', pet.get('walk_time'))
         pet['vet_appointment_date'] = data.get('vet_appointment_date', pet.get('vet_appointment_date'))
+
+        # Save updated pet data
+        self.pets[control_number] = pet
+        self.save_pets()
+
+        return jsonify({"success": True})
+
+    def update_activity_log(self, data):
+        control_number = data.get('control_number')
+        if not control_number or control_number not in self.pets:
+            return jsonify({"success": False, "message": "Pet not found"}), 404
+
+        pet = self.pets[control_number]
+
+        # Update activity log data
         pet['walk_distance'] = data.get('walk_distance', pet.get('walk_distance'))
         pet['last_activity'] = data.get('last_activity', pet.get('last_activity'))
 
@@ -115,5 +160,5 @@ class PetHandler:
         self.pets[control_number] = pet
         self.save_pets()
 
-        # Return a JSON response indicating success
         return jsonify({"success": True})
+

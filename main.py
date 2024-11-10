@@ -37,9 +37,31 @@ def smart_nfc_sticker():
 def smart_nfc_wearables():
     return render_page_with_logging('smart-nfc-wearables.html', "Smart NFC Wearables")
 
-@app.route('/pet-profile-edit/<control_number>', methods=['GET', 'POST'])
-def pet_profile_edit(control_number=None):
-    return pet_handler.pet_profile_edit(control_number)
+@app.route('/pet-profile-edit/<control_number>/<type>', methods=['POST'])
+def pet_profile_edit(control_number, type):
+    data = request.get_json()
+    pet_handler = PetHandler()
+
+    # Make sure control_number is valid (numeric or whatever validation you need)
+    if not control_number.isdigit():
+        return jsonify({"success": False, "message": "Invalid control number"}), 400
+
+    # Based on the type (profile, medicalHistory, etc.), call the respective handler method
+    if type == 'profile':
+        return pet_handler.update_pet_profile(data, control_number)
+
+    elif type == 'medicalHistory':
+        return pet_handler.update_medical_history(data, control_number)
+
+    elif type == 'careReminders':
+        return pet_handler.update_care_reminders(data, control_number)
+
+    elif type == 'activityLog':
+        return pet_handler.update_activity_log(data, control_number)
+
+    # If the type is unknown, return an error message
+    return jsonify({"success": False, "message": "Unknown profile type"}), 400
+
 
 @app.route('/pet-profile-view/<control_number>', methods=['GET', 'POST'])
 def pet_profile_view(control_number=None):
