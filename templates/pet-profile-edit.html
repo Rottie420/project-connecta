@@ -365,10 +365,10 @@
         };
 
         const controlNumber = document.getElementById('controlNumberInput').value; // Make sure to get control number from a form field
-
-        // Check if the file input has a file, if so, append it to the data
+        
         const photoInput = document.getElementById('photoInput');
-        if (photoInput.files.length > 0) {
+        
+        if (photoInput && photoInput.files.length > 0) { // Check if photoInput exists and contains files
           const formData = new FormData();
           formData.append('control_number', controlNumber);
           formData.append('petname', petData.petname);
@@ -380,9 +380,8 @@
           formData.append('photo', photoInput.files[0]);
 
           savePetData(`/pet/${controlNumber}/edit`, 'POST', formData); // Adjusted URL to match Flask route
-
         } else {
-          // If no photo is uploaded, use the original data
+          // If no photo is uploaded, use the regular data
           savePetData(`/pet/${controlNumber}/edit`, 'POST', petData);
         }
       });
