@@ -50,10 +50,10 @@
         "vaccination_date": "2024-11-16",
         "vet_checkup_date": "2024-11-21",
         "allergy_status": "None",
-        "feed_time": "13:19",
-        "walk_time": "14:30",
-        "vet_appointment_date": "2024-11-26",
-        "walk_distance": "10",
-        "last_activity": "Sleep"
+        "feed_time": "23:42",
+        "walk_time": "19:41",
+        "vet_appointment_date": "2024-11-13",
+        "walk_distance": "2",
+        "last_activity": "walk"
     }
 }

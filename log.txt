@@ -32,3 +32,5 @@
 08-11-2024 23:45:31 : edit pet profile error: 400 Bad Request: The browser (or proxy) sent a request that this server could not understand.
 09-11-2024 06:46:59 : Error loading pets data: name 'os' is not defined
 09-11-2024 06:46:59 : Error loading pets data: name 'os' is not defined
+10-11-2024 17:34:39 : Unexpected error: name 'logger' is not defined
+10-11-2024 17:34:52 : Unexpected error: name 'logger' is not defined
