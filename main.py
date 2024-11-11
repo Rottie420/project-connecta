@@ -1,12 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from config import UPLOAD_FOLDER
 from PetHandler import PetHandler
 from Logger import Logger
 from BookingManager import BookingManager
 
 # Initialize Flask app and configuration
 app = Flask(__name__, template_folder='templates', static_folder='static')
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Initialize custom handlers
 pet_handler = PetHandler()
