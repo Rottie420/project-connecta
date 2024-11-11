@@ -390,12 +390,19 @@
       document.getElementById('profileForm').addEventListener('submit', function (e) {
           e.preventDefault();
 
-          const formData = new FormData(this);  // Pass the form element directly to FormData
-          console.log(formData);
-          formData.append('control_number', controlNumber);  // Add control number to form data
+          const petData = new FormData();
+              petData.append('control_number', document.getElementById('controlNumberInput').value);
+              petData.append('photo', document.getElementById('photo').files[0]);
+              petData.append('petname', document.getElementById('nameInput').value);
+              petData.append('age', document.getElementById('ageInput').value);
+              petData.append('breed', document.getElementById('breedInput').value);
+              petData.append('email', document.getElementById('emailInput').value);
+              petData.append('phone', document.getElementById('phoneInput').value);
+              petData.append('address', document.getElementById('addressInput').value);
 
-          // Send the form data using the handleFormSubmission helper function
-          handleFormSubmission('profileForm', '/api/pet/update', formData, true);
+              // Assuming handleFormSubmission handles the form submission
+              handleFormSubmission('profileForm', '/api/pet/update', petData);
+
       });
 
       // Handling medical history form submission (JSON data only)
