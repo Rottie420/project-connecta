@@ -409,8 +409,8 @@
           formData.append('petage', document.getElementById('ageInput').value); 
           formData.append('petbreed', document.getElementById('breedInput').value); 
           formData.append('email', document.getElementById('emailInput').value);  // Add email
+          formData.append('phone', document.getElementById('phoneInput').value);  // Add age
           formData.append('address', document.getElementById('addressInput').value);  // Add address
-          formData.append('age', document.getElementById('ageInput').value);  // Add age
   
           // Send the form data using the handleFormSubmission helper function
           handleFormSubmission('profileForm', '/api/pet/update', formData, true);
