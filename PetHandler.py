@@ -99,6 +99,7 @@ class PetHandler:
             pet = self.pets[control_number]
 
             # Update pet details using request.form for other fields
+            pet['photo'] = request.form.get('photo', pet.get('photo'))
             pet['petname'] = request.form.get('petname', pet.get('petname'))
             pet['petage'] = request.form.get('petage', pet.get('petage'))
             pet['petbreed'] = request.form.get('petbreed', pet.get('petbreed'))
