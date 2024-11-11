@@ -88,50 +88,48 @@ class PetHandler:
         return self.handle_pet_profile(control_number, 'pet-profile-view.html')
 
     def update_pet_profile(self):
-        """Update the pet profile with data from the form or JSON request."""
-        if request.content_type.startswith('multipart/form-data'):
-            data = request.form.to_dict()
+        try:
+            # Extract control_number from request.form (for multipart data)
+            control_number = request.form.get('control_number')
+            logger.log(f'the control number is {control_number}')
+            if not control_number or control_number not in self.pets:
+                return jsonify({"success": False, "message": "Pet not found"}), 404
+
+            pet = self.pets[control_number]
+
+            # Update pet details using request.form for other fields
+            pet['petname'] = request.form.get('petname', pet.get('petname'))
+            pet['petage'] = request.form.get('petage', pet.get('petage'))
+            pet['petbreed'] = request.form.get('petbreed', pet.get('petbreed'))
+            pet['email'] = request.form.get('email', pet.get('email'))
+            pet['phone'] = request.form.get('phone', pet.get('phone'))
+            pet['address'] = request.form.get('address', pet.get('address'))
+
+            # Handle file upload from request.files
             file = request.files.get('photo')
-        elif request.is_json:
-            data = request.get_json()
-            file = None
-        else:
-            Logger.log(f"Unsupported media type encountered: {request.content_type}")
-            return jsonify({"success": False, "message": "Unsupported Media Type"}), 415
+            if file:
+                if FileHandler.allowed_file(file.filename):
+                    try:
+                        pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
+                    except Exception as e:
+                        Logger.log(f"Error saving or converting image: {e}")
+                        return jsonify({"success": False, "message": "Failed to convert image."}), 500
+                else:
+                    return jsonify({"success": False, "message": "Invalid file type"}), 400
 
-        control_number = data.get('control_number')
-        
-        if not control_number or control_number not in self.pets:
-            return jsonify({"success": False, "message": "Pet not found"}), 404
+            # Save the updated pet data
+            self.pets[control_number] = pet
+            try:
+                self.save_pets()  # Saving updated pet data
+            except Exception as e:
+                Logger.log(f"Error saving pet data: {e}")
+                return jsonify({"success": False, "message": "An error occurred while saving the data."}), 500
 
-        pet = self.pets.get(control_number, {})
+            return jsonify({"success": True})
 
-        # Update pet details
-        pet.update({
-            'petname': data.get('petname', pet.get('petname')),
-            'petage': data.get('petage', pet.get('petage')),
-            'petbreed': data.get('petbreed', pet.get('petbreed')),
-            'email': data.get('email', pet.get('email')),
-            'phone': data.get('phone', pet.get('phone')),
-            'address': data.get('address', pet.get('address'))
-        })
-
-        # Handle file upload and conversion
-        if file:
-            if FileHandler.allowed_file(file.filename):
-                try:
-                    pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
-                except Exception as e:
-                    Logger.log(f"Error saving or converting image: {e}")
-                    return jsonify({"success": False, "message": "Failed to convert image."}), 500
-            else:
-                return jsonify({"success": False, "message": "Invalid file type"}), 400
-
-        # Save updated pet profile data
-        self.pets[control_number] = pet
-        self.save_pets()
-
-        return jsonify({"success": True})
+        except Exception as e:
+            Logger.log(f"Unexpected error: {e}")
+            return jsonify({"success": False, "message": "An unexpected error occurred."}), 500
 
     def update_medical_history(self, data):
         control_number = data.get('control_number')
