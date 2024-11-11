@@ -155,7 +155,7 @@
         <div class="col-12">
         <div class="card profile-card">
             <div class="profile-header">
-            <img src="{{ url_for('static', filename=pet.photo) }}" alt="{{ pet.petname }} Profile" class="profile-pic">
+              <img src="{{ url_for('static', filename=pet.photo.lstrip('static/')) }}" alt="{{ pet.petname }} Profile" class="profile-pic">
             <h2 id="petNameDisplay">{{ pet.petname }}</h2>
             <!-- <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal" style="color: white !important;"></i> -->
             </div>
