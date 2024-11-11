@@ -391,6 +391,7 @@
           e.preventDefault();
 
           const formData = new FormData(this);  // Pass the form element directly to FormData
+          console.log(formData);
           formData.append('control_number', controlNumber);  // Add control number to form data
 
           // Send the form data using the handleFormSubmission helper function

@@ -121,6 +121,7 @@ class PetHandler:
             # Save the updated pet data
             self.pets[control_number] = pet
             try:
+                Logger.log(f"Updating pet info: {pet['petname']}, {pet['petage']}, {pet['petbreed']}")
                 self.save_pets()  # Saving updated pet data
             except Exception as e:
                 Logger.log(f"Error saving pet data: {e}")
