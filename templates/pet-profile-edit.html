@@ -354,21 +354,26 @@
       // Extract control number from the URL (e.g., /pet/03/edit)
       const urlParts = window.location.pathname.split('/');
       const controlNumber = urlParts[urlParts.length - 2];  // "03" from "/pet/03/edit"
-
+  
       // Helper function to handle form submissions and send data to the server
       function handleFormSubmission(formId, url, data, isFormData = false) {
           const options = {
               method: 'POST',
               body: isFormData ? data : JSON.stringify(data)  // Send FormData or JSON data as is
           };
-
+  
           // Only set Content-Type if data is not FormData
           if (!isFormData) {
               options.headers = { 'Content-Type': 'application/json; charset=utf-8' };
           }
-
+  
           fetch(url, options)
               .then(response => {
+                  if (response.status === 404) {
+                      alert('Error: The requested page or resource was not found.');
+                      return;
+                  }
+  
                   if (!response.ok) throw new Error('Network response was not ok');
                   return response.json();
               })
@@ -385,68 +390,70 @@
                   alert('An error occurred while saving the data.');
               });
       }
-
+  
       // Handling profile form submission (multipart/form-data)
       document.getElementById('profileForm').addEventListener('submit', function (e) {
           e.preventDefault();
-
-          const petData = new FormData();
-              petData.append('control_number', document.getElementById('controlNumberInput').value);
-              petData.append('photo', document.getElementById('photo').files[0]);
-              petData.append('petname', document.getElementById('nameInput').value);
-              petData.append('age', document.getElementById('ageInput').value);
-              petData.append('breed', document.getElementById('breedInput').value);
-              petData.append('email', document.getElementById('emailInput').value);
-              petData.append('phone', document.getElementById('phoneInput').value);
-              petData.append('address', document.getElementById('addressInput').value);
-
-              // Assuming handleFormSubmission handles the form submission
-              handleFormSubmission('profileForm', '/api/pet/update', petData);
-
+  
+          const formData = new FormData(this);  // Pass the form element directly to FormData
+          console.log(formData);
+  
+          // Append additional data to form data
+          formData.append('control_number', controlNumber);  // Add control number to form data
+          formData.append('petname', document.getElementById('nameInput').value); 
+          formData.append('petage', document.getElementById('ageInput').value); 
+          formData.append('petbree', document.getElementById('breedInput').value); 
+          formData.append('email', document.getElementById('emailInput').value);  // Add email
+          formData.append('address', document.getElementById('addressInput').value);  // Add address
+          formData.append('age', document.getElementById('ageInput').value);  // Add age
+  
+          // Send the form data using the handleFormSubmission helper function
+          handleFormSubmission('profileForm', '/api/pet/update', formData, true);
       });
-
+  
       // Handling medical history form submission (JSON data only)
       document.getElementById('medicalHistoryForm').addEventListener('submit', function (e) {
           e.preventDefault();
-
+  
           const medicalData = {
               control_number: controlNumber,  // Use extracted control number
               vaccination_date: document.getElementById('vaccinationDateInput').value,
               vet_checkup_date: document.getElementById('vetCheckupDateInput').value,
               allergy_status: document.getElementById('allergyStatusInput').value
           };
-
+  
           handleFormSubmission('medicalHistoryForm', '/api/pet/update/medical', medicalData);
       });
-
+  
       // Handling care reminders form submission (JSON data only)
       document.getElementById('careRemindersForm').addEventListener('submit', function (e) {
           e.preventDefault();
-
+  
           const careData = {
               control_number: controlNumber,  // Use extracted control number
               feed_time: document.getElementById('feedTimeInput').value,
               walk_time: document.getElementById('walkTimeInput').value,
               vet_appointment_date: document.getElementById('vetAppointmentDateInput').value
           };
-
+  
           handleFormSubmission('careRemindersForm', '/api/pet/update/care', careData);
       });
-
+  
       // Handling activity log form submission (JSON data only)
       document.getElementById('activityLogForm').addEventListener('submit', function (e) {
           e.preventDefault();
-
+  
           const activityData = {
               control_number: controlNumber,  // Use extracted control number
               walk_distance: document.getElementById('walkDistanceInput').value,
               last_activity: document.getElementById('activityInput').value
           };
-
+  
           handleFormSubmission('activityLogForm', '/api/pet/update/activity', activityData);
       });
-
+  
   </script>
+  
   
                    
   <!-- Bootstrap JS and dependencies -->
