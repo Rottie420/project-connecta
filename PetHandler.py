@@ -92,6 +92,7 @@ class PetHandler:
             # Extract control_number from request.form (for multipart data)
             control_number = request.form.get('control_number')
             logger.log(f'the control number is {control_number}')
+            
             if not control_number or control_number not in self.pets:
                 return jsonify({"success": False, "message": "Pet not found"}), 404
 
@@ -130,6 +131,7 @@ class PetHandler:
         except Exception as e:
             Logger.log(f"Unexpected error: {e}")
             return jsonify({"success": False, "message": "An unexpected error occurred."}), 500
+
 
     def update_medical_history(self, data):
         control_number = data.get('control_number')

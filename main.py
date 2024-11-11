@@ -47,8 +47,7 @@ def pet_profile_view(control_number):
 
 @app.route('/api/pet/update', methods=['POST'])
 def update_pet_profile():
-    data = request.json
-    return pet_handler.update_pet_profile(data)
+    return pet_handler.update_pet_profile()
 
 @app.route('/api/pet/update/medical', methods=['POST'])
 def update_medical_history():
