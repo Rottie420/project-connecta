@@ -91,7 +91,7 @@ class PetHandler:
         try:
             # Extract control_number from request.form (for multipart data)
             control_number = request.form.get('control_number')
-            logger.log(f'the control number is {control_number}')
+            Logger.log(f'the control number is {control_number}')
             
             if not control_number or control_number not in self.pets:
                 return jsonify({"success": False, "message": "Pet not found"}), 404
