@@ -12,7 +12,7 @@
     body {
       background-color: #333; /* Light grey background */
       font-family: 'Roboto', sans-serif; /* Techy, modern font */
-      color: #333; /* Dark text for better readability */
+      color: rgba(255, 255, 255, 0.85);/* Dark text for better readability */
     }
 
     .container {
@@ -23,13 +23,13 @@
     .profile-card {
       border-radius: 12px;
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      background-color: #F8EDFF;
+      background-color: rgba(248, 237, 255, 0.2);
       margin-bottom: 2em !important;
       overflow: hidden;
     }
 
     .profile-header {
-      background-color: #525CEB; /* Lighter blue for tech feel */
+      background-color: rgba(82, 92, 235, 0.6); /* Lighter blue for tech feel */
       padding: 24px;
       text-align: center;
       border-top-left-radius: 12px;
@@ -51,15 +51,18 @@
     }
 
     .card-header {
-      background-color: #BFCFE7; /* Light grey header */
-      border-bottom: 1px solid #e2e8f0; /* Subtle divider */
+      background-color: rgba(248, 237, 255, 0.2);/* Light grey header */
+      border-bottom: 0; /* Subtle divider */
+      color: #333;
     }
     
     .list-group-item {
-      background-color: #F8EDFF;
+      background-color: rgba(248, 237, 255, 0);
       border: 0;
-      font-size: 18px;
-      color: #4a5568; /* Darker text for list items */
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.85); /* Darker text for list items */
     }
 
     /* Rounded corners for the first and last items in list group */
@@ -74,7 +77,7 @@
     }
 
     .btn-primary {
-      background-color: #525CEB;
+      background-color: rgba(82, 92, 235, 0.6);
       border-color: None;
       font-weight: 600;
     }
@@ -85,18 +88,21 @@
     }
 
     .modal-header {
-      background-color: #525CEB;;
-      color: #fff;
+      background-color: rgba(82, 92, 235, 0.6);
+      color: rgba(255, 255, 255, 0.85);
+      
     }
 
     .modal-body {
       padding: 20px;
-      background-color: #F8EDFF;
+      color: rgba(255, 255, 255, 0.85);
+      background-color: rgba(248, 237, 255, 0);
     }
 
     .list-group-item .icon {
       margin-right: 12px;
       color: #00aaff;
+      font-size: 18px;
     }
 
     .form-control {
@@ -130,7 +136,7 @@
     #location {
         margin-top: 20px;
         font-size: 1em;
-        color: #333;
+        color: rgba(255, 255, 255, 0.85);
     }
 
     .profile-pic {
