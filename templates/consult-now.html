@@ -155,10 +155,10 @@
                     <input type="tel" class="form-control" id="phone" placeholder="Your Phone Number" required>
                 </div>
                 <div class="mb-3">
-                    <input type="date" class="form-control" id="date" placeholder="mm/dd/yyyy" required pattern="^(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}$">
+                    <input type="date" class="form-control" id="date" required>
                 </div>
                 <div class="mb-3">
-                    <input type="time" class="form-control" id="time" placeholder="HH:MM:AM/PM" required pattern="^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$">
+                    <input type="time" class="form-control" id="time" required>
                 </div>
                 <div class="mb-3">
                     <textarea class="form-control" id="message" rows="3" placeholder="Any specific requests or questions?"></textarea>
@@ -222,6 +222,25 @@
                 console.error('Error:', error);
                 alert('An error occurred while booking the demo. Please try again.');
             });
+        });
+    </script>
+
+    <!-- Include Flatpickr library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        // Initialize Flatpickr for date input
+        flatpickr("#date", {
+            dateFormat: "m/d/Y", // Set the date format
+        });
+
+        // Initialize Flatpickr for time input
+        flatpickr("#time", {
+            enableTime: true,    // Enable time selection
+            noCalendar: true,    // Disable the calendar view
+            time_24hr: false,    // Use 12-hour format with AM/PM
+            dateFormat: "h:i K", // Set the time format to HH:MM AM/PM
         });
     </script>
     
