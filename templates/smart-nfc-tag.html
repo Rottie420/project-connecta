@@ -45,25 +45,45 @@
         .hero-section {
             background: linear-gradient(to right, #007bff, #0056b3);
             color: white;
-            text-align: center;
-            padding: 120px 0;
+            padding: 80px 0;
         }
 
-        .hero-section h1 {
-            font-size: 3.5em;
+        .hero-content {
+            text-align: left;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5em;
             font-weight: 700;
             margin-bottom: 20px;
             letter-spacing: -1px;
         }
 
-        .hero-section p {
+        .hero-content p {
             font-size: 1.25em;
             margin-bottom: 30px;
         }
 
+        .hero-image img {
+            max-width: 85%;
+            margin-bottom: -5em;
+        }
+
+        /* Adjustments for larger screens */
+        @media (min-width: 768px) {
+            .hero-section {
+                padding: 120px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 3.5em;
+            }
+        }
+
         .btn-startup {
-            background-color: white;
-            color: #007bff;
+            background-color: rgb(255, 255, 0);
+            color: #333;
             border-radius: 50px;
             padding: 10px 30px;
             font-weight: 600;
@@ -182,7 +202,7 @@
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/consult-now">Contact</a>
+                            <a class="nav-link" href="#faqAccordion">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -194,9 +214,18 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <h1>Connect with Tags</h1>
-            <p>Transform the Way You Share Information with Smart NFC Tags.</p>
-            <a href="/pet/03/edit" class="btn btn-startup">Try Demo Now</a>
+            <div class="row align-items-center">
+                <!-- Text content on the left -->
+                <div class="col-12 col-md-6 hero-content text-center text-md-start">
+                    <h1>Connect with Tags</h1>
+                    <p>Transform the Way You Share Information with Smart NFC Tags.</p>
+                    <a href="/pet/03/edit" class="btn btn-startup">Try Demo Now</a>
+                </div>
+                <!-- Image on the right for desktop, below text on mobile -->
+                <div class="col-12 col-md-6 hero-image text-center text-md-end mt-4 mt-md-0">
+                    <img src="{{ url_for('static', filename='hero-dog-tag.png') }}" class="img-fluid" alt="Product Tag">
+                </div>
+            </div>
         </div>
     </section>
 
