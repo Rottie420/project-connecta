@@ -198,9 +198,14 @@
                     <div class="col">SHIPPING</div>
                     <div class="col text-right"><span class="shipping-fee">$5.00</span></div>
                 </div>
+                <!-- Added TAX Row -->
+                <div class="row">
+                    <div class="col">TAX (5%)</div>
+                    <div class="col text-right"><span class="tax-fee">$0.70</span></div>
+                </div>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
-                    <div class="col text-right"><span class="total-price">$14.00</span></div>
+                    <div class="col text-right"><span class="total-price">$14.70</span></div>
                 </div>
                 
                 <button class="btn">CHECKOUT</button>
@@ -217,6 +222,7 @@
             standard: 5.00,
             express: 10.00,
         };
+        const taxRate = 0.05; // 5% tax rate
         let selectedShipping = "standard"; // Default shipping option
     
         // Event listeners for quantity buttons
@@ -255,10 +261,12 @@
             const quantity = parseInt(document.querySelector('.quantity').textContent);
             const shippingPrice = shippingOptions[selectedShipping];
             const subtotal = quantity * itemPrice;
-            const totalPrice = subtotal + shippingPrice;
+            const tax = subtotal * taxRate;
+            const totalPrice = subtotal + shippingPrice + tax;
     
             document.querySelector('.subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
             document.querySelector('.shipping-fee').textContent = `$${shippingPrice.toFixed(2)}`;
+            document.querySelector('.tax-fee').textContent = `$${tax.toFixed(2)}`;
             document.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
         }
     
