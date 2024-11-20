@@ -204,8 +204,13 @@
         const decreaseBtns = document.querySelectorAll('.decrease');
         const increaseBtns = document.querySelectorAll('.increase');
         const itemPrice = 9.00;
-        const shippingPrice = 5.00;
-
+        const shippingOptions = {
+            standard: 5.00,
+            express: 10.00,
+        };
+        let selectedShipping = "standard"; // Default shipping option
+    
+        // Add event listeners for decrease/increase buttons
         decreaseBtns.forEach((btn) => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -218,7 +223,7 @@
                 updateSummary();
             });
         });
-
+    
         increaseBtns.forEach((btn) => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -229,14 +234,26 @@
                 updateSummary();
             });
         });
-
+    
+        // Add event listener for shipping selection
+        document.querySelector(".form-select").addEventListener("change", (e) => {
+            selectedShipping = e.target.value; // Update selected shipping method
+            updateSummary();
+        });
+    
+        // Update summary function
         function updateSummary() {
             const quantity = parseInt(document.querySelector('.quantity').textContent);
+            const shippingPrice = shippingOptions[selectedShipping];
             const totalPrice = (quantity * itemPrice) + shippingPrice;
             const itemCount = quantity;
+    
             document.querySelector('.item-count').textContent = itemCount;
             document.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
         }
-    </script>
+    
+        // Initial summary update
+        updateSummary();
+    </script>    
 </body>
 </html>
