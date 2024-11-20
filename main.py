@@ -14,14 +14,14 @@ booking_manager = BookingManager()
 @app.route('/')
 def index():
     try:
-        return render_template('home.html')
+        return render_template('home-v2.html')
     except Exception as e:
         Logger.log(f"Index page error: {e}")
         return "An error occurred loading the homepage.", 500
 
-@app.route('/smart-nfc-tag')
-def smart_nfc_tag():
-    return render_page_with_logging('smart-nfc-tag.html', "Smart NFC Tag")
+@app.route('/order-now')
+def order_now():
+    return render_page_with_logging('order-form.html', "Order Form")
 
 @app.route('/smart-nfc-card')
 def smart_nfc_card():
