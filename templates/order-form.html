@@ -190,10 +190,19 @@
                     <div class="col text-right"><span class="total-price">$9.00</span></div>
                 </div>
                 
+                <div class="row">
+                    <div class="col">SUBTOTAL</div>
+                    <div class="col text-right"><span class="subtotal-price">$9.00</span></div>
+                </div>
+                <div class="row">
+                    <div class="col">SHIPPING</div>
+                    <div class="col text-right"><span class="shipping-fee">$5.00</span></div>
+                </div>
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
                     <div class="col text-right"><span class="total-price">$14.00</span></div>
                 </div>
+                
                 <button class="btn">CHECKOUT</button>
             </div>
         </div>
@@ -210,7 +219,7 @@
         };
         let selectedShipping = "standard"; // Default shipping option
     
-        // Add event listeners for decrease/increase buttons
+        // Event listeners for quantity buttons
         decreaseBtns.forEach((btn) => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -235,25 +244,26 @@
             });
         });
     
-        // Add event listener for shipping selection
+        // Event listener for shipping selection
         document.querySelector(".form-select").addEventListener("change", (e) => {
-            selectedShipping = e.target.value; // Update selected shipping method
+            selectedShipping = e.target.value; // Update selected shipping
             updateSummary();
         });
     
-        // Update summary function
+        // Function to update the summary
         function updateSummary() {
             const quantity = parseInt(document.querySelector('.quantity').textContent);
             const shippingPrice = shippingOptions[selectedShipping];
-            const totalPrice = (quantity * itemPrice) + shippingPrice;
-            const itemCount = quantity;
+            const subtotal = quantity * itemPrice;
+            const totalPrice = subtotal + shippingPrice;
     
-            document.querySelector('.item-count').textContent = itemCount;
+            document.querySelector('.subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
+            document.querySelector('.shipping-fee').textContent = `$${shippingPrice.toFixed(2)}`;
             document.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
         }
     
-        // Initial summary update
+        // Initialize the summary
         updateSummary();
-    </script>    
+    </script>        
 </body>
 </html>
