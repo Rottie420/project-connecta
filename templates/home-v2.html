@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connecta | Smart NFC Tag</title>
+    <!-- Bootstrap CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles */
+        body {
+            font-family: "Inter", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            color: #333;
+            background-color: #090b11;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* Navbar */
+        .navbar-brand {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: white;
+        }
+
+
+        .nav-link {
+            font-weight: 500;
+            color: white !important;
+        }
+
+        .nav-link:hover {
+            color: #007bff !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: #090b11;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(152, 152, 152, 0.5);
+            padding: 80px 0;
+        }
+
+        .hero-content {
+            text-align: left;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-content p {
+            font-size: 1.25em;
+            margin-bottom: 30px;
+        }
+
+        .hero-image img {
+            max-width: 85%;
+            margin-bottom: -5em;
+        }
+
+        /* Adjustments for larger screens */
+        @media (min-width: 768px) {
+            .hero-section {
+                padding: 120px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 3.5em;
+            }
+        }
+
+        .btn-startup {
+            background-color: rgb(255, 255, 0);
+            color: #333;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .btn-startup:hover {
+            transform: scale(1.05);
+        }
+
+        /* Product Overview */
+        .product-overview {
+            text-align: center;
+            padding: 50px 0;
+        }
+
+        .product-overview h2 {
+            font-weight: 600;
+            font-size: 2.5em;
+            color: #333;
+        }
+
+        /* Use Cases */
+        #icon-grid {
+            padding: 50px 0;
+            background: transparent;
+            margin-top: 5em;
+            margin-bottom: 5em;
+        }
+
+        .card {
+            border: none;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 15px;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card i {
+            font-size: 2.5em;
+            color: #007bff;
+        }
+
+        .card-title {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        /* FAQ Section */
+        .accordion-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .accordion-body {
+            color: white;
+        }
+        .accordion-button {
+            font-weight: 500;
+            color: white !important;
+        }
+
+        /* Footer */
+        footer {
+            background-image: linear-gradient(to right bottom, #090b11, #090b11);
+            height: 150px;
+            padding: 20px 0px;
+            text-align: center;
+            color: white;
+            box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
+            margin-top: auto;  /* Ensure the footer is pushed to the bottom */
+        }
+
+        .list-inline-item a {
+            text-decoration: none;
+            color: white;
+            font-size: 0.9em;
+        }
+
+        .list-inline-item a:hover {
+            color: whitesmoke;
+            font-size: 1em;
+        }
+
+        header {
+            background-color: #090b11;
+        }
+
+        .navbar-nav .nav-link {
+            color: white; /* Readable text color */
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #007bff; /* Highlight on hover */
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        .faq-section {
+            background-color: transparent !important;/* Semi-transparent background */
+            border-radius: 15px; /* Rounded corners for aesthetic */
+            padding: 20px; /* Padding for spacing */
+            backdrop-filter: blur(10px); /* Optional: Blurring background */
+            color: white !important;
+            margin-bottom: 150px;
+        }
+        
+        .accordion {
+            max-width: 800px; /* Set a maximum width for larger screens */
+            margin: 0 auto; /* Center the accordion */
+        }
+    </style>
+</head>
+<body>
+     <!-- Header -->
+    <header class="shadow-sm sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent border-0">
+            <div class="container">
+                <a class="navbar-brand" href="/">Connecta</a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/order-now">Order Now</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#icon-grid">Features</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- Text content on the left -->
+                <div class="col-12 col-md-6 hero-content text-center text-md-start">
+                    <h1>Connect with Tags</h1>
+                    <p>Transform the Way You Share Information with Smart NFC Tags.</p>
+                    <a href="/order-now" class="btn btn-startup">Order Now</a>
+                </div>
+                <!-- Image on the right for desktop, below text on mobile -->
+                <div class="col-12 col-md-6 hero-image text-center text-md-end mt-4 mt-md-0">
+                    <img src="{{ url_for('static', filename='hero-img-mobile-tag.webp') }}" style="border-radius: 25px;" class="img-fluid" alt="Product Tag">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Use Cases Section with Dynamic Layout -->
+    <section id="icon-grid" class="container px-4 py-5">
+        <h1 class="pb-2 text-center text-white">Smart Features</h1 >
+        <p class="text-center text-white mb-5">Connect people, pets, and things in the cloud all with a single tap.</p>
+        
+        <!-- Dynamic Card Layout -->
+        <div class="row g-5">
+            
+            <!-- Digital Business Cards (Large, Left-Aligned) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #091d1d; border-radius: 35px; color: rgba(255, 255, 255, 0.8);">
+                    <!-- Image added here -->
+                    <img src="{{ url_for('static', filename='hero-img-luggage.webp') }}" class="card-img-top mb-3" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: cover; height: 200px;">
+                    
+                    <!-- Icon and text content -->
+                    <i class="bi bi-person-vcard mb-3" style="font-size: 3em; color: #007bff;"></i>
+                    <h4 class="fw-bold mb-0 fs-4 text-white">Travel & Transportation</h4>
+                    <p class="card-text">Attach an NFC tag to your luggage, which contains essential details like your contact information, flight number, and destination. </p>
+                </div>
+            </div>
+            
+            <!-- Event Check-Ins (Small, Centered) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #d2b9b4; border-radius: 35px;">
+                     <!-- Image added here -->
+                     <img src="{{ url_for('static', filename='hero-img-woman.png') }}" class="card-img-top mb-3" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: cover; height: 200px;">
+
+                    <i class="bi bi-calendar-check mb-3" style="font-size: 2.5em; color: #007bff;"></i>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Digital Profile</h4>
+                    <p class="card-text">Allowing individuals to quickly share their contact information (name, phone number, email, social media links) with a simple scan..</p>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="row g-5 mt-3">
+            
+            <!-- Product Packaging (Centered, Wide) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #b4b7ba; border-radius: 35px;">
+                     <!-- Image added here -->
+                     <img src="{{ url_for('static', filename='hero-img-gym.webp') }}" class="card-img-top mb-3" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: cover; height: 200px;">
+
+                    <i class="bi bi-box-seam mb-3" style="font-size: 3em; color: #007bff;"></i>
+                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Education & Learning</h4>
+                    <p class="card-text">Use NFC tags to your notebooks, textbooks, or study materials that link to course outlines, lecture slides, and learning resources.</p>
+                </div>
+            </div>
+            
+            <!-- Pet Tags (Left-Aligned, Small) -->
+            <div class="col-lg-6 d-flex">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #1b222c; border-radius: 35px; color: rgba(255, 255, 255, 0.8);">
+                     <!-- Image added here -->
+                     <img src="{{ url_for('static', filename='hero-img-dog.webp') }}"class="card-img-top mb-3" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: cover; height: 200px;">
+                     
+                    <i class="bi bi-shield-shaded mb-3" style="font-size: 2.5em; color: #007bff;"></i>
+                    <h4 class="fw-bold mb-0 fs-4 text-white">Breed and Characteristics</h4>
+                    <p class="card-text">Include your pet’s breed, age, and other distinguishing characteristics. This helps identify your pet and ensures they receive appropriate care.</p>
+                </div>
+            </div>b
+        </div>
+    </section>
+
+    <!-- Icon Grid -->
+    <section id="icon-grid" class="container px-4 py-5" style="margin-bottom: -8em; margin-top: -5em;">
+        <h1 class="pb-2 text-center text-white">Innovating with NFC</h1 >
+        <p class="text-center text-white mb-5">Discover the specifications, features, and benefits of our NFC tags.</p>
+    </section>
+    
+    <div style="padding: 0.75em;">
+        <div class="container px-4 py-5" id="icon-grid" style="background: rgba(255, 255, 255, 0.7); border-radius: 35px; color: rgb(0, 0, 0);">
+            <!-- <h2 class="pb-2 border-bottom">NFC Everywhere</h2> -->
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+              <div class="col d-flex align-items-start">
+                <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path d="M20.9098 11.1203V6.73031C20.9098 5.91031 20.2898 4.98031 19.5198 4.67031L13.9498 2.39031C12.6998 1.88031 11.2898 1.88031 10.0398 2.39031L4.46984 4.67031C3.70984 4.98031 3.08984 5.91031 3.08984 6.73031V11.1203C3.08984 16.0103 6.63984 20.5903 11.4898 21.9303C11.8198 22.0203 12.1798 22.0203 12.5098 21.9303C17.3598 20.5903 20.9098 16.0103 20.9098 11.1203ZM12.7498 12.8703V15.5003C12.7498 15.9103 12.4098 16.2503 11.9998 16.2503C11.5898 16.2503 11.2498 15.9103 11.2498 15.5003V12.8703C10.2398 12.5503 9.49984 11.6103 9.49984 10.5003C9.49984 9.12031 10.6198 8.00031 11.9998 8.00031C13.3798 8.00031 14.4998 9.12031 14.4998 10.5003C14.4998 11.6203 13.7598 12.5503 12.7498 12.8703Z" fill="#000"></path>
+                    </g>
+                </svg>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Product Overview</h3>
+                  <p>Compatible with all NFC-enabled devices, Easy Access to Pet Information, Water-resistant and durable, No Battery Required.</p>
+                </div>
+              </div>
+              <div class="col d-flex align-items-start">
+                <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.33537 7.87495C1.79491 9.00229 1.98463 10.3208 2.36407 12.9579L2.64284 14.8952C3.13025 18.2827 3.37396 19.9764 4.54903 20.9882C5.72409 22 7.44737 22 10.8939 22H13.1061C16.5526 22 18.2759 22 19.451 20.9882C20.626 19.9764 20.8697 18.2827 21.3572 14.8952L21.6359 12.9579C22.0154 10.3208 22.2051 9.00229 21.6646 7.87495C21.1242 6.7476 19.9738 6.06234 17.6731 4.69181L16.2882 3.86687C14.199 2.62229 13.1543 2 12 2C10.8457 2 9.80104 2.62229 7.71175 3.86687L6.32691 4.69181C4.02619 6.06234 2.87583 6.7476 2.33537 7.87495ZM13.45 16.5095C12.6422 15.6377 11.3581 15.6377 10.5503 16.5095C10.2688 16.8134 9.79427 16.8315 9.49041 16.55C9.18656 16.2684 9.16845 15.7939 9.44996 15.4901C10.8514 13.9775 13.1489 13.9775 14.5503 15.4901C14.8318 15.7939 14.8137 16.2684 14.5099 16.55C14.206 16.8315 13.7315 16.8134 13.45 16.5095ZM8.55029 14.3505C10.4626 12.2864 13.5376 12.2864 15.4499 14.3505C15.7315 14.6544 16.206 14.6725 16.5098 14.391C16.8137 14.1095 16.8318 13.6349 16.5503 13.3311C14.0443 10.6262 9.9559 10.6262 7.44995 13.3311C7.16844 13.6349 7.18655 14.1095 7.4904 14.391C7.79425 14.6725 8.26878 14.6544 8.55029 14.3505ZM17.4499 12.192C14.433 8.93571 9.56716 8.93571 6.55027 12.192C6.26876 12.4959 5.79423 12.514 5.49038 12.2325C5.18653 11.951 5.16842 11.4764 5.44993 11.1726C9.06046 7.27552 14.9397 7.27552 18.5503 11.1726C18.8318 11.4764 18.8137 11.951 18.5098 12.2325C18.206 12.514 17.7314 12.4959 17.4499 12.192Z" fill="#000"></path>
+                    </g>
+                </svg>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Specification</h3>
+                  <p>Chip: NTAG215, Memory: 504 bytes, Range: 1-2 cm (0.4-0.8 inches), Dimensions: Customizable upon request</p>
+                </div>
+              </div>
+              <div class="col d-flex align-items-start">
+                <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 45.174 45.174" xml:space="preserve" class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <g>
+                            <path d="M41.573,15.879v-1.675c0-1.922-1.558-3.495-3.479-3.495h-2.761c-1.921,0-3.479,1.573-3.479,3.495v4.693H13.319v-4.693 c0-1.922-1.558-3.495-3.479-3.495H7.079c-1.921,0-3.479,1.573-3.479,3.495v1.675c-1.979,0-3.6,1.617-3.6,3.613v6.172 c0,1.996,1.71,3.613,3.6,3.613v1.674c0,1.922,1.558,3.513,3.479,3.513H9.84c1.921,0,3.479-1.591,3.479-3.513v-4.676h18.536v4.676 c0,1.922,1.558,3.513,3.479,3.513h2.762c1.92,0,3.479-1.591,3.479-3.513v-1.674c1.979,0,3.6-1.619,3.6-3.613v-6.172 C45.172,17.496,43.462,15.879,41.573,15.879z"></path>
+                        </g>
+                    </g>
+                </svg>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">How It Works</h3>
+                  <p>Step 1: Tap the NFC Tag, Step 2: Connect to Cloud, Step 3: Access from Any Device</p>
+                </div>
+              </div>
+              <div class="col d-flex align-items-start">
+                <svg fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <style type="text/css">
+                            .st0{fill:none;}
+                        </style>
+                        <g id="surface1">
+                            <path d="M19,3c0,2.2-4.3,6-9,6v6c4.7,0,9,3.6,9,6h2v-7.3c0.6-0.3,1-1,1-1.7s-0.4-1.4-1-1.7V3H19z M5,9c-0.8,0-1.5,0.5-1.8,1.2 C2.5,10.5,2,11.2,2,12s0.5,1.5,1.2,1.8C3.5,14.5,4.2,15,5,15h0.2l2.2,7l3.5-1.1L9,15V9H5z"></path>
+                        </g>
+                        <rect class="st0" width="24" height="24"></rect>
+                    </g>
+                </svg>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Color Varients</h3>
+                  <p>You can choose different colors from White, Black, Grey, Yellow and Blue</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    <!-- FAQ Section -->
+    <section class="container mt-5 faq-section">
+        <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+        <div class="accordion" id="faqAccordion">
+            <!-- Question 1 -->
+            <div class="accordion-item bg-transparent" style="border: none;">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed bg-transparent mb-0 fs-5 text-body-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        What is NFC technology?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        NFC (Near Field Communication) is a wireless communication technology that allows devices to exchange data when they are in close proximity, typically within a few centimeters.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 2 -->
+            <div class="accordion-item bg-transparent" style="border: none;">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed bg-transparent mb-0 fs-5 text-body-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        How does the NFC works?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        NFC works by establishing a magnetic field between two devices when they are close together. One device acts as the initiator and the other as a target, allowing data transfer between them.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question 3 -->
+            <div class="accordion-item bg-transparent" style="border: none;">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed bg-transparent mb-0 fs-5 text-body-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        What devices support NFC?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Many modern smartphones, tablets, and some smartwatches come equipped with NFC capabilities. Additionally, specific NFC readers and writers are also available.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="accordion-item bg-transparent" style="border: none;">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed bg-transparent mb-0 fs-5 text-body-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
+                        Is NFC secure?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        Yes, NFC is secure by design. Since NFC only works at very close range within about 4cm it’s hard for others to intercept the data making unauthorized access difficult.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-white text-center py-4 mt-5">
+        <div class="container">
+            <p class="mb-1">&copy; 2024 Connecta. All rights reserved.</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+                <li class="list-inline-item"><a href="#">Terms of Service</a></li>
+            </ul>
+        </div>
+    </footer>   
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
