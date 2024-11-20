@@ -14,9 +14,10 @@
             justify-content: center;
             align-items: center;
             font-family: "Inter", sans-serif;
-            font-size: 0.8rem;
+            font-size: 1rem;
             font-weight: bold;
             margin: 0;
+            line-height: 1.5;
         }
 
         .title {
@@ -40,14 +41,14 @@
 
         .cart {
             background-color: #fff;
-            padding: 4vh 5vh;
+            padding: 2rem;
             border-top-left-radius: 1rem;
             border-bottom-left-radius: 1rem;
         }
 
         @media(max-width: 767px) {
             .cart {
-                padding: 4vh;
+                padding: 2rem;
                 border-top-left-radius: 1rem;
                 border-top-right-radius: 1rem;
             }
@@ -57,7 +58,7 @@
             background-color: #ddd;
             border-top-right-radius: 1rem;
             border-bottom-right-radius: 1rem;
-            padding: 4vh;
+            padding: 2rem;
             color: rgb(65, 65, 65);
         }
 
@@ -68,14 +69,6 @@
             }
         }
 
-        .summary .col-2 {
-            padding: 0;
-        }
-
-        .summary .col-10 {
-            padding: 0;
-        }
-
         .row {
             margin: 0;
         }
@@ -84,56 +77,28 @@
             font-size: 1.5rem;
         }
 
-        .main {
-            margin: 0;
-            padding: 2vh 0;
-            width: 100%;
-        }
-
-        .col-2, .col {
-            padding: 0 1vh;
-        }
-
-        a {
-            padding: 0 1vh;
-        }
-
-        .close {
-            margin-left: auto;
-            font-size: 0.7rem;
-        }
-
-        img {
-            width: 3.5rem;
-        }
-
-        .back-to-shop {
-            margin-top: 4.5rem;
-        }
-
-        h5 {
-            margin-top: 4vh;
-        }
-
-        hr {
-            margin-top: 1.25rem;
+        h4, h5 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         form {
             padding: 2vh 0;
         }
 
-        select, input {
+        input {
             border: 1px solid rgba(0, 0, 0, 0.137);
-            padding: 1.5vh 1vh;
-            margin-bottom: 4vh;
+            padding: 1rem;
+            margin-bottom: 2vh;
             outline: none;
             width: 100%;
             background-color: rgb(247, 247, 247);
+            font-size: 1rem;
+            border-radius: 0.5rem;
         }
 
-        input:focus::-webkit-input-placeholder {
-            color: transparent;
+        input:focus {
+            border-color: #000;
         }
 
         .btn {
@@ -141,18 +106,17 @@
             border-color: #000;
             color: white;
             width: 100%;
-            font-size: 0.7rem;
-            margin-top: 4vh;
-            padding: 1vh;
-            border-radius: 0;
+            font-size: 1rem;
+            margin-top: 2vh;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            text-transform: uppercase;
         }
 
         .btn:focus {
             box-shadow: none;
             outline: none;
             color: white;
-            -webkit-box-shadow: none;
-            -webkit-user-select: none;
             transition: none;
         }
 
@@ -169,11 +133,12 @@
             text-decoration: none;
         }
 
-        #code {
-            background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
-            background-repeat: no-repeat;
-            background-position-x: 95%;
-            background-position-y: center;
+        .back-to-shop {
+            margin-top: 4.5rem;
+        }
+
+        select {
+            font-size: 1.2rem;
         }
     </style>
 </head>
@@ -207,14 +172,14 @@
                         <input type="text" placeholder="Postal Code" required>
                     </form>
                 </div>
-                <div class="back-to-shop"><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+                <div class="back-to-shop"><a href="/">&leftarrow;</a><span class="text-muted">Back to home</span></div>
             </div>
             <div class="col-md-4 summary">
                 <div><h5><b>Summary</b></h5></div>
                 <hr>
 
                 <p>SHIPPING</p>
-                <select><option class="text-muted">Standard-Delivery- &euro;5.00</option></select>
+                <select><option class="text-muted">Standard-Delivery- &dollar;5.00</option></select>
     
                 <div class="row">
                     <div class="col" style="padding-left:0;">ITEMS <span class="item-count">1</span></div>
