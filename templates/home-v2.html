@@ -207,6 +207,52 @@
             max-width: 800px; /* Set a maximum width for larger screens */
             margin: 0 auto; /* Center the accordion */
         }
+
+        /* car-split Section */
+        .card-split {
+            margin: 0 auto;
+            width: 100%;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 35px !important;
+            border: transparent;
+        }
+        
+        @media(max-width: 767px) {
+            .card-split {
+                margin: 0 auto;
+            }
+        }
+
+        .split-1 {
+            background-color: #18191b;
+            padding: 2rem;
+            border-top-left-radius: 35px;
+            border-bottom-left-radius: 35px;
+        }
+
+        @media(max-width: 767px) {
+            .split-1 {
+                padding: 2rem;
+                border-top-left-radius: 35px;
+                border-top-right-radius: 35px;
+                border-bottom-left-radius: unset;
+            }
+        }
+
+        .split-2 {
+            background-color: #0b2f3b;
+            border-top-right-radius: 35px;
+            border-bottom-right-radius: 35px;
+            padding: 2rem;
+            color: white;
+        }
+
+        @media(max-width: 767px) {
+            .split-2 {
+                border-top-right-radius: unset;
+                border-bottom-left-radius: 35px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -252,6 +298,25 @@
         </div>
     </section>
 
+    <!-- card-split Section -->
+    <section class="container px-4 py-5">
+        <div class="card-split">
+            <div class="row" style="margin: 0;">
+                <div class="col-md-7 split-1 text-center">
+                    <img src="C:\Users\kevin\Downloads\3d-printed-tag.jpg" class="img-fluid rounded" style="width: 60%;">
+                </div>
+                <div class="col-md-5 split-2">
+                    <ul class="list-unstyled">
+                        <li><h6 class="fw-bold mt-4">Affordable Pricing</h6> NFC tags start at just $XX—all-inclusive.</li>
+                        <li><h6 class="fw-bold mt-4">No Extra Costs</h6> Battery-free and maintenance-free.</li>
+                        <li><h6 class="fw-bold mt-4">Specialized Features</h6> Instant access to essential info—no apps needed.</li>
+                        <li><h6 class="fw-bold mt-4">Durable & User-Friendly</h6> Lightweight, waterproof, and ready to use.</li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Use Cases Section with Dynamic Layout -->
     <section id="icon-grid" class="container px-4 py-5">
