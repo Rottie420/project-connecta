@@ -261,3 +261,22 @@ fatal: could not read Username for 'https://github.com': No such file or directo
 26-11-2024 13:44:12 : Git status output:  M log.txt
  M pets.json
 
+26-11-2024 13:44:12 : Git add output: 
+26-11-2024 13:44:12 : Git commit output: [main 3c1a73a] Update pet profile data at 2024-11-26 13:44:12
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+26-11-2024 13:44:56 : Git status output:  M log.txt
+
+26-11-2024 13:44:57 : Git add output: 
+26-11-2024 13:44:57 : Error during Git operation: Command '['git', 'commit', '-m', 'Update pet profile data at 2024-11-26 13:44:57']' returned non-zero exit status 128.
+26-11-2024 13:44:57 : Standard error output: fatal: Unable to create 'C:/Users/Administrator/Desktop/project-connecta/.git/index.lock': File exists.
+
+Another git process seems to be running in this repository, e.g.
+an editor opened by 'git commit'. Please make sure all processes
+are terminated then try again. If it still fails, a git process
+may have crashed in this repository earlier:
+remove the file manually to continue.
+
+26-11-2024 13:44:57 : Standard output: 
+26-11-2024 13:44:57 : Git status output: MM log.txt
+
