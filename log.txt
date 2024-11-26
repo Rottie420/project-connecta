@@ -36,7 +36,6 @@
 10-11-2024 17:34:52 : Unexpected error: name 'logger' is not defined
 10-11-2024 17:34:52 : Unexpected error: name 'logger' is not defined
 10-11-2024 17:34:52 : Unexpected error: name 'logger' is not defined
-
 11-11-2024 02:03:11 : the control number is 03
 11-11-2024 02:03:12 : Updating pet info: Timmie The Dog, 3, Shih Tzu
 11-11-2024 02:08:43 : the control number is 03

@@ -1,6 +1,6 @@
 import json
 import os
-import subprocess
+from git import Repo
 from datetime import datetime
 from config import JSON_FILE_PATH
 from Logger import Logger
@@ -12,39 +12,34 @@ class PetHandler:
         self.json_file_path = json_file_path
         self.pets = self.load_pets()
         self.repo_path = r'C:\Users\Administrator\Desktop\project-connecta'  # Your repository path
+        self.repo = Repo(self.repo_path)  # Initialize the Git repository object
 
     def commit_changes_to_git(self):
         try:
-            # Ensure you're in the Git repository directory
-            os.chdir(self.repo_path)
+            # Ensure the repository exists
+            if not self.repo.git.dir_exists():
+                Logger.log(f"Invalid Git repository path: {self.repo_path}")
+                return
             
-            # Stage the changes (add the file to staging area)
-            subprocess.run(['git', 'add', 'pets.json'], check=True)
+            # Stage all changes
+            self.repo.git.add('.')  # Use '.' to add all changes in the repo
             
             # Create a commit message with a timestamp
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             commit_message = f'Update pet profile data at {timestamp}'
-
+            
             # Commit the changes with the timestamped message
-            subprocess.run(['git', 'commit', '-m', commit_message], check=True)
+            self.repo.git.commit('-m', commit_message)
             
             # Optionally, push the changes to a remote repository
-            subprocess.run(['git', 'push'], check=True)
+            self.repo.git.push()
             
             Logger.log(f"Changes committed successfully with message: {commit_message}")
         
-        except subprocess.CalledProcessError as e:
-            Logger.log(f"Error during Git operation: {e}")
-    
-    def update_pet_profile(self):
-        try:
-            # Code to update pet profile (for example, adding new data)
-            # After updating the data file (e.g., pets.json), automatically commit to Git
-            self.commit_changes_to_git()
-
         except Exception as e:
-            Logger.log(f"Error updating pet profile: {e}")
-
+            Logger.log(f"Error during Git operation: {str(e)}")
+    
+    
     def load_pets(self):
         try:
             if os.path.exists(self.json_file_path):
