@@ -11,8 +11,8 @@ class PetHandler:
     def __init__(self, json_file_path=JSON_FILE_PATH):
         self.json_file_path = json_file_path
         self.pets = self.load_pets()
-        self.repo_path = 'C:\Users\Administrator\Desktop\project-connecta'  # Your repository path
-        self.data_file = 'C:\Users\Administrator\Desktop\project-connecta\pets.json'  # Your data file, e.g., 'pets.json'
+        self.repo_path = r'C:\Users\Administrator\Desktop\project-connecta'  # Your repository path
+        self.data_file = r'C:\Users\Administrator\Desktop\project-connecta\pets.json'  # Your data file, e.g., 'pets.json'
 
     def commit_changes_to_git(self):
         try:
