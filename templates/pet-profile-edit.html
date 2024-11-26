@@ -292,7 +292,7 @@
               </div>
               <div class="mb-3">
                 <label for="allergyStatusInput" class="form-label">Allergy Status</label>
-                <input type="text" class="form-control" placeholder="input text" id="allergyStatusInput">
+                <input type="text" class="form-control" id="allergyStatusInput">
               </div>
               <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
@@ -344,11 +344,11 @@
               <input type="hidden" id="controlNumberInput" value="{{ pet.control_number }}">
               <div class="mb-3">
                 <label for="walkDistanceInput" class="form-label">Walk Distance</label>
-                <input type="text" class="form-control" placeholder="input text" id="walkDistanceInput">
+                <input type="text" class="form-control" id="walkDistanceInput">
               </div>
               <div class="mb-3">
                 <label for="activityInput" class="form-label">Activity</label>
-                <input type="text" class="form-control" placeholder="input text" id="activityInput">
+                <input type="text" class="form-control" id="activityInput">
               </div>
               <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
@@ -356,6 +356,7 @@
         </div>
       </div>
     </div>
+
 
     <script>
       // Extract control number from the URL (e.g., /pet/03/edit)
