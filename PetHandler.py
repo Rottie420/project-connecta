@@ -114,6 +114,7 @@ class PetHandler:
             # Save pet data
             self.pets[control_number] = pet_data
             self.save_pets()
+            self.commit_changes_to_git()
         
         return render_template(template, pet=pet)
 
@@ -160,6 +161,7 @@ class PetHandler:
             try:
                 Logger.log(f"Updating pet info: {pet['petname']}, {pet['petage']}, {pet['petbreed']}")
                 self.save_pets()  # Saving updated pet data
+                self.commit_changes_to_git()
             except Exception as e:
                 Logger.log(f"Error saving pet data: {e}")
                 return jsonify({"success": False, "message": "An error occurred while saving the data."}), 500
@@ -187,6 +189,7 @@ class PetHandler:
         # Save updated pet data
         self.pets[control_number] = pet
         self.save_pets()
+        self.commit_changes_to_git()
 
         return jsonify({"success": True})
 
@@ -205,6 +208,7 @@ class PetHandler:
         # Save updated pet data
         self.pets[control_number] = pet
         self.save_pets()
+        self.commit_changes_to_git()
 
         return jsonify({"success": True})
 
@@ -222,6 +226,7 @@ class PetHandler:
         # Save updated pet data
         self.pets[control_number] = pet
         self.save_pets()
+        self.commit_changes_to_git()
 
         return jsonify({"success": True})
 
