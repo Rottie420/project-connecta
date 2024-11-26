@@ -48,3 +48,186 @@
 25-11-2024 23:00:02 : Updating pet info: Timmie The Dog, 3, Shih-Tzu
 26-11-2024 04:08:05 : Error during Git operation: Command '['git', 'add', '.', 'C:\\Users\\Administrator\\Desktop\\project-connecta\\pets.json']' returned non-zero exit status 128.
 26-11-2024 04:25:11 : Error during Git operation: Command '['git', 'add', '.']' returned non-zero exit status 128.
+26-11-2024 11:46:19 : Git status output: 
+26-11-2024 11:46:19 : Error checking Git status: fatal: detected dubious ownership in repository at 'C:/Users/Administrator/Desktop/project-connecta'
+'C:/Users/Administrator/Desktop/project-connecta' is owned by:
+	'S-1-5-21-2443149638-1153851062-3145194959-500'
+but the current user is:
+	'S-1-5-82-540619561-80846136-1030876015-2334835442-4162245181'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Administrator/Desktop/project-connecta
+
+26-11-2024 11:53:01 : Git status output: 
+26-11-2024 11:53:01 : Error checking Git status: fatal: detected dubious ownership in repository at 'C:/Users/Administrator/Desktop/project-connecta'
+'C:/Users/Administrator/Desktop/project-connecta' is owned by:
+	'S-1-5-21-2443149638-1153851062-3145194959-500'
+but the current user is:
+	'S-1-5-82-540619561-80846136-1030876015-2334835442-4162245181'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Administrator/Desktop/project-connecta
+
+26-11-2024 11:58:48 : Git status output: 
+26-11-2024 11:58:48 : Error checking Git status: fatal: detected dubious ownership in repository at 'C:/Users/Administrator/Desktop/project-connecta'
+'C:/Users/Administrator/Desktop/project-connecta' is owned by:
+	'S-1-5-21-2443149638-1153851062-3145194959-500'
+but the current user is:
+	'S-1-5-82-540619561-80846136-1030876015-2334835442-4162245181'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Administrator/Desktop/project-connecta
+
+26-11-2024 12:00:24 : Git status output: 
+26-11-2024 12:00:24 : Error checking Git status: fatal: detected dubious ownership in repository at 'C:/Users/Administrator/Desktop/project-connecta'
+'C:/Users/Administrator/Desktop/project-connecta' is owned by:
+	'S-1-5-21-2443149638-1153851062-3145194959-500'
+but the current user is:
+	'S-1-5-82-540619561-80846136-1030876015-2334835442-4162245181'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Administrator/Desktop/project-connecta
+
+26-11-2024 12:06:20 : Git status output: 
+26-11-2024 12:06:20 : Error checking Git status: fatal: detected dubious ownership in repository at 'C:/Users/Administrator/Desktop/project-connecta'
+'C:/Users/Administrator/Desktop/project-connecta' is owned by:
+	'S-1-5-21-2443149638-1153851062-3145194959-500'
+but the current user is:
+	'S-1-5-82-540619561-80846136-1030876015-2334835442-4162245181'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Administrator/Desktop/project-connecta
+
+26-11-2024 12:30:00 : Git status output: 
+26-11-2024 12:30:00 : Error checking Git status: fatal: detected dubious ownership in repository at 'C:/Users/Administrator/Desktop/project-connecta'
+'C:/Users/Administrator/Desktop/project-connecta' is owned by:
+	'S-1-5-21-2443149638-1153851062-3145194959-500'
+but the current user is:
+	'S-1-5-82-540619561-80846136-1030876015-2334835442-4162245181'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Administrator/Desktop/project-connecta
+
+26-11-2024 12:33:23 : Git status output: 
+26-11-2024 12:33:23 : Error checking Git status: fatal: detected dubious ownership in repository at 'C:/Users/Administrator/Desktop/project-connecta'
+'C:/Users/Administrator/Desktop/project-connecta' is owned by:
+	'S-1-5-21-2443149638-1153851062-3145194959-500'
+but the current user is:
+	'S-1-5-82-540619561-80846136-1030876015-2334835442-4162245181'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory C:/Users/Administrator/Desktop/project-connecta
+
+26-11-2024 12:39:52 : Git status output:  M __pycache__/PetHandler.cpython-39.pyc
+ M log.txt
+ M pets.json
+?? __pycache__/BookingManager.cpython-312.pyc
+?? __pycache__/FileHandler.cpython-312.pyc
+?? __pycache__/Logger.cpython-312.pyc
+?? __pycache__/PetHandler.cpython-312.pyc
+?? __pycache__/config.cpython-312.pyc
+
+26-11-2024 12:39:52 : Git add output: 
+26-11-2024 12:39:52 : Error during Git operation: Command '['git', 'commit', '-m', 'Update pet profile data at 2024-11-26 12:39:52']' returned non-zero exit status 128.
+26-11-2024 12:39:52 : Standard error output: Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'connecta.store@WIN-LIVFRVQFMKO.(none)')
+
+26-11-2024 12:39:52 : Standard output: 
+26-11-2024 12:45:07 : Git status output: A  __pycache__/BookingManager.cpython-312.pyc
+A  __pycache__/FileHandler.cpython-312.pyc
+A  __pycache__/Logger.cpython-312.pyc
+A  __pycache__/PetHandler.cpython-312.pyc
+M  __pycache__/PetHandler.cpython-39.pyc
+A  __pycache__/config.cpython-312.pyc
+MM log.txt
+MM pets.json
+
+26-11-2024 12:45:07 : Git add output: 
+26-11-2024 12:45:08 : Error during Git operation: Command '['git', 'commit', '-m', 'Update pet profile data at 2024-11-26 12:45:07']' returned non-zero exit status 128.
+26-11-2024 12:45:08 : Standard error output: Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'connecta.store@WIN-LIVFRVQFMKO.(none)')
+
+26-11-2024 12:45:08 : Standard output: 
+26-11-2024 12:49:56 : Git status output: A  __pycache__/BookingManager.cpython-312.pyc
+A  __pycache__/FileHandler.cpython-312.pyc
+A  __pycache__/Logger.cpython-312.pyc
+A  __pycache__/PetHandler.cpython-312.pyc
+M  __pycache__/PetHandler.cpython-39.pyc
+A  __pycache__/config.cpython-312.pyc
+MM log.txt
+MM pets.json
+
+26-11-2024 12:49:56 : Git add output: 
+26-11-2024 12:49:57 : Error during Git operation: Command '['git', 'commit', '-m', 'Update pet profile data at 2024-11-26 12:49:56']' returned non-zero exit status 128.
+26-11-2024 12:49:57 : Standard error output: Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'connecta.store@WIN-LIVFRVQFMKO.(none)')
+
+26-11-2024 12:49:57 : Standard output: 
+26-11-2024 12:52:31 : Git status output: A  __pycache__/BookingManager.cpython-312.pyc
+A  __pycache__/FileHandler.cpython-312.pyc
+A  __pycache__/Logger.cpython-312.pyc
+A  __pycache__/PetHandler.cpython-312.pyc
+M  __pycache__/PetHandler.cpython-39.pyc
+A  __pycache__/config.cpython-312.pyc
+MM log.txt
+MM pets.json
+
+26-11-2024 12:52:32 : Git add output: 
+26-11-2024 12:52:32 : Error during Git operation: Command '['git', 'commit', '-m', 'Update pet profile data at 2024-11-26 12:52:32']' returned non-zero exit status 128.
+26-11-2024 12:52:32 : Standard error output: Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
+
+to set your account's default identity.
+Omit --global to set the identity only in this repository.
+
+fatal: unable to auto-detect email address (got 'connecta.store@WIN-LIVFRVQFMKO.(none)')
+
+26-11-2024 12:52:32 : Standard output: 
+26-11-2024 12:56:25 : Git status output: A  __pycache__/BookingManager.cpython-312.pyc
+A  __pycache__/FileHandler.cpython-312.pyc
+A  __pycache__/Logger.cpython-312.pyc
+A  __pycache__/PetHandler.cpython-312.pyc
+M  __pycache__/PetHandler.cpython-39.pyc
+A  __pycache__/config.cpython-312.pyc
+MM log.txt
+MM pets.json
+

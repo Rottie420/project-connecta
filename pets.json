@@ -12,11 +12,11 @@
         "vaccination_date": "2024-11-25",
         "vet_checkup_date": "2024-11-27",
         "allergy_status": "NO allergy",
-        "feed_time": "",
-        "walk_time": "",
-        "vet_appointment_date": "",
-        "walk_distance": "",
-        "last_activity": ""
+        "feed_time": "03:49",
+        "walk_time": "03:52",
+        "vet_appointment_date": "2024-11-27",
+        "walk_distance": "1km",
+        "last_activity": "Sleep"
     },
     "fbb097b5": {
         "photo": "",
