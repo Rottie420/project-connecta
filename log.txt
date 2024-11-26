@@ -47,3 +47,5 @@
 11-11-2024 02:30:52 : Updating pet info: Timme The Dog, 3, Shih Tzu
 25-11-2024 22:59:59 : the control number is 1a4b3d72
 25-11-2024 23:00:02 : Updating pet info: Timmie The Dog, 3, Shih-Tzu
+26-11-2024 04:08:05 : Error during Git operation: Command '['git', 'add', '.', 'C:\\Users\\Administrator\\Desktop\\project-connecta\\pets.json']' returned non-zero exit status 128.
+26-11-2024 04:25:11 : Error during Git operation: Command '['git', 'add', '.']' returned non-zero exit status 128.
