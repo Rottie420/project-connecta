@@ -1,5 +1,5 @@
 import os
-from PIL import Image
+from PIL import Image, ImageOps
 from werkzeug.utils import secure_filename
 from config import UPLOAD_FOLDER, ALLOWED_EXTENSIONS
 from Logger import Logger
