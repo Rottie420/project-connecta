@@ -22,8 +22,8 @@ class FileHandler:
         webp_path = os.path.join(UPLOAD_FOLDER, webp_filename)
         
         try:
-            img = Image.open(original_path)
-            img.save(webp_path, 'webp')
+            with Image.open(original_path) as img:
+                img.save(webp_path, 'webp')
         except Exception as e:
             Logger.log(f"Image conversion error for {filename}: {e}")
             raise
