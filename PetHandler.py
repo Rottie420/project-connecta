@@ -27,7 +27,7 @@ class PetHandler:
             Logger.log(f"Error saving pets data: {e}")
 
     def is_valid_control_number(self, control_number):
-        return control_number.isalnum() and control_number not in self.pets
+        return control_number.isdigit() and control_number not in self.pets
 
     def handle_pet_profile(self, control_number, template):
         pet = self.pets.get(control_number) if control_number else None
