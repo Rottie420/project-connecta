@@ -20,7 +20,7 @@ class PetHandler:
             os.chdir(self.repo_path)
             
             # Stage the changes (add the file to staging area)
-            subprocess.run(['git', 'add', '.' self.data_file], check=True)
+            subprocess.run(['git', 'add', '.', self.data_file], check=True)
             
             # Create a commit message with a timestamp
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
