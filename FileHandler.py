@@ -23,10 +23,11 @@ class FileHandler:
         
         try:
             with Image.open(original_path) as img:
-            img.save(webp_path, 'webp')
+                img.save(webp_path, 'webp')
         except Exception as e:
             Logger.log(f"Image conversion error for {filename}: {e}")
             raise
         finally:
             os.remove(original_path)  # Clean up original file
-        return f"{UPLOAD_FOLDER}/{webp_filename}"      
+        return f"{UPLOAD_FOLDER}/{webp_filename}"
+        
