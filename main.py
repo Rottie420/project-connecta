@@ -43,6 +43,14 @@ def pet_profile_edit(control_number):
 def pet_profile_view(control_number):
     return pet_handler.pet_profile_view(control_number)
 
+@app.route('/search-tag-number', methods=['GET'])
+def search_tag_number():
+    control_number = request.args.get('control_number')
+    if control_number:
+        # Redirect to the pet profile edit route with the control number
+        return redirect(url_for('pet_profile_edit', control_number=control_number))
+    return "Tag number invalid!", 400
+
 @app.route('/api/pet/update', methods=['POST'])
 def update_pet_profile():
     return pet_handler.update_pet_profile()

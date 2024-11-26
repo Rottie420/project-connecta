@@ -276,7 +276,7 @@
     </style>
 </head>
 <body>
-     <!-- Header -->
+    <!-- Header -->
     <header class="shadow-sm sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent border-0">
             <div class="container">
@@ -287,12 +287,17 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/order-now">Order Now</a>
+                            <a class="nav-link" href="#faqAccordion">Order Now</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#icon-grid">Features</a>
                         </li>
                     </ul>
+                    <!-- Search Bar -->
+                    <form class="d-flex ms-lg-3" action="/search-tag-number" method="GET">
+                        <input class="form-control me-2" type="text" name="control_number" placeholder="Search Tag No." aria-label="Search" required>
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </form>
                 </div>
             </div>
         </nav>
