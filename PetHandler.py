@@ -12,7 +12,6 @@ class PetHandler:
         self.json_file_path = json_file_path
         self.pets = self.load_pets()
         self.repo_path = r'C:\Users\Administrator\Desktop\project-connecta'  # Your repository path
-        self.data_file = r'C:\Users\Administrator\Desktop\project-connecta\pets.json'  # Your data file, e.g., 'pets.json'
 
     def commit_changes_to_git(self):
         try:
@@ -20,7 +19,7 @@ class PetHandler:
             os.chdir(self.repo_path)
             
             # Stage the changes (add the file to staging area)
-            subprocess.run(['git', 'add', '.', self.data_file], check=True)
+            subprocess.run(['git', 'add', '.'], check=True)
             
             # Create a commit message with a timestamp
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
