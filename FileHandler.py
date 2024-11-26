@@ -1,5 +1,5 @@
 import os
-from PIL import Image
+from PIL import Image, ImageOps
 from werkzeug.utils import secure_filename
 from config import UPLOAD_FOLDER, ALLOWED_EXTENSIONS
 from Logger import Logger
@@ -22,12 +22,19 @@ class FileHandler:
         webp_path = os.path.join(UPLOAD_FOLDER, webp_filename)
         
         try:
+            # Open the image and handle orientation
             with Image.open(original_path) as img:
-                img.save(webp_path, 'webp')
+                img = ImageOps.exif_transpose(img)  # Correct the orientation using EXIF data
+                img.save(webp_path, 'WEBP')
         except Exception as e:
             Logger.log(f"Image conversion error for {filename}: {e}")
             raise
         finally:
-            os.remove(original_path)  # Clean up original file
+            # Ensure the original file is deleted safely
+            if os.path.exists(original_path):
+                try:
+                    os.remove(original_path)
+                except Exception as e:
+                    Logger.log(f"Error deleting original file {filename}: {e}")
+                    raise
         return f"{UPLOAD_FOLDER}/{webp_filename}"
-        
