@@ -61,7 +61,7 @@ class PetHandler:
             
             # Optionally, push the changes to a remote repository
             push = subprocess.run(
-                ['git', 'push'],
+                ['git', 'push', '--force'],
                 capture_output=True, text=True, check=True
             )
 
