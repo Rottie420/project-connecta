@@ -47,6 +47,13 @@ class PetHandler:
         if self.is_empty(self.pets, control_number):
             return f"Please copy and save this control number : {control_number}", 400
 
+        if self.is_empty(self.pets, control_number):
+            return render_template(
+                "setup-tag.html",
+                title="Setup Your Tag",
+                message=control_number
+            ), 400
+
         if request.method == 'POST':
             # Collect form data
             pet_data = {
