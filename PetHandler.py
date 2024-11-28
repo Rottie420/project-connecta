@@ -39,6 +39,7 @@ class PetHandler:
         if data[key].get("petname", "") == "":
             data[key]["petname"] = "new user"
             self.save_pets()
+            Logger.log(f"New user name was triggered")
             return True  
 
         return False
