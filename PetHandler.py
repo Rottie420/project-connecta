@@ -40,7 +40,7 @@ class PetHandler:
             data[key]["petname"] = "new user"  # Set petname to "new user"
         
         self._save_data()
-        
+
         # Return True if the petname was empty, otherwise False
         return data[key]["petname"] == "new user"
 
@@ -51,13 +51,6 @@ class PetHandler:
         if not pet:
             return "Pet not found or invalid control number", 404
 
-        # Check if the pet profile is empty
-        if self.is_empty(self.pets, control_number):
-            return render_template(
-                "setup-tag.html",
-                title="Setup Your Tag",
-                message=control_number
-            ), 400
 
         if request.method == 'POST':
             # Collect form data
@@ -85,6 +78,14 @@ class PetHandler:
             # Validate control number
             if not self.is_valid_control_number(control_number):
                 return render_template(template, pet=pet, error="Invalid or duplicate control number")
+
+            # Check if the pet profile is empty
+            if self.is_empty(self.pets, control_number):
+                return render_template(
+                    "setup-tag.html",
+                    title="Setup Your Tag",
+                    message=control_number
+                ), 400
 
             # Handle file upload
             if 'photo' in request.files:
