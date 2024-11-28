@@ -33,8 +33,14 @@ class PetHandler:
 
     def is_empty(self, data, key):
         if key not in data:
-            return False  # Key does not exist
-        return all(value == "" for value in data[key].values())
+            return False  # Key does not exist in the data
+
+        # Check if any field in the entry is empty and set 'petname' to "new user" if it is
+        if data[key]["petname"] == "":
+            data[key]["petname"] = "new user"  # Set petname to "new user"
+
+        # Return True if the petname was empty, otherwise False
+        return data[key]["petname"] == "new user"
 
     def handle_pet_profile(self, control_number, template):
         pet = self.pets.get(control_number) if control_number else None
