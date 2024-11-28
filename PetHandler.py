@@ -39,6 +39,7 @@ class PetHandler:
         if data[key]["petname"] == "":
             # Set petname to "new user" if it is empty
             data[key]["petname"] = "new user"
+            self._save_data()
             return True  # Indicates that the petname was empty and has been set to "new user"
 
         # Return False if petname is not empty
@@ -53,7 +54,6 @@ class PetHandler:
 
         # Check if the pet profile is empty
         if self.is_empty(self.pets, control_number):
-            self._save_data()
             return render_template(
                 "setup-tag.html",
                 title="Setup Your Tag",
