@@ -35,10 +35,11 @@ class PetHandler:
         if key not in data:
             return False  # Key does not exist
 
+        # Indicates petname was empty and set to "new user"
         if data[key].get("petname", "") == "":
             data[key]["petname"] = "new user"
             self.save_pets()
-            return True  # Indicates petname was empty and set to "new user"
+            return True  
 
         return False
         
