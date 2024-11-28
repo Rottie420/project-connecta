@@ -442,3 +442,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
  M pets.json
 
 28-11-2024 07:03:40 : New user name was triggered
+28-11-2024 07:25:53 : the control number is fbb097b5
+28-11-2024 07:26:36 : the control number is fbb097b5
+28-11-2024 07:27:11 : the control number is fbb097b5
+28-11-2024 07:27:11 : Updating pet info: TESTSS, 4, asdas
