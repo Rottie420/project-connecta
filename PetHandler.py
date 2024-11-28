@@ -11,69 +11,6 @@ class PetHandler:
     def __init__(self, json_file_path=JSON_FILE_PATH):
         self.json_file_path = json_file_path
         self.pets = self.load_pets()
-
-    def commit_changes_to_git(self):
-        try:
-            # Ensure you're in the Git repository directory
-            if not os.path.exists(os.path.join(self.repo_path, '.git')):
-                Logger.log(f"Error: {self.repo_path} is not a valid Git repository.")
-                return
-            
-            os.chdir(self.repo_path)  # Change working directory to repo
-
-            # Check if there are changes to commit (i.e., untracked or modified files)
-            status = subprocess.run(
-                ['git', 'status', '--porcelain'],
-                capture_output=True, text=True
-            )
-
-            # Debugging the status output to check the repository state
-            Logger.log(f"Git status output: {status.stdout}")
-
-            if status.returncode != 0:
-                Logger.log(f"Error checking Git status: {status.stderr}")
-                return
-
-            # If there are no changes, exit early
-            if not status.stdout.strip():
-                Logger.log("No changes to commit.")
-                return
-            
-            # Stage the changes (add all changes)
-            add_result = subprocess.run(
-                ['git', 'add', '.'],
-                capture_output=True, text=True, check=True
-            )
-            Logger.log(f"Git add output: {add_result.stdout}")
-            
-            # Create a commit message with a timestamp
-            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            commit_message = f'Update pet profile data at {timestamp}'
-
-            # Commit the changes with the timestamped message
-            commit = subprocess.run(
-                ['git', 'commit', '-m', commit_message],
-                capture_output=True, text=True, check=True
-            )
-
-            Logger.log(f"Git commit output: {commit.stdout}")
-            
-            # Optionally, push the changes to a remote repository
-            push = subprocess.run(
-                ['git', 'push', '--force'],
-                capture_output=True, text=True, check=True
-            )
-
-            Logger.log(f"Git push output: {push.stdout}")
-
-            Logger.log(f"Changes committed successfully with message: {commit_message}")
-        
-        except subprocess.CalledProcessError as e:
-            Logger.log(f"Error during Git operation: {e}")
-            Logger.log(f"Standard error output: {e.stderr}")
-            Logger.log(f"Standard output: {e.stdout}")
-        except Exception as e:
-            Logger.log(f"Unexpected error: {e}")
     
     def load_pets(self):
         try:
@@ -94,10 +31,21 @@ class PetHandler:
     def is_valid_control_number(self, control_number):
         return control_number.isalnum() and control_number not in self.pets
 
+    def is_empty(data, key):
+        if key not in data:
+            return False  # Key does not exist
+        return all(value == "" for value in data[key].values())
+
     def handle_pet_profile(self, control_number, template):
         pet = self.pets.get(control_number) if control_number else None
+
+        # Check if the control_number is valid
         if not pet:
             return "Pet not found or invalid control number", 404
+
+        # Check if the pet profile is empty
+        if self.is_empty(self.pets, control_number):
+            return f"Please copy and save this control number : {control_number}", 400
 
         if request.method == 'POST':
             # Collect form data
