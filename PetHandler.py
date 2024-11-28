@@ -31,7 +31,7 @@ class PetHandler:
     def is_valid_control_number(self, control_number):
         return control_number.isalnum() and control_number not in self.pets
 
-    def is_empty(data, key):
+    def is_empty(self, data, key):
         if key not in data:
             return False  # Key does not exist
         return all(value == "" for value in data[key].values())
