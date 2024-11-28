@@ -38,7 +38,9 @@ class PetHandler:
         # Check if any field in the entry is empty and set 'petname' to "new user" if it is
         if data[key]["petname"] == "":
             data[key]["petname"] = "new user"  # Set petname to "new user"
-
+        
+        self._save_data()
+        
         # Return True if the petname was empty, otherwise False
         return data[key]["petname"] == "new user"
 
