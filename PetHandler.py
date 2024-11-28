@@ -38,9 +38,13 @@ class PetHandler:
         # Indicates petname was empty and set to "new user"
         if data[key].get("petname", "") == "":
             data[key]["petname"] = "new user"
-            self.save_pets()
-            Logger.log(f"New user name was triggered")
-            return True  
+            try:
+                self.save_pets()
+                Logger.log(f"New user name was triggered and data was saved successfully")
+                return True
+            except Exception as e:
+                Logger.log(f"Failed to save data: {e}")
+                return False  # Return False if saving fails
 
         return False
         
