@@ -441,3 +441,4 @@ no changes added to commit (use "git add" and/or "git commit -a")
 26-11-2024 20:09:57 : Git status output:  M __pycache__/PetHandler.cpython-39.pyc
  M pets.json
 
+28-11-2024 07:03:40 : New user name was triggered
