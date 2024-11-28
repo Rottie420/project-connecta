@@ -45,9 +45,6 @@ class PetHandler:
 
         # Check if the pet profile is empty
         if self.is_empty(self.pets, control_number):
-            return f"Please copy and save this control number : {control_number}", 400
-
-        if self.is_empty(self.pets, control_number):
             return render_template(
                 "setup-tag.html",
                 title="Setup Your Tag",
