@@ -1,7 +1,6 @@
 import json
 import os
-import subprocess
-from datetime import datetime
+import asyncio
 from config import JSON_FILE_PATH
 from Logger import Logger
 from FileHandler import FileHandler
@@ -10,20 +9,20 @@ from flask import request, render_template, jsonify
 class PetHandler:
     def __init__(self, json_file_path=JSON_FILE_PATH):
         self.json_file_path = json_file_path
-        self.pets = self.load_pets()
-    
-    def load_pets(self):
+        self.pets = asyncio.run(self.load_pets())  # Load pets during initialization
+
+    async def load_pets(self):
         try:
             if os.path.exists(self.json_file_path):
-                with open(self.json_file_path, 'r', encoding='utf-8') as f:
+                async with asyncio.to_thread(open, self.json_file_path, 'r', encoding='utf-8') as f:
                     return json.load(f)
         except Exception as e:
             Logger.log(f"Error loading pets data: {e}")
         return {}
 
-    def save_pets(self):
+    async def save_pets(self):
         try:
-            with open(self.json_file_path, 'w', encoding='utf-8') as f:
+            async with asyncio.to_thread(open, self.json_file_path, 'w', encoding='utf-8') as f:
                 json.dump(self.pets, f, indent=4)
         except Exception as e:
             Logger.log(f"Error saving pets data: {e}")
@@ -31,7 +30,7 @@ class PetHandler:
     def is_valid_control_number(self, control_number):
         return control_number.isalnum() and control_number not in self.pets
 
-    def is_empty(self, data, key):
+    async def is_empty(self, data, key):
         if key not in data:
             return False  # Key does not exist
 
@@ -39,7 +38,7 @@ class PetHandler:
         if data[key].get("petname", "") == "":
             data[key]["petname"] = "new user"
             try:
-                self.save_pets()
+                await self.save_pets()
                 Logger.log(f"New user name was triggered and data was saved successfully")
                 return True
             except Exception as e:
@@ -47,8 +46,8 @@ class PetHandler:
                 return False  # Return False if saving fails
 
         return False
-        
-    def handle_pet_profile(self, control_number, template):
+
+    async def handle_pet_profile(self, control_number, template):
         pet = self.pets.get(control_number) if control_number else None
 
         # Check if the control_number is valid
@@ -56,7 +55,7 @@ class PetHandler:
             return "Pet not found or invalid control number", 404
 
         # Check if the pet profile is empty
-        if self.is_empty(self.pets, control_number):
+        if await self.is_empty(self.pets, control_number):
             return render_template(
                 "setup-tag.html",
                 title="Setup Your Tag",
@@ -85,7 +84,7 @@ class PetHandler:
             }
 
             control_number = pet_data["control_number"]
-                
+
             # Validate control number
             if not self.is_valid_control_number(control_number):
                 return render_template(template, pet=pet, error="Invalid or duplicate control number")
@@ -97,7 +96,7 @@ class PetHandler:
                     return render_template(template, pet=pet, error="No selected file")
                 if file and FileHandler.allowed_file(file.filename):
                     try:
-                        pet_data['photo'] = FileHandler.save_and_convert_image(file, control_number)
+                        pet_data['photo'] = await asyncio.to_thread(FileHandler.save_and_convert_image, file, control_number)
                     except Exception as e:
                         Logger.log(f"Error saving or converting image: {e}")
                         return render_template(template, pet=pet, error="Failed to convert image.")
@@ -106,23 +105,22 @@ class PetHandler:
 
             # Save pet data
             self.pets[control_number] = pet_data
-            self.save_pets()
-            
-        
+            await self.save_pets()
+
         return render_template(template, pet=pet)
 
     def pet_profile_edit(self, control_number):
-        return self.handle_pet_profile(control_number, 'pet-profile-edit.html')
+        return asyncio.run(self.handle_pet_profile(control_number, 'pet-profile-edit.html'))
 
     def pet_profile_view(self, control_number):
-        return self.handle_pet_profile(control_number, 'pet-profile-view.html')
+        return asyncio.run(self.handle_pet_profile(control_number, 'pet-profile-view.html'))
 
-    def update_pet_profile(self):
+    async def update_pet_profile(self):
         try:
             # Extract control_number from request.form (for multipart data)
             control_number = request.form.get('control_number')
             Logger.log(f'the control number is {control_number}')
-            
+
             if not control_number or control_number not in self.pets:
                 return jsonify({"success": False, "message": "Pet not found"}), 404
 
@@ -142,7 +140,7 @@ class PetHandler:
             if file:
                 if FileHandler.allowed_file(file.filename):
                     try:
-                        pet['photo'] = FileHandler.save_and_convert_image(file, control_number)
+                        pet['photo'] = await asyncio.to_thread(FileHandler.save_and_convert_image, file, control_number)
                     except Exception as e:
                         Logger.log(f"Error saving or converting image: {e}")
                         return jsonify({"success": False, "message": "Failed to convert image."}), 500
@@ -153,8 +151,7 @@ class PetHandler:
             self.pets[control_number] = pet
             try:
                 Logger.log(f"Updating pet info: {pet['petname']}, {pet['petage']}, {pet['petbreed']}")
-                self.save_pets()  # Saving updated pet data
-                
+                await self.save_pets()  # Saving updated pet data
             except Exception as e:
                 Logger.log(f"Error saving pet data: {e}")
                 return jsonify({"success": False, "message": "An error occurred while saving the data."}), 500
@@ -165,8 +162,7 @@ class PetHandler:
             Logger.log(f"Unexpected error: {e}")
             return jsonify({"success": False, "message": "An unexpected error occurred."}), 500
 
-
-    def update_medical_history(self, data):
+    async def update_medical_history(self, data):
         control_number = data.get('control_number')
         if not control_number or control_number not in self.pets:
             return jsonify({"success": False, "message": "Pet not found"}), 404
@@ -181,12 +177,11 @@ class PetHandler:
 
         # Save updated pet data
         self.pets[control_number] = pet
-        self.save_pets()
-        
+        await self.save_pets()
 
         return jsonify({"success": True})
 
-    def update_care_reminders(self, data):
+    async def update_care_reminders(self, data):
         control_number = data.get('control_number')
         if not control_number or control_number not in self.pets:
             return jsonify({"success": False, "message": "Pet not found"}), 404
@@ -200,12 +195,11 @@ class PetHandler:
 
         # Save updated pet data
         self.pets[control_number] = pet
-        self.save_pets()
-        
+        await self.save_pets()
 
         return jsonify({"success": True})
 
-    def update_activity_log(self, data):
+    async def update_activity_log(self, data):
         control_number = data.get('control_number')
         if not control_number or control_number not in self.pets:
             return jsonify({"success": False, "message": "Pet not found"}), 404
@@ -218,8 +212,6 @@ class PetHandler:
 
         # Save updated pet data
         self.pets[control_number] = pet
-        self.save_pets()
-        
+        await self.save_pets()
 
         return jsonify({"success": True})
-
