@@ -229,9 +229,9 @@
     <script>
         const decreaseBtns = document.querySelectorAll('.decrease');
         const increaseBtns = document.querySelectorAll('.increase');
-        const itemPrice = 0.49;
+        const itemPrice = 6.49;
         const shippingOptions = {
-            standard: 0.00,
+            standard: 5.00,
             express: 10.00,
         };
         const taxRate = 0.09; // 9% tax rate
@@ -313,7 +313,7 @@
                     purchase_units: [{
                         items: [{
                             name: 'NFC Tag', // Item name
-                            sku: 'TAG1513', // Item ID or SKU
+                           /*  sku: 'TAG1513', // Item ID or SKU */
                             unit_amount: {
                                 currency_code: 'USD',
                                 value: itemPrice.toFixed(2)
