@@ -234,8 +234,9 @@
             standard: 0.00,
             express: 10.00,
         };
-        const taxRate = 0.09; // 5% tax rate
+        const taxRate = 0.09; // 9% tax rate
         let selectedShipping = "standard"; // Default shipping option
+        let totalQuantity = 0; // Total quantity across all items
     
         // Event listeners for quantity buttons
         decreaseBtns.forEach((btn) => {
@@ -272,17 +273,17 @@
         function updateSummary() {
             // Calculate total quantity
             const quantities = document.querySelectorAll('.quantity');
-            let totalQuantity = 0;
+            totalQuantity = 0;
             quantities.forEach((quantityElement) => {
                 totalQuantity += parseInt(quantityElement.textContent);
             });
-
-            const quantity = parseInt(document.querySelector('.quantity').textContent);
+    
             const shippingPrice = shippingOptions[selectedShipping];
-            const subtotal = quantity * itemPrice;
+            const subtotal = totalQuantity * itemPrice;
             const tax = subtotal * taxRate;
             const totalPrice = subtotal + shippingPrice + tax;
-            
+    
+            // Update UI elements
             document.querySelector('.total-quantity').textContent = totalQuantity;
             document.querySelector('.subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
             document.querySelector('.shipping-fee').textContent = `$${shippingPrice.toFixed(2)}`;
@@ -292,7 +293,7 @@
     
         // Initialize the summary
         updateSummary();
-
+    
         // PayPal Button Render
         paypal.Buttons({
             createOrder: (data, actions) => {
@@ -304,9 +305,9 @@
                             sku: 'TAG1513', // Item ID or SKU
                             unit_amount: {
                                 currency_code: 'USD',
-                                value: totalPrice.toFixed(2)
+                                value: itemPrice.toFixed(2) // Price per item
                             },
-                            quantity: totalQuantity
+                            quantity: totalQuantity // Total quantity of items
                         }],
                         amount: {
                             value: totalPrice.toFixed(2),
@@ -323,7 +324,7 @@
                 console.error('Error occurred during payment:', err);
             }
         }).render('#paypal-button-container');
-
-    </script>        
+    </script>
+    
 </body>
 </html>
