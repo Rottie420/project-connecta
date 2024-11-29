@@ -229,9 +229,9 @@
     <script>
         const decreaseBtns = document.querySelectorAll('.decrease');
         const increaseBtns = document.querySelectorAll('.increase');
-        const itemPrice = 6.49;
+        const itemPrice = 0.49;
         const shippingOptions = {
-            standard: 5.00,
+            standard: 0.00,
             express: 10.00,
         };
         const taxRate = 0.09; // 5% tax rate
@@ -299,6 +299,15 @@
                 const totalPrice = parseFloat(document.querySelector('.total-price').textContent.replace('$', ''));
                 return actions.order.create({
                     purchase_units: [{
+                        items: [{
+                            name: 'NFC Tag', // Item name
+                            sku: 'TAG1513', // Item ID or SKU
+                            unit_amount: {
+                                currency_code: 'USD',
+                                value: totalPrice.toFixed(2)
+                            },
+                            quantity: totalQuantity
+                        }],
                         amount: {
                             value: totalPrice.toFixed(2),
                         }
@@ -314,6 +323,7 @@
                 console.error('Error occurred during payment:', err);
             }
         }).render('#paypal-button-container');
+
     </script>        
 </body>
 </html>
