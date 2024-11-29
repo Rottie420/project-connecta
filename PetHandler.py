@@ -1,4 +1,5 @@
 import json
+import redis
 import os
 import subprocess
 from datetime import datetime
@@ -8,43 +9,46 @@ from FileHandler import FileHandler
 from flask import request, render_template, jsonify
 
 class PetHandler:
-    def __init__(self, json_file_path=JSON_FILE_PATH):
-        self.json_file_path = json_file_path
+    def __init__(self, redis_host='localhost', redis_port=6379, redis_db=0):
+        self.redis_client = redis.StrictRedis(host=redis_host, port=redis_port, db=redis_db, decode_responses=True)
         self.pets = self.load_pets()
-    
+
     def load_pets(self):
+        """Load pets data from Redis."""
         try:
-            if os.path.exists(self.json_file_path):
-                with open(self.json_file_path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+            if self.redis_client.exists("pets"):
+                pets_data = self.redis_client.get("pets")
+                return json.loads(pets_data)
+            return {}  # Return empty if no data in Redis
         except Exception as e:
             Logger.log(f"Error loading pets data: {e}")
-        return {}
+            return {}
 
     def save_pets(self):
+        """Save pets data to Redis."""
         try:
-            with open(self.json_file_path, 'w', encoding='utf-8') as f:
-                json.dump(self.pets, f, indent=4)
+            self.redis_client.set("pets", json.dumps(self.pets))
         except Exception as e:
             Logger.log(f"Error saving pets data: {e}")
 
     def is_valid_control_number(self, control_number):
+        """Check if a control number is valid and unique."""
         return control_number.isalnum() and control_number not in self.pets
 
     def is_empty(self, data, key):
+        """Check if the pet data for a given key is empty, and set default if necessary."""
         if key not in data:
             return False  # Key does not exist
 
-        # Indicates petname was empty and set to "new user"
         if data[key].get("petname", "") == "":
             data[key]["petname"] = "new user"
             try:
                 self.save_pets()
-                Logger.log(f"New user name was triggered and data was saved successfully")
+                Logger.log("New user name was triggered and data was saved successfully")
                 return True
             except Exception as e:
                 Logger.log(f"Failed to save data: {e}")
-                return False  # Return False if saving fails
+                return False
 
         return False
         
