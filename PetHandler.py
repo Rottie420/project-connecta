@@ -32,11 +32,12 @@ class PetHandler:
         return control_number.isalnum() and control_number not in self.pets
 
     def is_empty(self, data, key):
-        if key not in data:
-            return False  # Key does not exist
+        # Check if the key exists and is a dictionary with a petname entry
+        if key not in data or not isinstance(data[key], dict):
+            return False  # Key does not exist or is not in the expected format
 
-        # Indicates petname was empty and set to "new user"
-        if data[key].get("petname", "") == "":
+        # If 'petname' is empty, set it to "new user"
+        if data[key].get("petname", "").strip() == "":
             data[key]["petname"] = "new user"
             try:
                 self.save_pets()
