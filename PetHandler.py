@@ -1,4 +1,4 @@
-import orjson
+import json
 import os
 import subprocess
 from datetime import datetime
@@ -15,16 +15,16 @@ class PetHandler:
     def load_pets(self):
         try:
             if os.path.exists(self.json_file_path):
-                with open(self.json_file_path, 'rb') as f:  # 'rb' mode for orjson
-                    return orjson.loads(f.read())
+                with open(self.json_file_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
         except Exception as e:
             Logger.log(f"Error loading pets data: {e}")
         return {}
 
     def save_pets(self):
         try:
-            with open(self.json_file_path, 'wb') as f:  # 'wb' mode for orjson
-                f.write(orjson.dumps(self.pets, option=orjson.OPT_INDENT_4))
+            with open(self.json_file_path, 'w', encoding='utf-8') as f:
+                json.dump(self.pets, f, indent=4)
         except Exception as e:
             Logger.log(f"Error saving pets data: {e}")
 
