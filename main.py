@@ -23,17 +23,9 @@ def index():
 def order_now():
     return render_page_with_logging('order-form.html', "Order Form")
 
-@app.route('/smart-nfc-card')
-def smart_nfc_card():
-    return render_page_with_logging('smart-nfc-card.html', "Smart NFC Card")
-
-@app.route('/smart-nfc-sticker')
-def smart_nfc_sticker():
-    return render_page_with_logging('smart-nfc-sticker.html', "Smart NFC Sticker")
-
-@app.route('/smart-nfc-wearables')
-def smart_nfc_wearables():
-    return render_page_with_logging('smart-nfc-wearables.html', "Smart NFC Wearables")
+@app.route('/terms-and-conditions')
+def terms_and_conditions():
+    return render_page_with_logging('terms-and-conditions.html', "Terms & Conditions")
 
 @app.route('/pet/<control_number>/edit', methods=['GET', 'POST'])
 def pet_profile_edit(control_number):
