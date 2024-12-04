@@ -168,7 +168,7 @@
                         <div class="col-2"><img class="img-fluid" src="{{ url_for('static', filename='item.jpg') }}"></div>
                         <div class="col">
                             <div class="row text-muted">Smart Tags</div>
-                            <div class="row">Keychain</div>
+                            <div class="row">PET-TAG</div>
                         </div>
                         <div class="col">
                             <a href="#" class="decrease">-</a>
@@ -177,13 +177,19 @@
                         </div>
                         <div class="col"><span class="item-price">$6.49</span><span class="close">&#10005;</span></div>
                     </div>
-                   <!--  <form>
+
+                   
+                </div>
+                <div class="col">
+                    <div class="row text-secondary fw-bold mt-5">NOTE:</div>
+                    <div class="row text-secondary fw-light">Orders are typically delivered within 3 to 22 business days, depending on the destination and shipping method.</div>
+                </div>
+                <!--  <form>
                         <input type="text" placeholder="Full Name" required>
                         <input type="text" placeholder="Address" required>
                         <input type="text" placeholder="City" required>
                         <input type="text" placeholder="Postal Code" required>
                     </form> -->
-                </div>
                 <div class="back-to-shop"><a href="/">&leftarrow;</a><span class="text-muted">Back to home</span></div>
             </div>
             <div class="col-md-4 summary">
@@ -192,8 +198,8 @@
 
                 <p>SHIPPING</p>
                 <select class="form-select" aria-label="Shipping options" style="margin-bottom: 1rem;">
-                    <option value="standard" selected>Standard Delivery - $5.00</option>
-                    <option value="express">Express Delivery - $10.00</option>
+                    <option value="standard" selected>Standard - Min($5.00)</option>
+                    <option value="express">Express - Min($10.00)</option>
                 </select>
                 
                 <div class="row">
@@ -234,9 +240,8 @@
             standard: 5.00,
             express: 10.00,
         };
-        const taxRate = 0.09; // 9% tax rate
+        const taxRate = 0.09; // 5% tax rate
         let selectedShipping = "standard"; // Default shipping option
-        let totalQuantity = 0; // Total quantity across all items
     
         // Event listeners for quantity buttons
         decreaseBtns.forEach((btn) => {
@@ -277,12 +282,16 @@
             quantities.forEach((quantityElement) => {
                 totalQuantity += parseInt(quantityElement.textContent);
             });
-    
-            const shippingPrice = shippingOptions[selectedShipping];
+
+            // Calculate shipping price with the additional charge
+            const baseShippingPrice = shippingOptions[selectedShipping];
+            const additionalShipping = totalQuantity > 1 ? 2 * (totalQuantity - 1) : 0;
+            const shippingPrice = baseShippingPrice + additionalShipping;
+
             const subtotal = totalQuantity * itemPrice;
             const tax = subtotal * taxRate;
             const totalPrice = subtotal + shippingPrice + tax;
-    
+
             // Update UI elements
             document.querySelector('.total-quantity').textContent = totalQuantity;
             document.querySelector('.subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
@@ -290,61 +299,18 @@
             document.querySelector('.tax-fee').textContent = `$${tax.toFixed(2)}`;
             document.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
         }
-    
+
         // Initialize the summary
         updateSummary();
-    
+
         // PayPal Button Render
         paypal.Buttons({
             createOrder: (data, actions) => {
                 const totalPrice = parseFloat(document.querySelector('.total-price').textContent.replace('$', ''));
-                const quantityElements = document.querySelectorAll('.quantity');
-                let totalQuantity = 0;
-                
-                // Sum up the quantities from all quantity elements
-                quantityElements.forEach((quantityElement) => {
-                    totalQuantity += parseInt(quantityElement.textContent);
-                });
-
-                // Calculate the item total for all items
-                const itemTotal = itemPrice * totalQuantity;
-
                 return actions.order.create({
                     purchase_units: [{
-                        items: [{
-                            name: 'Smart NFC Tag', // Item name
-                            sku: 'NTAG215', // Item ID or SKU
-                            unit_amount: {
-                                currency_code: 'USD',
-                                value: itemPrice.toFixed(2)
-                            },
-                            quantity: totalQuantity,
-                            amount: {
-                                breakdown: {
-                                    item_total: {
-                                        currency_code: 'USD',
-                                        value: itemTotal.toFixed(2)
-                                    }
-                                }
-                            }
-                        }],
                         amount: {
-                            currency_code: 'USD',
                             value: totalPrice.toFixed(2),
-                            breakdown: {
-                                item_total: {
-                                    currency_code: 'USD',
-                                    value: itemTotal.toFixed(2)
-                                },
-                                shipping: {
-                                    currency_code: 'USD',
-                                    value: shippingOptions[selectedShipping].toFixed(2)
-                                },
-                                tax_total: {
-                                    currency_code: 'USD',
-                                    value: (itemTotal * taxRate).toFixed(2)
-                                }
-                            }
                         }
                     }]
                 });
@@ -358,8 +324,6 @@
                 console.error('Error occurred during payment:', err);
             }
         }).render('#paypal-button-container');
-
-    </script>
-    
+    </script>        
 </body>
 </html>
