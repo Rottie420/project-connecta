@@ -168,7 +168,7 @@
                         <div class="col-2"><img class="img-fluid" src="{{ url_for('static', filename='item.jpg') }}"></div>
                         <div class="col">
                             <div class="row text-muted">Smart Tags</div>
-                            <div class="row">PET-TAG</div>
+                            <div class="row">Keychain</div>
                         </div>
                         <div class="col">
                             <a href="#" class="decrease">-</a>
@@ -177,19 +177,37 @@
                         </div>
                         <div class="col"><span class="item-price">$6.49</span><span class="close">&#10005;</span></div>
                     </div>
-
-                   
                 </div>
-                <div class="col">
-                    <div class="row text-secondary fw-bold mt-5">NOTE:</div>
+                <div class="col-12 mt-4">DELIVERY</div>
+                <form style="margin-bottom: -1em;">
+                    <div class="mb-3" style="padding-left: 0.8em; padding-right: 0.8em;">
+                        <input type="text" class="form-control" placeholder="Address 1" id="address1" required>
+                    </div>
+                    <div class="mb-3" style="padding-left: 0.8em; padding-right: 0.8em;">
+                        <input type="text" class="form-control" placeholder="Address 2" id="address2" required>
+                    </div>
+                    <div class="row mb-1">
+                        <div class="col-12 col-sm-6 col-md-6">
+                            <input type="text" class="form-control" placeholder="City" id="city" required>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6">
+                            <input type="text" class="form-control" placeholder="State" id="state" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-12 col-sm-6 col-md-6">
+                            <input type="text" class="form-control" placeholder="Postal Code"  id="postalCode" required>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-6">
+                            <input type="text" class="form-control" placeholder="Country Code: ex.(US)"  id="countryCode" required>
+                        </div>
+                    </div> 
+                </form>
+                
+                <div class="col" style="margin-bottom: -2em;">
+                    <div class="row text-secondary fw-bold">NOTE</div>
                     <div class="row text-secondary fw-light">Orders are typically delivered within 3 to 22 business days, depending on the destination and shipping method.</div>
                 </div>
-                <!--  <form>
-                        <input type="text" placeholder="Full Name" required>
-                        <input type="text" placeholder="Address" required>
-                        <input type="text" placeholder="City" required>
-                        <input type="text" placeholder="Postal Code" required>
-                    </form> -->
                 <div class="back-to-shop"><a href="/">&leftarrow;</a><span class="text-muted">Back to home</span></div>
             </div>
             <div class="col-md-4 summary">
@@ -198,8 +216,8 @@
 
                 <p>SHIPPING</p>
                 <select class="form-select" aria-label="Shipping options" style="margin-bottom: 1rem;">
-                    <option value="standard" selected>Standard - Min($5.00)</option>
-                    <option value="express">Express - Min($10.00)</option>
+                    <option value="standard" selected>Standard Delivery - $5.00</option>
+                    <option value="express">Express Delivery - $10.00</option>
                 </select>
                 
                 <div class="row">
@@ -240,7 +258,7 @@
             standard: 5.00,
             express: 10.00,
         };
-        const taxRate = 0.09; // 5% tax rate
+        const taxRate = 0.09; // 9% tax rate
         let selectedShipping = "standard"; // Default shipping option
     
         // Event listeners for quantity buttons
@@ -276,22 +294,20 @@
     
         // Function to update the summary
         function updateSummary() {
-            // Calculate total quantity
             const quantities = document.querySelectorAll('.quantity');
-            totalQuantity = 0;
+            let totalQuantity = 0;
             quantities.forEach((quantityElement) => {
                 totalQuantity += parseInt(quantityElement.textContent);
             });
-
-            // Calculate shipping price with the additional charge
+    
             const baseShippingPrice = shippingOptions[selectedShipping];
             const additionalShipping = totalQuantity > 1 ? 2 * (totalQuantity - 1) : 0;
             const shippingPrice = baseShippingPrice + additionalShipping;
-
+    
             const subtotal = totalQuantity * itemPrice;
             const tax = subtotal * taxRate;
             const totalPrice = subtotal + shippingPrice + tax;
-
+    
             // Update UI elements
             document.querySelector('.total-quantity').textContent = totalQuantity;
             document.querySelector('.subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
@@ -299,31 +315,92 @@
             document.querySelector('.tax-fee').textContent = `$${tax.toFixed(2)}`;
             document.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
         }
-
+    
         // Initialize the summary
         updateSummary();
-
+    
         // PayPal Button Render
         paypal.Buttons({
-            createOrder: (data, actions) => {
-                const totalPrice = parseFloat(document.querySelector('.total-price').textContent.replace('$', ''));
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            value: totalPrice.toFixed(2),
+        createOrder: (data, actions) => {
+            const totalQuantity = Array.from(document.querySelectorAll('.quantity')).reduce(
+                (sum, el) => sum + parseInt(el.textContent),
+                0
+            );
+
+            const itemTotal = (itemPrice * totalQuantity).toFixed(2); // Calculate item total
+            const shippingValue = selectedShipping === "standard" 
+                ? shippingOptions.standard 
+                : shippingOptions.express;
+            const additionalShipping = totalQuantity > 1 ? 2 * (totalQuantity - 1) : 0;
+            const shippingCost = (shippingValue + additionalShipping).toFixed(2);
+
+            const taxValue = (itemTotal * taxRate).toFixed(2); // Calculate tax
+            const totalValue = (parseFloat(itemTotal) + parseFloat(shippingCost) + parseFloat(taxValue)).toFixed(2);
+
+            const addressLine1 = document.getElementById('address1').value;
+            const addressLine2 = document.getElementById('address2').value;
+            const city = document.getElementById('city').value;
+            const state = document.getElementById('state').value;
+            const postalCode = document.getElementById('postalCode').value;
+            const countryCode = document.getElementById('countryCode').value;
+
+            return actions.order.create({
+                purchase_units: [{
+                    items: [{
+                        name: 'Smart NFC Tag',
+                        sku: 'NTAG215',
+                        unit_amount: {
+                            currency_code: 'USD',
+                            value: itemPrice.toFixed(2),
+                        },
+                        quantity: totalQuantity,
+                    }],
+                    amount: {
+                        currency_code: 'USD',
+                        value: totalValue, // Total must match breakdown
+                        breakdown: {
+                            item_total: {
+                                currency_code: 'USD',
+                                value: itemTotal,
+                            },
+                            shipping: {
+                                currency_code: 'USD',
+                                value: shippingCost,
+                            },
+                            tax_total: {
+                                currency_code: 'USD',
+                                value: taxValue,
+                            },
+                        },
+                    },
+                    shipping: {
+                        address: {
+                            address_line_1: addressLine1,
+                            address_line_2: addressLine2,
+                            admin_area_2: city,
+                            admin_area_1: state,
+                            postal_code: postalCode,
+                            country_code: countryCode
                         }
-                    }]
-                });
-            },
-            onApprove: (data, actions) => {
-                return actions.order.capture().then(function(details) {
-                    alert('Payment Successful! Thank you, ' + details.payer.name.given_name);
-                });
-            },
-            onError: (err) => {
-                console.error('Error occurred during payment:', err);
-            }
-        }).render('#paypal-button-container');
-    </script>        
+                    }
+                }],
+                application_context: {
+                    shipping_preference: 'SET_PROVIDED_ADDRESS' // Ensures the provided address is used
+                }
+            });
+        },
+        onApprove: (data, actions) => {
+            return actions.order.capture().then((details) => {
+                alert('Payment Successful! Thank you, ' + details.payer.name.given_name);
+            });
+        },
+        onError: (err) => {
+            console.error('Error occurred during payment:', err);
+        },
+    }).render('#paypal-button-container');
+
+    </script>
+    
+    
 </body>
 </html>
