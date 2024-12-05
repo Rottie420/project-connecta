@@ -497,7 +497,13 @@
             selectedShipping = e.target.value; // Update selected shipping
             updateSummary();
         });
-    
+        
+        // Event listener for country selection
+        document.getElementById("country").addEventListener("change", (e) => {
+            selectedCountry = e.target.value; // Update selected country
+            updateSummary(); // Update the summary with new country
+        });
+        
         // Function to update the summary
         function updateSummary() {
             const quantities = document.querySelectorAll('.quantity');
@@ -520,6 +526,7 @@
             document.querySelector('.shipping-fee').textContent = `$${shippingPrice.toFixed(2)}`;
             document.querySelector('.tax-fee').textContent = `$${tax.toFixed(2)}`;
             document.querySelector('.total-price').textContent = `$${totalPrice.toFixed(2)}`;
+            
         }
     
         // Initialize the summary
@@ -590,7 +597,7 @@
                             admin_area_2: city,
                             admin_area_1: state,
                             postal_code: postalCode,
-                            country_code: selectedCountry
+                            country_code: selectedCountry,
                         }
                     }
                 }],
