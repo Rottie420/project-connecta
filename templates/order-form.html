@@ -550,7 +550,7 @@
             const city = document.getElementById('city').value;
             const state = document.getElementById('state').value;
             const postalCode = document.getElementById('postalCode').value;
-            const selectedCountry = document.querySelector('[name="country"]');
+            const selectedCountry = document.querySelector('[name="country"]').value;
             
             return actions.order.create({
                 purchase_units: [{
