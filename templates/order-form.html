@@ -179,6 +179,9 @@
                 <div class="col-12 mt-4">DELIVERY</div>
                 <form style="margin-bottom: -1em;">
                     <div class="mb-3" style="padding-left: 0.8em; padding-right: 0.8em;">
+                        <input type="text" class="form-control" placeholder="Full Name" id="fullName" required>
+                    </div>
+                    <div class="mb-3" style="padding-left: 0.8em; padding-right: 0.8em;">
                         <input type="text" class="form-control" placeholder="Address 1" id="address1" required>
                     </div>
                     <div class="mb-3" style="padding-left: 0.8em; padding-right: 0.8em;">
@@ -540,6 +543,7 @@
             const taxValue = (itemTotal * taxRate).toFixed(2); // Calculate tax
             const totalValue = (parseFloat(itemTotal) + parseFloat(shippingCost) + parseFloat(taxValue)).toFixed(2);
 
+            const fullName = document.getElementById('fullName').value;
             const addressLine1 = document.getElementById('address1').value;
             const addressLine2 = document.getElementById('address2').value;
             const city = document.getElementById('city').value;
@@ -577,6 +581,9 @@
                         },
                     },
                     shipping: {
+                        name:{
+                            full_name: fullName
+                        },
                         address: {
                             address_line_1: addressLine1,
                             address_line_2: addressLine2,
