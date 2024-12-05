@@ -498,12 +498,6 @@
             updateSummary();
         });
         
-        // Event listener for country selection
-        document.getElementById("country").addEventListener("change", (e) => {
-            selectedCountry = e.target.value; // Update selected country
-            updateSummary(); // Update the summary with new country
-        });
-        
         // Function to update the summary
         function updateSummary() {
             const quantities = document.querySelectorAll('.quantity');
@@ -556,8 +550,8 @@
             const city = document.getElementById('city').value;
             const state = document.getElementById('state').value;
             const postalCode = document.getElementById('postalCode').value;
-            const selectedCountry = document.getElementById('country').value;
-
+            const selectedCountry = document.querySelector('[name="country"]');
+            
             return actions.order.create({
                 purchase_units: [{
                     items: [{
