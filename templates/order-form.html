@@ -254,6 +254,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <!-- PayPal SDK -->
     <script src="https://www.paypal.com/sdk/js?client-id=AXcNW38vENN7JPr7GZkYDOpEka5C0Vt4vYtJLOj-nPpbyBPfSKJgPw1z2xbzrPi3ZBth5FxpN2sZdHVG"></script>
+    <select id="country" name="country">
+        <!-- Country options will be dynamically added here by JavaScript -->
+    </select>
+    
     <script>
         const decreaseBtns = document.querySelectorAll('.decrease');
         const increaseBtns = document.querySelectorAll('.increase');
@@ -264,6 +268,25 @@
         };
         const taxRate = 0.09; // 9% tax rate
         let selectedShipping = "standard"; // Default shipping option
+    
+        // Country data defined in JavaScript
+        const countries = [
+            { code: "US", name: "United States" },
+            { code: "CA", name: "Canada" },
+            { code: "GB", name: "United Kingdom" },
+            { code: "AU", name: "Australia" },
+            { code: "SG", name: "Singapore" },
+            // Add more countries as needed
+        ];
+    
+        // Populate the select options dynamically
+        const countrySelect = document.getElementById("country");
+        countries.forEach(country => {
+            const option = document.createElement("option");
+            option.value = country.code;
+            option.textContent = country.name;
+            countrySelect.appendChild(option);
+        });
     
         // Event listeners for quantity buttons
         decreaseBtns.forEach((btn) => {
@@ -296,6 +319,12 @@
             updateSummary();
         });
     
+        // Event listener for country selection
+        document.getElementById("country").addEventListener("change", (e) => {
+            selectedCountry = e.target.value; // Update selected country
+            updateSummary(); // Update the summary with new country
+        });
+    
         // Function to update the summary
         function updateSummary() {
             const quantities = document.querySelectorAll('.quantity');
@@ -325,89 +354,89 @@
     
         // PayPal Button Render
         paypal.Buttons({
-        createOrder: (data, actions) => {
-            const totalQuantity = Array.from(document.querySelectorAll('.quantity')).reduce(
-                (sum, el) => sum + parseInt(el.textContent),
-                0
-            );
-
-            const itemTotal = (itemPrice * totalQuantity).toFixed(2); // Calculate item total
-            const shippingValue = selectedShipping === "standard" 
-                ? shippingOptions.standard 
-                : shippingOptions.express;
-            const additionalShipping = totalQuantity > 1 ? 2 * (totalQuantity - 1) : 0;
-            const shippingCost = (shippingValue + additionalShipping).toFixed(2);
-
-            const taxValue = (itemTotal * taxRate).toFixed(2); // Calculate tax
-            const totalValue = (parseFloat(itemTotal) + parseFloat(shippingCost) + parseFloat(taxValue)).toFixed(2);
-
-            const fullName = document.getElementById('fullName').value;
-            const addressLine1 = document.getElementById('address1').value;
-            const addressLine2 = document.getElementById('address2').value;
-            const city = document.getElementById('city').value;
-            const state = document.getElementById('state').value;
-            const postalCode = document.getElementById('postalCode').value;
-            const countryCode = document.getElementById('countryCode').value;
-
-            return actions.order.create({
-                purchase_units: [{
-                    items: [{
-                        name: 'Smart NFC Tag',
-                        sku: 'NTAG215',
-                        unit_amount: {
+            createOrder: (data, actions) => {
+                const totalQuantity = Array.from(document.querySelectorAll('.quantity')).reduce(
+                    (sum, el) => sum + parseInt(el.textContent),
+                    0
+                );
+    
+                const itemTotal = (itemPrice * totalQuantity).toFixed(2); // Calculate item total
+                const shippingValue = selectedShipping === "standard"
+                    ? shippingOptions.standard
+                    : shippingOptions.express;
+                const additionalShipping = totalQuantity > 1 ? 2 * (totalQuantity - 1) : 0;
+                const shippingCost = (shippingValue + additionalShipping).toFixed(2);
+    
+                const taxValue = (itemTotal * taxRate).toFixed(2); // Calculate tax
+                const totalValue = (parseFloat(itemTotal) + parseFloat(shippingCost) + parseFloat(taxValue)).toFixed(2);
+    
+                const fullName = document.getElementById('fullName').value;
+                const addressLine1 = document.getElementById('address1').value;
+                const addressLine2 = document.getElementById('address2').value;
+                const city = document.getElementById('city').value;
+                const state = document.getElementById('state').value;
+                const postalCode = document.getElementById('postalCode').value;
+                const countryCode = document.getElementById('country').value; // Use the value from the country select
+    
+                return actions.order.create({
+                    purchase_units: [{
+                        items: [{
+                            name: 'Smart NFC Tag',
+                            sku: 'NTAG215',
+                            unit_amount: {
+                                currency_code: 'USD',
+                                value: itemPrice.toFixed(2),
+                            },
+                            quantity: totalQuantity,
+                        }],
+                        amount: {
                             currency_code: 'USD',
-                            value: itemPrice.toFixed(2),
-                        },
-                        quantity: totalQuantity,
-                    }],
-                    amount: {
-                        currency_code: 'USD',
-                        value: totalValue, // Total must match breakdown
-                        breakdown: {
-                            item_total: {
-                                currency_code: 'USD',
-                                value: itemTotal,
-                            },
-                            shipping: {
-                                currency_code: 'USD',
-                                value: shippingCost,
-                            },
-                            tax_total: {
-                                currency_code: 'USD',
-                                value: taxValue,
+                            value: totalValue, // Total must match breakdown
+                            breakdown: {
+                                item_total: {
+                                    currency_code: 'USD',
+                                    value: itemTotal,
+                                },
+                                shipping: {
+                                    currency_code: 'USD',
+                                    value: shippingCost,
+                                },
+                                tax_total: {
+                                    currency_code: 'USD',
+                                    value: taxValue,
+                                },
                             },
                         },
-                    },
-                    shipping: {
-                        name: {
-                            full_name: fullName
-                        },
-                        address: {
-                            address_line_1: addressLine1,
-                            address_line_2: addressLine2,
-                            admin_area_2: city,
-                            admin_area_1: state,
-                            postal_code: postalCode,
-                            country_code: countryCode
+                        shipping: {
+                            name: {
+                                full_name: fullName
+                            },
+                            address: {
+                                address_line_1: addressLine1,
+                                address_line_2: addressLine2,
+                                admin_area_2: city,
+                                admin_area_1: state,
+                                postal_code: postalCode,
+                                country_code: countryCode // Send the selected country code
+                            }
                         }
+                    }],
+                    application_context: {
+                        shipping_preference: 'SET_PROVIDED_ADDRESS' // Ensures the provided address is used
                     }
-                }],
-                application_context: {
-                    shipping_preference: 'SET_PROVIDED_ADDRESS' // Ensures the provided address is used
-                }
-            });
-        },
-        onApprove: (data, actions) => {
-            return actions.order.capture().then((details) => {
-                alert('Payment Successful! Thank you, ' + details.payer.name.given_name);
-            });
-        },
-        onError: (err) => {
-            console.error('Error occurred during payment:', err);
-        },
-    }).render('#paypal-button-container');
-
+                });
+            },
+            onApprove: (data, actions) => {
+                return actions.order.capture().then((details) => {
+                    alert('Payment Successful! Thank you, ' + details.payer.name.given_name);
+                });
+            },
+            onError: (err) => {
+                console.error('Error occurred during payment:', err);
+            },
+        }).render('#paypal-button-container');
     </script>
+    
     
     
 </body>
