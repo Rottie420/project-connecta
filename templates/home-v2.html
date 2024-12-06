@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -401,7 +402,7 @@
                 </div>
                 <!-- Image on the right for desktop, below text on mobile -->
                 <div class="col-12 col-md-6 hero-image text-center text-md-end mt-4 mt-md-0">
-                    <img src="{{ url_for('static', filename='hero-img-mobile-tag.webp') }}" style="border-radius: 25px;" class="img-fluid" alt="Product Tag">
+                    <img src="/static/hero-img-mobile-tag.webp" style="border-radius: 25px;" class="img-fluid" alt="Product Tag">
                 </div>
             </div>
         </div>
@@ -415,7 +416,7 @@
             <div class="row align-items-center">
                 <!-- Image on the right for desktop, below text on mobile -->
                 <div class="col-12 col-md-6 hero-content text-center text-md-start order-2 order-md-1">
-                    <img src="{{ url_for('static', filename='dog-hero-model-webp.webp') }}"
+                    <img src="/static/dog-hero-model-webp.webp"
                         style="border-radius: 25px;" 
                         class="img-fluid shadow-sm" 
                         alt="Product Tag">
@@ -466,7 +467,7 @@
         <div class="card-split">
             <div class="row" style="margin: 0;">
                 <div class="col-md-7 split-1 text-center">
-                    <img src="{{ url_for('static', filename='3d-printed-tag.webp') }}" class="img-fluid rounded" style="width: 60%;">
+                    <img src="/static/3d-printed-tag.webp" class="img-fluid rounded" style="width: 60%;">
                 </div>
                 <div class="col-md-5 split-2">
                     <ul class="list-unstyled">
@@ -492,26 +493,41 @@
             
             <!-- Digital Business Cards (Large, Left-Aligned) -->
             <div class="col-lg-6 d-flex">
-                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #091d1d; border-radius: 35px; color: rgba(255, 255, 255, 0.8);">
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" 
+                     style="background-image: url('{{ url_for('static', filename='web-official-bg.webp') }}'); 
+                            background-size: cover; 
+                            background-position: center; 
+                            border-radius: 35px; 
+                            color: rgba(255, 255, 255, 0.8);">
                     <!-- Image added here -->
-                    <img src="{{ url_for('static', filename='smart-features-pet-lost&found.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
-                    
+                    <img src="{{ url_for('static', filename='smart-features-pet-lost&found.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" 
+                         style="border-radius: 10px; object-fit: contain; height: 200px;">
+            
                     <!-- Icon and text content -->
-                    
                     <h4 class="fw-bold mb-0 fs-4 text-white">Lost & Found</h4>
-                    <p class="card-text">Never lose track of your beloved pet again. With Smart NFC technology, your pet’s tag can instantly share their digital profile and geo-location when scanned.</p>
+                    <p class="card-text">
+                        Never lose track of your beloved pet again. With Smart NFC technology, your pet’s tag can instantly share their digital profile and geo-location when scanned.
+                    </p>
                 </div>
             </div>
             
             <!-- Event Check-Ins (Small, Centered) -->
             <div class="col-lg-6 d-flex">
-                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #d2b9b4; border-radius: 35px;">
-                     <!-- Image added here -->
-                     <img src="{{ url_for('static', filename='smart-features-pet-profile.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
-
-                    
-                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Digital Profile</h4>
-                    <p class="card-text">Keep all your pet’s information in one place with a digital profile on the NFC tag, including their name, breed, vaccination records, dietary needs, and emergency contacts.</p>
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" 
+                     style="background-image: url('{{ url_for('static', filename='web-official-bg.webp') }}'); 
+                            background-size: cover; 
+                            background-position: center; 
+                            border-radius: 35px; 
+                            color: rgba(255, 255, 255, 0.8);">
+                    <!-- Image added here -->
+                    <img src="{{ url_for('static', filename='smart-features-pet-profile.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" 
+                         style="border-radius: 10px; object-fit: contain; height: 200px;">
+            
+                    <!-- Icon and text content -->
+                    <h4 class="fw-bold mb-0 fs-4 text-white">Digital Profile</h4>
+                    <p class="card-text">
+                        Keep all your pet’s information in one place with a digital profile on the NFC tag, including their name, breed, vaccination records, dietary needs, and emergency contacts.
+                    </p>
                 </div>
             </div>
             
@@ -521,25 +537,40 @@
             
             <!-- Product Packaging (Centered, Wide) -->
             <div class="col-lg-6 d-flex">
-                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #b4b7ba; border-radius: 35px;">
-                     <!-- Image added here -->
-                     <img src="{{ url_for('static', filename='smart-features-pet-shop.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
-
-                    
-                    <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Business Integration</h4>
-                    <p class="card-text">Perfect for pet care professionals! Groomers, vets, trainers, and daycare centers. enhance the client experience with effortless digital exchanges.</p>
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" 
+                     style="background-image: url('{{ url_for('static', filename='web-official-bg.webp') }}'); 
+                            background-size: cover; 
+                            background-position: center; 
+                            border-radius: 35px; 
+                            color: rgba(255, 255, 255, 0.8);">
+                    <!-- Image added here -->
+                    <img src="{{ url_for('static', filename='smart-features-pet-shop.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" 
+                         style="border-radius: 10px; object-fit: contain; height: 200px;">
+            
+                    <!-- Icon and text content -->
+                    <h4 class="fw-bold mb-0 fs-4 text-white">Business Integration</h4>
+                    <p class="card-text">
+                        Perfect for pet care professionals! Groomers, vets, trainers, and daycare centers. enhance the client experience with effortless digital exchanges.
+                    </p>
                 </div>
             </div>
             
             <!-- Pet Tags (Left-Aligned, Small) -->
             <div class="col-lg-6 d-flex">
-                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #1b222c; border-radius: 35px; color: rgba(255, 255, 255, 0.8);">
-                     <!-- Image added here -->
-                     <img src="{{ url_for('static', filename='smart-features-pet-care.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
-                     
-        
+                <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" 
+                     style="background-image: url('{{ url_for('static', filename='web-official-bg.webp') }}'); 
+                            background-size: cover; 
+                            background-position: center; 
+                            border-radius: 35px; 
+                            color: rgba(255, 255, 255, 0.8);">
+                    <!-- Image added here -->
+                    <img src="{{ url_for('static', filename='smart-features-pet-care.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" 
+                         style="border-radius: 10px; object-fit: contain; height: 200px;">
+            
+                    <!-- Icon and text content -->
                     <h4 class="fw-bold mb-0 fs-4 text-white">Records & Reminders</h4>
-                    <p class="card-text">Linked health records including vaccination dates, allergies, and ongoing treatments. Set reminders for vaccinations, check-ups, or grooming appointments.</p>
+                    <p class="card-text">
+                        Linked health records including vaccination dates, allergies, and ongoing treatments. Set reminders for vaccinations, check-ups, or grooming appointments.
                 </div>
             </div>
         </div>
