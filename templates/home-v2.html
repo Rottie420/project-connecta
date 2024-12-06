@@ -273,6 +273,90 @@
             margin-top: 10px;  /* Add top spacing */
             margin-bottom: 10px;  /* Add bottom spacing */
         }
+
+        /* Style the pop-up container */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: hidden; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Pop-up content */
+        .popup-content {
+            background-color: #fefefe;
+            margin: 30% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            border-radius: 20px;
+            width: 95%; /* Could be more or less, depending on screen size */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            text-align: center;
+        }
+
+        /* Close button */
+        .close {
+            background-color: white;
+            color: black;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Style the form */
+        .signup-form input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+            border-radius: 20px;
+        }
+
+        .signup-form input[type="submit"] {
+            width: 100%;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: None;
+            border-radius: 20px;
+            cursor: pointer;
+
+        }
+
+        .signup-form input::placeholder {
+            text-align: center;
+        }
+
+        .signup-form input[type="submit"]:hover {
+            background-color: #333;
+        }
+
+        /* Default styles for #hero-section-2 */
+        #hero-section-2 {
+            padding-left: 8em;
+            font-size: larger;
+        }
+
+        /* Responsive styles for smaller screens */
+        @media (max-width: 767px) {
+            #hero-section-2 {
+                padding-left: 2em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -323,10 +407,62 @@
         </div>
     </section>
 
+   <!-- Hero Section -->
+    <section class="hero-section py-5 mt-5">
+        <div class="container">
+            <h1 class="pb-2 text-center text-white">A Cost-Effective Solution</h1 >
+                <p class="text-center text-white mb-5">Discover why Connecta Smart NFC Tags are the better, cost-effective choice for your needs.</p>
+            <div class="row align-items-center">
+                <!-- Image on the right for desktop, below text on mobile -->
+                <div class="col-12 col-md-6 hero-content text-center text-md-start order-2 order-md-1">
+                    <img src="{{ url_for('static', filename='dog-hero-model-webp.webp') }}"
+                        style="border-radius: 25px;" 
+                        class="img-fluid shadow-sm" 
+                        alt="Product Tag">
+                </div>
+                <!-- Text content on the left -->
+                <div class="col-12 col-md-6 hero-image text-start text-md-start mt-4 mt-md-0 order-1 order-md-2" id="hero-section-2">
+                    <ul class="list-unstyled">
+                        <li class="mb-5 d-flex align-items-start">
+                            <i class="bi bi-tag-fill text-primary fs-2 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold">Affordable Pricing</h6>
+                                <p class="mb-0">NFC tags start at just $6.49 all-inclusive.</p>
+                            </div>
+                        </li>
+                        <li class="mb-5 d-flex align-items-start">
+                            <i class="bi bi-battery text-success fs-2 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold">No Extra Costs</h6>
+                                <p class="mb-0">Battery-free and maintenance-free.</p>
+                            </div>
+                        </li>
+                        <li class="mb-5 d-flex align-items-start">
+                            <i class="bi bi-layers-half text-warning fs-2 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold">Specialized Features</h6>
+                                <p class="mb-0">Instant access to essential info with our free web app.</p>
+                            </div>
+                        </li>
+                        <li class="d-flex align-items-start">
+                            <i class="bi bi-droplet-fill text-info fs-2 me-3"></i>
+                            <div>
+                                <h6 class="fw-bold">Durable & User-Friendly</h6>
+                                <p class="mb-0">Lightweight, waterproof, and ready to use.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+
     <!-- card-split Section -->
-    <section class="container px-4 py-5" style="margin-top: 6em;">
+    <!-- <section class="container px-4 py-5" style="margin-top: 1em;">
         <h1 class="pb-2 text-center text-white">A Cost-Effective Solution</h1 >
-        <p class="text-center text-white mb-5">Discover why Connecta Smart NFC Tags are the better, cost-effective choice for your needs.</p>
+        <p class="text-center text-white mb-5">Discontain why Connecta Smart NFC Tags are the better, cost-effective choice for your needs.</p>
         <div class="card-split">
             <div class="row" style="margin: 0;">
                 <div class="col-md-7 split-1 text-center">
@@ -343,7 +479,8 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
+    
 
     <!-- Use Cases Section with Dynamic Layout -->
     <section id="icon-grid" class="container px-4 py-5">
@@ -357,7 +494,7 @@
             <div class="col-lg-6 d-flex">
                 <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #091d1d; border-radius: 35px; color: rgba(255, 255, 255, 0.8);">
                     <!-- Image added here -->
-                    <img src="{{ url_for('static', filename='smart-features-pet-lost&found.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
+                    <img src="C:\Users\kevin\Downloads\smart-features-pet-lost&found.png" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
                     
                     <!-- Icon and text content -->
                     
@@ -370,7 +507,7 @@
             <div class="col-lg-6 d-flex">
                 <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #d2b9b4; border-radius: 35px;">
                      <!-- Image added here -->
-                     <img src="{{ url_for('static', filename='smart-features-pet-profile.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
+                     <img src="C:\Users\kevin\Downloads\smart-features-pet-profile.png" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
 
                     
                     <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Digital Profile</h4>
@@ -386,7 +523,7 @@
             <div class="col-lg-6 d-flex">
                 <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #b4b7ba; border-radius: 35px;">
                      <!-- Image added here -->
-                     <img src="{{ url_for('static', filename='smart-features-pet-shop.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
+                     <img src="C:\Users\kevin\Downloads\smart-features-pet-shop.png" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
 
                     
                     <h4 class="fw-bold mb-0 fs-4 text-body-emphasis">Business Integration</h4>
@@ -398,7 +535,7 @@
             <div class="col-lg-6 d-flex">
                 <div class="card flex-grow-1 text-start p-5 border-0 shadow-sm h-100" style="background-color: #1b222c; border-radius: 35px; color: rgba(255, 255, 255, 0.8);">
                      <!-- Image added here -->
-                     <img src="{{ url_for('static', filename='smart-features-pet-care.webp') }}" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
+                     <img src="C:\Users\kevin\Downloads\smart-features-pet-care.png" class="card-img-top mb-5" alt="Quick Owner Contact" style="border-radius: 10px; object-fit: contain; height: 200px;">
                      
         
                     <h4 class="fw-bold mb-0 fs-4 text-white">Records & Reminders</h4>
@@ -411,7 +548,7 @@
     <!-- Icon Grid -->
     <section id="icon-grid" class="container px-4 py-5" style="margin-bottom: -8em; margin-top: -3em;">
         <h1 class="pb-2 text-center text-white">Innovating with NFC</h1 >
-        <p class="text-center text-white mb-5">Discover the specifications, features, and benefits of our NFC tags.</p>
+        <p class="text-center text-white mb-5">Discontain the specifications, features, and benefits of our NFC tags.</p>
     </section>
     
     <div style="padding: 0.75em;">
@@ -571,12 +708,12 @@
             <div class="accordion-item bg-transparent" style="border: none;">
                 <h2 class="accordion-header" id="headingOne">
                     <button class="accordion-button collapsed bg-transparent mb-0 fs-5 text-body-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        What are NFC pet tags?
+                        What is NFC technology?
                     </button>
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        NFC pet tags are small, durable tags embedded with NFC technology. When scanned with an NFC-enabled device like a smartphone, they provide instant access to your pet's information, such as their name, medical history, and your contact details.
+                        NFC (Near Field Communication) is a wireless communication technology that allows devices to exchange data when they are in close proximity, typically within a few centimeters.
                     </div>
                 </div>
             </div>
@@ -585,12 +722,12 @@
             <div class="accordion-item bg-transparent" style="border: none;">
                 <h2 class="accordion-header" id="headingTwo">
                     <button class="accordion-button collapsed bg-transparent mb-0 fs-5 text-body-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        How do NFC pet tags work?
+                        How does the NFC works?
                     </button>
                 </h2>
                 <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        When an NFC-enabled device comes close to the pet tag, the tag communicates with the device to display the stored information. You can customize the data on the tag, making it easy for someone who finds your pet to contact you or access important details.
+                        NFC works by establishing a magnetic field between two devices when they are close together. One device acts as the initiator and the other as a target, allowing data transfer between them.
                     </div>
                 </div>
             </div>
@@ -599,12 +736,13 @@
             <div class="accordion-item bg-transparent" style="border: none;">
                 <h2 class="accordion-header" id="headingThree">
                     <button class="accordion-button collapsed bg-transparent mb-0 fs-5 text-body-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Do I need an app to use NFC pet tags?
+                        What devices support NFC?
                     </button>
                 </h2>
                 <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        No, most NFC tags don’t require a specific app. Simply tap the tag with any NFC-enabled smartphone to view the information. However, our advanced NFC pet tags are integrated with our web app, which offers additional features such as detailed pet profiles, medical history tracking, care reminders, and real-time updates.
+                        Many modern smartphones, tablets, and some smartwatches come equipped with NFC capabilities. Additionally, specific NFC readers and writers are also available.
+                    </div>
                 </div>
             </div>
 
@@ -612,25 +750,24 @@
             <div class="accordion-item bg-transparent" style="border: none;">
                 <h2 class="accordion-header" id="headingFour">
                     <button class="accordion-button collapsed bg-transparent mb-0 fs-5 text-body-emphasis" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseThree">
-                        How are NFC pet tags different from traditional ID tags?
+                        Is NFC secure?
                     </button>
                 </h2>
                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        Unlike traditional tags that only display static information, NFC pet tags provide dynamic and customizable data. They can also store more details, such as medical records, and are more resistant to wear and tear.
+                        Yes, NFC is secure by design. Since NFC only works at very close range within about 4cm it’s hard for others to intercept the data making unauthorized access difficult.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-
     <!-- Footer -->
     <footer>
         <p class="mb-1">&copy; 2024 Connecta. All rights reserved.</p>
         <ul class="list-inline">
-            <li class="list-inline-item"><a href="/terms-and-conditions">Terms & Conditions</a></li>
-            <li class="list-inline-item"><a href="/terms-and-conditions">About Us</a></li>
+            <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="#">Terms of Service</a></li>
             <li class="list-inline-item"><a href="mailto:kevin_castillo@connecta.store">Contact Us</a></li>
         </ul>     
         <!-- Payment Methods -->
@@ -641,6 +778,50 @@
             <img src="https://www.logo.wine/a/logo/Mastercard/Mastercard-Logo.wine.svg" alt="MasterCard" width="50">
         </div>
     </footer>   
+
+    <!-- The Modal -->
+    <div id="emailPopup" class="popup">
+
+    <!-- Modal content -->
+    <div class="popup-content">
+        <span class="close">&times;</span>
+        <h3 style="margin-top: 50px;">Are you ready for demo?</h3>
+        <form class="signup-form" action="/Xkfs98b8dfgsc" method="POST">
+        <input placeholder="Enter email" type="email" id="email" name="email" required>
+        <input type="submit" value="Submit">
+        <h6 style="margin-bottom: 50px; margin-top: 10px; font-size: 10px;">Your privacy is important to us.</h6>
+        </form>
+    </div>
+    
+    </div>
+      
+    <!-- <script>
+        // Get the modal
+        var modal = document.getElementById("emailPopup");
+    
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+    
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+    
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        }
+    
+        // Show the modal after 5 seconds
+        window.onload = function() {
+        setTimeout(function() {
+            modal.style.display = "block";
+        }, 3000);
+        }
+    </script>
+     -->
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
