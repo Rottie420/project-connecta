@@ -21,7 +21,7 @@ def index():
 
 @app.route('/order-now/<color>')
 def order_now(color):
-    return render_page_with_logging('order-form.html', "Order Form", color)
+    return render_template('order-form.html', color=color)
 
 @app.route('/terms-and-conditions')
 def terms_and_conditions():
@@ -78,9 +78,9 @@ def admin_dashboard():
     return render_template('admin-dashboard.html', logs=logs)
 
 # Helper functions
-def render_page_with_logging(template, page_name, color):
+def render_page_with_logging(template, page_name):
     try:
-        return render_template(template, color=color)
+        return render_template(template)
     except Exception as e:
         Logger.log(f"{page_name} page error: {e}")
         return f"An error occurred loading the {page_name} page.", 500
