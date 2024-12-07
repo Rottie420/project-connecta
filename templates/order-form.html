@@ -346,12 +346,13 @@
             const state = document.getElementById('state').value;
             const postalCode = document.getElementById('postalCode').value;
             const countryCode = document.getElementById('countryCode').value;
+            const sku = "{{ color }}";
 
             return actions.order.create({
                 purchase_units: [{
                     items: [{
                         name: 'Smart Pet Tag',
-                        sku: 'NTAG215ORANGE',
+                        sku: sku,
                         unit_amount: {
                             currency_code: 'USD',
                             value: itemPrice.toFixed(2),

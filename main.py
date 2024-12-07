@@ -19,9 +19,9 @@ def index():
         Logger.log(f"Index page error: {e}")
         return "An error occurred loading the homepage.", 500
 
-@app.route('/order-now')
-def order_now():
-    return render_page_with_logging('order-form.html', "Order Form")
+@app.route('/order-now/<color>')
+def order_now(color):
+    return render_page_with_logging('order-form.html', "Order Form", color=color)
 
 @app.route('/terms-and-conditions')
 def terms_and_conditions():
