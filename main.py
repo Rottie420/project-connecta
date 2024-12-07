@@ -25,7 +25,7 @@ def order_now(color):
 
 @app.route('/terms-and-conditions')
 def terms_and_conditions():
-    return render_template('terms-and-conditions.html', 500)
+    return render_template('terms-and-conditions.html'), 500
 
 @app.route('/pet/<control_number>/edit', methods=['GET', 'POST'])
 def pet_profile_edit(control_number):
