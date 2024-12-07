@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -106,7 +105,8 @@
         }
 
         .btn-startup:hover {
-            transform: scale(1.05);
+            background-color: white;
+            color: #333;
         }
 
         /* Product Overview */
@@ -358,6 +358,139 @@
                 padding-left: 2em;
             }
         }
+
+        /* Product styles */
+        .product-card {
+            padding: 2em;
+            background-color:rgba(255, 255, 255, 0.1);
+            border: 1px solid #2c2c2c;
+            border-radius: 35px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: scale(1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+        .product-img {
+            height: 150px;
+            object-fit: contain;
+        }
+        .product-title {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        .product-price {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .star-rating {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        .star-rating .bi {
+            color: #ffc107;
+            font-size: 1rem;
+        }
+        .rating-count {
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
+        .btn-buy {
+            background-color: rgb(255, 255, 0);
+            color: #333;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+        .btn-buy:hover {
+            background-color: white;
+        }
+
+        /* Apply a modern font to the entire section */
+        .neon-icon {
+          font-size: 2.5rem;
+          color: #00ffcc;
+          text-shadow: 0 0 8px #00ffcc, 0 0 16px #00ffcc, 0 0 24px #00ffcc, 0 0 32px rgba(0, 255, 204, 0.8);
+        }
+      
+        .icon-item {
+          background: rgba(255, 255, 255, 0.1);
+          padding: 1.5em;
+          border-radius: 35px;
+          transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+        }
+      
+        .icon-item h3 {
+          font-size: 1.25rem; /* Adjust heading size */
+          margin-bottom: 0.75em; /* Add space between the heading and text */
+        }
+      
+        .icon-item p {
+          font-size: 0.9rem; /* Adjust text size for readability */
+        }
+      
+        .icon-item:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 8px 20px rgba(0, 255, 204, 0.5);
+        }
+      
+        /* Ensure all cards are the same size */
+        .col {
+          display: flex;
+          justify-content: center;
+        }
+      
+        .icon-item {
+          min-height: 350px; /* Ensure all items have the same minimum height */
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+
+        .neon-icon {
+          font-size: 2.5rem;
+          color: #00ffcc;
+          text-shadow: 0 0 8px #00ffcc, 0 0 16px #00ffcc, 0 0 24px #00ffcc, 0 0 32px rgba(0, 255, 204, 0.8);
+        }
+      
+        .icon-item:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 8px 20px rgba(0, 255, 204, 0.5);
+        }
+
+        /* Style for WhatsApp icon */
+        #whatsapp-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            border-radius: 50%;
+            justify-content: center;
+            font-size: 2rem; /* Adjust size */
+            cursor: pointer;
+        }
+
+        #whatsapp-icon:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            background-color: #1da851; /* Slightly darker green */
+        }
+
+        #whatsapp-icon i {
+            font-size: 1.5rem; /* Icon size */
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -372,7 +505,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#faqAccordion">Order Now</a>
+                            <a class="nav-link" href="#shop-now">Shop Now</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#icon-grid">Features</a>
@@ -580,160 +713,219 @@
         </div>
     </section>
 
-    <!-- Icon Grid -->
-    <section id="icon-grid" class="container px-4 py-5" style="margin-bottom: -8em; margin-top: -3em;">
-        <h1 class="pb-2 text-center text-white">Innovating with NFC</h1 >
-        <p class="text-center text-white mb-5">Discontain the specifications, features, and benefits of our NFC tags.</p>
-    </section>
-    
-    <div style="padding: 0.75em;">
-        <div class="container px-4 py-5" id="icon-grid" style="background: rgba(255, 255, 255, 0.7); border-radius: 35px; color: rgb(0, 0, 0);">
-            <!-- <h2 class="pb-2 border-bottom">NFC Everywhere</h2> -->
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
-              <div class="col d-flex align-items-start">
-                <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path d="M20.9098 11.1203V6.73031C20.9098 5.91031 20.2898 4.98031 19.5198 4.67031L13.9498 2.39031C12.6998 1.88031 11.2898 1.88031 10.0398 2.39031L4.46984 4.67031C3.70984 4.98031 3.08984 5.91031 3.08984 6.73031V11.1203C3.08984 16.0103 6.63984 20.5903 11.4898 21.9303C11.8198 22.0203 12.1798 22.0203 12.5098 21.9303C17.3598 20.5903 20.9098 16.0103 20.9098 11.1203ZM12.7498 12.8703V15.5003C12.7498 15.9103 12.4098 16.2503 11.9998 16.2503C11.5898 16.2503 11.2498 15.9103 11.2498 15.5003V12.8703C10.2398 12.5503 9.49984 11.6103 9.49984 10.5003C9.49984 9.12031 10.6198 8.00031 11.9998 8.00031C13.3798 8.00031 14.4998 9.12031 14.4998 10.5003C14.4998 11.6203 13.7598 12.5503 12.7498 12.8703Z" fill="#000"></path>
-                    </g>
-                </svg>
-                <div>
-                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Product Overview</h3>
-                  <p>Compatible with all NFC-enabled devices, Easy Access to Pet Information, Water-resistant and durable, No Battery Required.</p>
-                </div>
-              </div>
-              <div class="col d-flex align-items-start">
-                <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.33537 7.87495C1.79491 9.00229 1.98463 10.3208 2.36407 12.9579L2.64284 14.8952C3.13025 18.2827 3.37396 19.9764 4.54903 20.9882C5.72409 22 7.44737 22 10.8939 22H13.1061C16.5526 22 18.2759 22 19.451 20.9882C20.626 19.9764 20.8697 18.2827 21.3572 14.8952L21.6359 12.9579C22.0154 10.3208 22.2051 9.00229 21.6646 7.87495C21.1242 6.7476 19.9738 6.06234 17.6731 4.69181L16.2882 3.86687C14.199 2.62229 13.1543 2 12 2C10.8457 2 9.80104 2.62229 7.71175 3.86687L6.32691 4.69181C4.02619 6.06234 2.87583 6.7476 2.33537 7.87495ZM13.45 16.5095C12.6422 15.6377 11.3581 15.6377 10.5503 16.5095C10.2688 16.8134 9.79427 16.8315 9.49041 16.55C9.18656 16.2684 9.16845 15.7939 9.44996 15.4901C10.8514 13.9775 13.1489 13.9775 14.5503 15.4901C14.8318 15.7939 14.8137 16.2684 14.5099 16.55C14.206 16.8315 13.7315 16.8134 13.45 16.5095ZM8.55029 14.3505C10.4626 12.2864 13.5376 12.2864 15.4499 14.3505C15.7315 14.6544 16.206 14.6725 16.5098 14.391C16.8137 14.1095 16.8318 13.6349 16.5503 13.3311C14.0443 10.6262 9.9559 10.6262 7.44995 13.3311C7.16844 13.6349 7.18655 14.1095 7.4904 14.391C7.79425 14.6725 8.26878 14.6544 8.55029 14.3505ZM17.4499 12.192C14.433 8.93571 9.56716 8.93571 6.55027 12.192C6.26876 12.4959 5.79423 12.514 5.49038 12.2325C5.18653 11.951 5.16842 11.4764 5.44993 11.1726C9.06046 7.27552 14.9397 7.27552 18.5503 11.1726C18.8318 11.4764 18.8137 11.951 18.5098 12.2325C18.206 12.514 17.7314 12.4959 17.4499 12.192Z" fill="#000"></path>
-                    </g>
-                </svg>
-                <div>
-                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Specification</h3>
-                  <p>Chip: NTAG215, Memory: 504 bytes, Range: 1-2 cm (0.4-0.8 inches), Dimensions: Customizable upon request</p>
-                </div>
-              </div>
-              <div class="col d-flex align-items-start">
-                <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 45.174 45.174" xml:space="preserve" class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <g>
-                            <path d="M41.573,15.879v-1.675c0-1.922-1.558-3.495-3.479-3.495h-2.761c-1.921,0-3.479,1.573-3.479,3.495v4.693H13.319v-4.693 c0-1.922-1.558-3.495-3.479-3.495H7.079c-1.921,0-3.479,1.573-3.479,3.495v1.675c-1.979,0-3.6,1.617-3.6,3.613v6.172 c0,1.996,1.71,3.613,3.6,3.613v1.674c0,1.922,1.558,3.513,3.479,3.513H9.84c1.921,0,3.479-1.591,3.479-3.513v-4.676h18.536v4.676 c0,1.922,1.558,3.513,3.479,3.513h2.762c1.92,0,3.479-1.591,3.479-3.513v-1.674c1.979,0,3.6-1.619,3.6-3.613v-6.172 C45.172,17.496,43.462,15.879,41.573,15.879z"></path>
-                        </g>
-                    </g>
-                </svg>
-                <div>
-                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">How It Works</h3>
-                  <p>Step 1: Tap the NFC Tag, Step 2: Connect to Cloud, Step 3: Access from Any Device</p>
-                </div>
-              </div>
-              <div class="col d-flex align-items-start">
-                <svg fill="#000000" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" xml:space="preserve" class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <style type="text/css">
-                            .st0{fill:none;}
-                        </style>
-                        <g id="surface1">
-                            <path d="M19,3c0,2.2-4.3,6-9,6v6c4.7,0,9,3.6,9,6h2v-7.3c0.6-0.3,1-1,1-1.7s-0.4-1.4-1-1.7V3H19z M5,9c-0.8,0-1.5,0.5-1.8,1.2 C2.5,10.5,2,11.2,2,12s0.5,1.5,1.2,1.8C3.5,14.5,4.2,15,5,15h0.2l2.2,7l3.5-1.1L9,15V9H5z"></path>
-                        </g>
-                        <rect class="st0" width="24" height="24"></rect>
-                    </g>
-                </svg>
-                <div>
-                  <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Color Varients</h3>
-                  <p>You can choose different colors from White, Black, Grey, Yellow and Blue</p>
-                </div>
-              </div>
+    <section id="icon-grid" class="container px-4 py-5 text-center" style="margin-top: -1em;"> 
+        <h1 class="pb-2 text-white">Innovating with NFC</h1>
+        <p class="text-white mb-5">Discover the specifications, features, and benefits of our NFC tags.</p>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+          <!-- Icon Item 1 -->
+          <div class="col">
+            <div class="icon-item text-center">
+              <i class="bi bi-box-seam neon-icon mb-3"></i>
+              <h3 class="fw-bold text-white">Product Overview</h3>
+              <p class="text-light">
+                Compatible with all NFC-enabled devices, Easy Access to Pet Information, Water-resistant and durable, No Battery Required.
+              </p>
             </div>
           </div>
-    </div>
-
-    <section class="pricing-comparison py-5">
-        <div class="container">
-            <div class="row justify-content-center">
-                <h1 class="pb-2 text-center text-white">Affordable Pricing</h1 >
-                <p class="text-center text-white mb-5">Connect everything seamlessly with a simple one-time payment.</p>
-                <!-- Free Plan -->
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 text-center" style="border-radius: 35px; background-color: #1b222c; color: rgba(255, 255, 255, 0.8);">
-                        <div class="card-body">
-                            <h2 class="card-title">Starter</h2>
-                            <p class="card-subtitle mb-2">Starting at</p>
-                            <h3 class="pricing-price">$6.49 USD</h3>
-                            <p class="text-light-emphasisd">One time pay</p>
-                            <a href="/order-now" class="btn btn-startup">&nbsp;&nbsp;&nbsp;Order Now&nbsp;&nbsp;&nbsp;</a>
-                            <hr>
-                            <ul class="list-unstyled pricing-features">
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Digital Profile</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Records & Reminders</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Lost & Found</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Basic App</li>
-                            </ul>
-                            <div class="d-flex align-items-center justify-content-center mt-4">
-                                <i class="bi bi-truck text-white-50 me-2"></i>
-                                <p class="text-light-emphasisd mb-0">We Deliver Worldwide</p>
-                            </div>                 
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Basic Plan -->
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 text-center" style="border-radius: 35px; background-color: #091d1d; color: rgba(255, 255, 255, 0.8);">
-                        <div class="card-body">
-                            <h2 class="card-title">Prestige</h2>
-                            <p class="card-subtitle mb-2">Starting at</p>
-                            <h3 class="pricing-price">$14.49 USD</h3>
-                            <p class="text-light-emphasisd">One time pay</p>
-                            <a href="mailto:kevin_castillo@connecta.store" class="btn btn-startup">Let's Connect</a>
-                            <hr>
-                            <ul class="list-unstyled pricing-features">
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Digital Profile</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Records & Reminders</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Lost & Found</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Custom App</li>
-                            </ul>
-                            <div class="d-flex align-items-center justify-content-center mt-4">
-                                <i class="bi bi-truck text-white-50 me-2"></i>
-                                <p class="text-light-emphasisd mb-0">We Deliver Worldwide</p>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-    
-                <!-- Life Time Plan -->
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100 text-center" style="border-radius: 35px; background-color: #d2b9b4;">
-                        <div class="card-body">
-                            <h2 class="card-title">Business</h2>
-                            <p class="card-subtitle mb-2">Starting at</p>
-                            <h3 class="pricing-price">$39.49 USD</h3>
-                            <p class="text-light-emphasisd">Per Month</p>
-                            <a href="mailto:kevin_castillo@connecta.store" class="btn btn-startup">Let's Connect</a>
-                            <hr>
-                            <ul class="list-unstyled pricing-features">
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Business Profile</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Business Links</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Business Integration</li>
-                                <li><i class="bi bi-check-circle text-secondary me-2" style="font-size: 1rem;"></i>Business App</li>
-                            </ul>
-                            <div class="d-flex align-items-center justify-content-center mt-4">
-                                <i class="bi bi-truck text-dark me-2"></i>
-                                <p class="text-light-emphasisd mb-0">We Deliver Worldwide</p>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-    
+          <!-- Icon Item 2 -->
+          <div class="col">
+            <div class="icon-item text-center">
+              <i class="bi bi-info-circle neon-icon mb-3"></i>
+              <h3 class="fw-bold text-white">Specification</h3>
+              <p class="text-light">
+                Chip: NTAG215, Memory: 504 bytes, Range: 1-2 cm (0.4-0.8 inches), Dimensions: Customizable upon request.
+              </p>
             </div>
+          </div>
+          <!-- Icon Item 3 -->
+          <div class="col">
+            <div class="icon-item text-center">
+              <i class="bi bi-wifi neon-icon mb-3"></i>
+              <h3 class="fw-bold text-white">How It Works</h3>
+              <p class="text-light">
+                Step 1: Tap the NFC Tag, Step 2: Connect to Cloud, Step 3: Access from Any Device.
+              </p>
+            </div>
+          </div>
+          <!-- Icon Item 4 -->
+          <div class="col">
+            <div class="icon-item text-center">
+              <i class="bi bi-palette neon-icon mb-3"></i>
+              <h3 class="fw-bold text-white">Color Variants</h3>
+              <p class="text-light">
+                You can choose different colors from White, Black, Grey, Yellow, and Blue.
+              </p>
+            </div>
+          </div>
         </div>
     </section>
+
+      
+
+    <div id="shop-now" class="container px-4 py-5" style="margin-top: -1em;">
+        <h1 class="pb-2 text-center text-white">Affordable Pricing</h1 >
+            <p class="text-center text-white mb-5">Connect everything seamlessly with a simple one-time payment.</p>
+        <div class="row g-4">
+          <!-- Repeat the card 6 times -->
+          <div class="col-md-4">
+            <div class="card product-card shadow-sm">
+              <img src="/static/smart-tag-orange.webp" alt="Product Image" class="card-img-top product-img">
+              <div class="card-body text-center">
+                <h5 class="product-title text-white">Orange Pet Tag</h5>
+                <div class="star-rating mb-2">
+                  <div>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <span class="rating-count">(1,250)</span>
+                </div>
+                <p class="product-price">$6.49</p>
+                <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
+                <div class="d-flex align-items-center justify-content-center mt-4">
+                  <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
+                  <p class="text-white-50 mb-3">We Deliver Worldwide</p>
+                </div> 
+                <a href="/order-now" class="btn btn-buy w-100 py-2">Buy Now</a>
+              </div>  
+            </div>
+          </div>
+      
+          <!-- Copy the above card 5 more times -->
+          <div class="col-md-4">
+            <!-- Duplicate card 1 -->
+            <div class="card product-card shadow-sm">
+              <img src="/static/smart-tag-blue.webp" alt="Product Image" class="card-img-top product-img">
+              <div class="card-body text-center">
+                <h5 class="product-title text-white">Blue Pet Tag</h5>
+                <div class="star-rating mb-2">
+                  <div>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                    <i class="bi bi-star"></i>
+                  </div>
+                  <span class="rating-count">(201)</span>
+                </div>
+                <p class="product-price">$6.49</p>
+                <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
+                <div class="d-flex align-items-center justify-content-center mt-4">
+                  <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
+                  <p class="text-white-50 mb-3">We Deliver Worldwide</p>
+                </div> 
+                <a href="/order-now" class="btn btn-buy w-100 py-2">Buy Now</a>
+              </div>  
+            </div>
+          </div>
+          <div class="col-md-4">
+            <!-- Duplicate card 2 -->
+            <div class="card product-card shadow-sm">
+              <img src="/static/smart-tag-green.webp" alt="Product Image" class="card-img-top product-img">
+              <div class="card-body text-center">
+                <h5 class="product-title text-white">Green Pet Tag</h5>
+                <div class="star-rating mb-2">
+                  <div>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                  </div>
+                  <span class="rating-count">(67)</span>
+                </div>
+                <p class="product-price">$6.49</p>
+                <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
+                <div class="d-flex align-items-center justify-content-center mt-4">
+                  <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
+                  <p class="text-white-50 mb-3">We Deliver Worldwide</p>
+                </div> 
+                <a href="/order-now" class="btn btn-buy w-100 py-2">Buy Now</a>
+              </div>  
+            </div>
+          </div>
+          <div class="col-md-4">
+            <!-- Duplicate card 3 -->
+            <div class="card product-card shadow-sm">
+              <img src="/static/smart-tag-grey.webp" alt="Product Image" class="card-img-top product-img">
+              <div class="card-body text-center">
+                <h5 class="product-title text-white">Grey Pet Tag</h5>
+                <div class="star-rating mb-2">
+                  <div>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                    <i class="bi bi-star"></i>
+                  </div>
+                  <span class="rating-count">(93)</span>
+                </div>
+                <p class="product-price">$6.49</p>
+                <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
+                <div class="d-flex align-items-center justify-content-center mt-4">
+                  <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
+                  <p class="text-white-50 mb-3">We Deliver Worldwide</p>
+                </div> 
+                <a href="/order-now" class="btn btn-buy w-100 py-2">Buy Now</a>
+              </div>  
+            </div>
+          </div>
+          <div class="col-md-4">
+            <!-- Duplicate card 4 -->
+            <div class="card product-card shadow-sm">
+              <img src="/static/smart-tag-white.webp" alt="Product Image" class="card-img-top product-img">
+              <div class="card-body text-center">
+                <h5 class="product-title text-white">White Pet Tag</h5>
+                <div class="star-rating mb-2">
+                  <div>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                  </div>
+                  <span class="rating-count">(645)</span>
+                </div>
+                <p class="product-price">$6.49</p>
+                <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
+                <div class="d-flex align-items-center justify-content-center mt-4">
+                  <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
+                  <p class="text-white-50 mb-3">We Deliver Worldwide</p>
+                </div> 
+                <a href="/order-now" class="btn btn-buy w-100 py-2">Buy Now</a>
+              </div>  
+            </div>
+          </div>
+          <div class="col-md-4">
+            <!-- Duplicate card 5 -->
+            <div class="card product-card shadow-sm">
+              <img src="/static/smart-tag-red.webp" alt="Product Image" class="card-img-top product-img">
+              <div class="card-body text-center">
+                <h5 class="product-title text-white">Red Pet Tag</h5>
+                <div class="star-rating mb-2">
+                  <div>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                    <i class="bi bi-star"></i>
+                    <i class="bi bi-star"></i>
+                  </div>
+                  <span class="rating-count">(78)</span>
+                </div>
+                <p class="product-price">$6.49</p>
+                <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
+                <div class="d-flex align-items-center justify-content-center mt-4">
+                  <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
+                  <p class="text-white-50 mb-3">We Deliver Worldwide</p>
+                </div> 
+                <a href="/order-now" class="btn btn-buy w-100 py-2">Buy Now</a>
+              </div>  
+            </div>
+          </div>
+        </div>
+      </div>
 
     <!-- FAQ Section -->
     <section class="container mt-5 faq-section">
@@ -796,7 +988,11 @@
         </div>
     </section>
 
-
+    <!-- WhatsApp Chat Icon -->
+    <a href="https://wa.me/1234567890" target="_blank" id="whatsapp-icon" class="btn btn-success">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+  
     <!-- Footer -->
     <footer>
         <p class="mb-1">&copy; 2024 Connecta. All rights reserved.</p>
