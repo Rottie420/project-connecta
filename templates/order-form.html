@@ -402,7 +402,12 @@
             });
         },
         onError: (err) => {
-            console.error('Error occurred during payment:', err);
+            // Display error message in an alert
+            alert('An error occurred during the payment process. Please check delivery info if correct.');
+        },
+        onCancel: (data) => {
+            // Display cancellation message in an alert
+            alert('Payment was cancelled. Please try again if this was unintentional.');
         },
     }).render('#paypal-button-container');
 
