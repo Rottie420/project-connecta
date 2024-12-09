@@ -40,15 +40,13 @@ def pet_profile_prompt(control_number):
     if request.method == 'POST':
         user_input = request.form.get('user_prompt', '')
         response = pet_handler.prompt_message(control_number, user_input)
-        return jsonify({"message": response})
+        return response
 
-    # Retrieve pet data
-    pet_data = pet_handler.get_pet_data(control_number)
-    
+    # Fetch pet data for rendering the profile page
+    pet_data = pet_handler.pets.get(control_number)
     if not pet_data:
         return jsonify({"success": False, "message": "Pet not found"}), 404
 
-    # Pass the pet data to the template
     return render_template('pet-profile-prompt.html', pet=pet_data)
 
 @app.route('/search-tag-number', methods=['GET'])
