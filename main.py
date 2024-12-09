@@ -38,9 +38,13 @@ def pet_profile_view(control_number):
 @app.route('/pet/<control_number>/prompt', methods=['GET', 'POST'])
 def pet_profile_prompt(control_number):
     if request.method == 'POST':
-        user_input = request.form.get('user_prompt', '')
-        response = pet_handler.prompt_message(control_number, user_input)
-        return response
+        try:
+            user_input = request.form.get('user_prompt', '')
+            response = pet_handler.prompt_message(control_number, user_input)
+            return response
+        except Exception as e:
+            Logger.log(f"Error processing prompt for pet {control_number}: {e}")
+            return jsonify({"success": False, "message": "An error occurred while processing your request."}), 500
 
     # Fetch pet data for rendering the profile page
     pet_data = pet_handler.pets.get(control_number)
@@ -48,6 +52,7 @@ def pet_profile_prompt(control_number):
         return jsonify({"success": False, "message": "Pet not found"}), 404
 
     return render_template('pet-profile-prompt.html', pet=pet_data)
+
 
 @app.route('/search-tag-number', methods=['GET'])
 def search_tag_number():
