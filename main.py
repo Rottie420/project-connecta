@@ -3,13 +3,6 @@ from PetHandler import PetHandler
 from Logger import Logger
 from BookingManager import BookingManager
 import json
-import sys
-import os
-
-# Add the project path to sys.path
-sys.path.append(os.path.abspath('C:\\Users\\Administrator\\Desktop\\project-connecta'))
-
-# Now try importing
 from meta_ai_api import MetaAI
 
 
