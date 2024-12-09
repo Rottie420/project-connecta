@@ -6,27 +6,6 @@ from config import JSON_FILE_PATH
 from Logger import Logger
 from FileHandler import FileHandler
 from flask import request, render_template, jsonify
-from meta_ai_api import MetaAI
-
-class PromptProcessor:
-    """Class to handle text prompts and responses using MetaAI."""
-    
-    def __init__(self):
-        self.ai_meta = MetaAI()
-
-    def generate_message(self, prompt):
-        """
-        Sends a prompt to MetaAI and retrieves the response.
-
-        :param prompt: The text prompt to send.
-        :return: Response message from MetaAI.
-        """
-        try:
-            response = self.ai_meta.prompt(message=prompt)  # Assuming `prompt` is the correct method
-            response_msg = response.get('message', 'No response message received.')
-            return response_msg
-        except Exception as e:
-            return f"An error occurred: {e}"
 
 class PetHandler:
     def __init__(self, json_file_path=JSON_FILE_PATH):
@@ -244,23 +223,4 @@ class PetHandler:
         
 
         return jsonify({"success": True})
-
-    def prompt_message(self, control_number, user_input):
-        """Runs the AI Pet Companion interaction."""
-        pet_data = self.pets.get(control_number)
-        if not pet_data:
-            return jsonify({"success": False, "message": "Pet not found"}), 404
-
-        prompt_processor = PromptProcessor()
-
-        if "contact the owner" in user_input.lower() or "owner's email" in user_input.lower():
-            owner_email = pet_data.get('email', 'No email found.')
-            owner_phone = pet_data.get('phone', 'No phone number found.')
-            user_input = f"{user_input} The owner's email is {owner_email} and phone number is {owner_phone}."
-
-        prompt = f"{user_input} Use this information from JSON to answer: {pet_data}"
-        response = prompt_processor.generate_message(prompt)
-        Logger.log(f"AI Response: {response}")
-        
-        return jsonify({"response": response})
 
