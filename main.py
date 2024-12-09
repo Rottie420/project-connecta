@@ -35,6 +35,21 @@ def pet_profile_edit(control_number):
 def pet_profile_view(control_number):
     return pet_handler.pet_profile_view(control_number)
 
+@app.route('/pet/<control_number>/prompt', methods=['GET', 'POST'])
+def pet_prompt_message(control_number):
+    if request.method == 'POST':
+        # Get the user prompt from the form data
+        user_input = request.form.get('user_prompt', '')
+
+        # Call the prompt_message method and return the response
+        response = pet_handler.prompt_message(control_number, user_input)
+
+        # Return the response as JSON if needed
+        return jsonify({"response": response})
+
+    # Render the form template for GET requests
+    return render_template('pet-profile-prompt.html', control_number=control_number)
+
 @app.route('/search-tag-number', methods=['GET'])
 def search_tag_number():
     control_number = request.args.get('control_number')
