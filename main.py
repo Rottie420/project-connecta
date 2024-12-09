@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, Response
 from PetHandler import PetHandler
 from Logger import Logger
 from BookingManager import BookingManager
+import json
 
 # Initialize Flask app and configuration
 app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -34,6 +35,53 @@ def pet_profile_edit(control_number):
 @app.route('/pet/<control_number>/view', methods=['GET'])
 def pet_profile_view(control_number):
     return pet_handler.pet_profile_view(control_number)
+
+@app.route('/pet/<control_number>/prompt', methods=['GET', 'POST'])
+def pet_profile_prompt(control_number):
+    print(f"Received control number: {control_number}")  # Debug print
+
+    if request.method == 'POST':
+        try:
+            # Parse JSON data from the request
+            data = request.get_json()
+            if not data:
+                return jsonify({"success": False, "message": "No data received in POST body."}), 400
+
+            # Extract the user input, expecting 'prompt' from the front-end
+            user_input = data.get('prompt', '').strip()  # Adjusted to match the front-end key name
+            print(f"User input: {user_input}")  # Debug print
+
+            if not user_input:
+                return jsonify({"success": False, "message": "Prompt is empty."}), 400
+
+            # Process the prompt using the pet handler
+            response = pet_handler.prompt_message(control_number, user_input)
+            
+            # Check if response is a valid Flask Response object and read its JSON data
+            if isinstance(response, Response):
+                response_data = response.get_data(as_text=True)
+                try:
+                    response_json = json.loads(response_data)  # Parse response data to JSON
+                    print(f"Parsed response from pet handler: {response_json}")
+                    return jsonify(response_json)
+                except json.JSONDecodeError:
+                    return jsonify({"success": False, "message": "Error decoding JSON response from pet_handler."}), 500
+            else:
+                return jsonify({"success": False, "message": "Unexpected response format from pet_handler."}), 500
+
+        except Exception as e:
+            Logger.log(f"Error processing prompt for pet {control_number}: {e}")
+            return jsonify({"success": False, "message": "An error occurred while processing your request."}), 500
+
+    # Handle GET request (for displaying the pet profile page)
+    pet_data = pet_handler.pets.get(control_number)
+    print(f"Fetched pet data: {pet_data}")  # Debug print
+    if not pet_data:
+        return jsonify({"success": False, "message": "Pet not found"}), 404
+
+    return render_template('pet-profile-prompt.html', pet=pet_data, control_number=control_number)
+
+
 
 @app.route('/search-tag-number', methods=['GET'])
 def search_tag_number():

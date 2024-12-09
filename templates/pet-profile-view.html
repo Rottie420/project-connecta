@@ -4,415 +4,231 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editable Pet Profile</title>
+  <title>AI Pet Companion</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-    /* Custom styles for a modern, tech-savvy look */
     body {
-      background-color: #333; /* Light grey background */
-      font-family: 'Roboto', sans-serif; /* Techy, modern font */
-      color: rgba(255, 255, 255, 0.85);/* Dark text for better readability */
+      background-color: #121212; /* Dark mode background */
+      font-family: 'Roboto', sans-serif;
+      color: #e0e0e0; /* Light gray for text */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 20px;
+      overflow: hidden;
     }
 
     .container {
-      max-width: 100%;
-    }
-
-    /* Profile Card */
-    .profile-card {
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      background-color: rgba(248, 237, 255, 0.2);
-      margin-bottom: 2em !important;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      background-color: transparent; /* Transparent dark background */
+      border-radius: 16px;
+      padding: 20px;
       overflow: hidden;
     }
 
     .profile-header {
-      background-color: rgba(82, 92, 235, 0.6); /* Lighter blue for tech feel */
-      padding: 24px;
       text-align: center;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
+      margin-bottom: 20px;
     }
 
     .profile-header img {
-      max-width: 100%;
       border-radius: 50%;
-      height: 120px;
-      width: 120px;
+      border: 4px solid #444;
+      width: 200px; /* Larger profile picture */
+      height: 200px; /* Larger profile picture */
+      object-fit: cover;
+      margin-bottom: 15px;
     }
 
     .profile-header h2 {
-      color: #fff;
-      margin-top: 12px;
-      font-size: 26px;
-      font-weight: 500;
+      color: #ffffff;
+      font-size: 32px; /* Larger title */
+      font-weight: bold;
     }
 
-    .card-header {
-      background-color: rgba(248, 237, 255, 0.2);/* Light grey header */
-      border-bottom: 0; /* Subtle divider */
-      color: #333;
+    .chat-history {
+      background-color: transparent;
+      padding: 10px;
+      margin-bottom: 15px;
+      min-height: 100px;
+      max-height: 300px;
+      overflow-y: auto;
+      flex: 1; /* Make it fill the available space */
     }
-    
-    .list-group-item {
-      background-color: rgba(248, 237, 255, 0);
-      border: 0;
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
+
+    .chat-message {
+      background-color: transparent;
+      padding: 5px;
+      margin-bottom: 8px;
+      color: #ddd;
+      word-wrap: break-word;
+    }
+
+    .chat-message.user {
+      background-color: rgb(24, 24, 24);
+      border-radius: 5px;
+      text-align: right;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-control,
+    .btn {
+      background-color: transparent;
+      border: 1px solid #444;
+      border-radius: 12px;
+      color: #ffffff;
+      padding: 14px;
       font-size: 16px;
-      color: rgba(255, 255, 255, 0.85); /* Darker text for list items */
+      margin-bottom: 15px;
+      transition: background-color 0.2s, border-color 0.2s;
     }
 
-    /* Rounded corners for the first and last items in list group */
-    .list-group-item:first-child {
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-    }
-
-    .list-group-item:last-child {
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
+    .form-control:focus,
+    .btn:hover {
+      background-color: transparent;
+      border-color: #666;
     }
 
     .btn-primary {
-      background-color: rgba(82, 92, 235, 0.6);
-      border-color: None;
+      background-color: #007bff;
+      border-color: #0056b3;
       font-weight: 600;
+      width: 100%;
+      border-radius: 12px;
+      padding: 14px;
     }
 
     .btn-primary:hover {
-      background-color: #0077cc;
-      border-color: #005fa3;
+      background-color: #0056b3;
+      border-color: #004085;
     }
 
-    .modal-header {
-      background-color: rgba(82, 92, 235, 0.6);
-      color: rgba(255, 255, 255, 0.85);
-      
-    }
-
-    .modal-body {
-      padding: 20px;
-      color: rgba(255, 255, 255, 0.85);
-      background-color: rgba(248, 237, 255, 0);
-    }
-
-    .list-group-item .icon {
-      margin-right: 12px;
-      color: #00aaff;
-      font-size: 18px;
-    }
-
-    .form-control {
-      font-size: 16px;
-    }
-
-    /* Edit icon styling */
-    .edit-icon {
-      float: right;
-      color: #00aaff;
-      cursor: pointer;
-      font-size: 1.3rem;
-    }
-
-    /* Larger buttons and form elements for mobile */
-    .btn, .form-control {
-      padding: 16px;
-      font-size: 18px;
-    }
-
-    @media (max-width: 576px) {
+    @media (max-width: 768px) {
       .profile-header img {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
       }
-      .container {
-        padding: 10px;
+
+      .profile-header h2 {
+        font-size: 24px;
+      }
+
+      .form-control,
+      .btn {
+        padding: 12px;
+        font-size: 14px;
+      }
+
+      .btn-primary {
+        padding: 12px;
       }
     }
-
-    #location {
-        margin-top: 20px;
-        font-size: 1em;
-        color: rgba(255, 255, 255, 0.85);
-    }
-
-    .profile-pic {
-        min-width: 200px;
-        min-height: 200px;
-        border-radius: 50%;
-        border: 4px solid #333; /* Border matching the header color */
-        object-fit: cover;
-        margin: 15px auto;
-        transition: transform 0.3s;
-    }
-
-    .profile-pic:hover {
-        transform: scale(1.05);
-    }
-</style>
+  </style>
 </head>
 
 <body>
-  <div class="container mt-3">
+  <div class="container">
     <!-- Pet Profile Section -->
-    <div class="row">
-        <div class="col-12">
-        <div class="card profile-card">
-            <div class="profile-header">
-              <img src="{{ url_for('static', filename=pet.photo.lstrip('static/')) }}" alt="{{ pet.petname }} Profile" class="profile-pic">
-            <h2 id="petNameDisplay">{{ pet.petname }}</h2>
-            <!-- <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editProfileInfoModal" style="color: white !important;"></i> -->
-            </div>
-            <div class="card-body">
-              <p><i class="fas fa-birthday-cake icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Age -</span> <span id="petAgeDisplay">{{ pet.petage }}</span></p>
-              <p><i class="fas fa-paw icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Breed -</span> <span id="petBreedDisplay">{{ pet.petbreed }}</span></p>
-              <p><i class="fas fa-envelope icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Email -</span> <a href="mailto:{{ pet.email }}" style="color: #00aaff;">{{ pet.email }}</a></p>
-              <p><i class="fas fa-phone icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Phone -</span> <a href="tel:{{ pet.phone }}" style="color: #00aaff;">{{ pet.phone }}</a></p>
-              <p id="location"></p>
-            </div>
-        </div>
-        </div>
+    <div class="profile-header mt-5">
+      <img src="{{ url_for('static', filename=pet.photo.lstrip('static/')) }}" alt="{{ pet.petname }} Profile">
     </div>
 
-    <!-- Health & Medical Records Section -->
-    <div class="row">
-      <div class="col-12">
-        <div class="card profile-card">
-          <div class="card-header">
-            <h5><i class="fas fa-heartbeat icon"></i> Health & Medical Records <!-- <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editMedicalHistoryModal"></i> --></h5>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fas fa-syringe icon"></i> Vaccinated - <span id="vaccinationDateDisplay">{{ pet.vaccination_date }}</span></li>
-            <li class="list-group-item"><i class="fas fa-clinic-medical icon"></i> Vet Checkup - <span id="vetCheckupDateDisplay">{{ pet.vet_checkup_date }}</span></li>
-            <li class="list-group-item"><i class="fas fa-allergies icon"></i> Medical History - <span id="allergyStatusDisplay">{{ pet.allergy_status }}</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+    <!-- Chat History Section -->
+    <div class="chat-history" id="chatHistory"></div>
 
-    <!-- Care Reminders Section -->
-    <div class="row">
-      <div class="col-12">
-        <div class="card profile-card mt-2">
-          <div class="card-header">
-            <h5><i class="fas fa-bell icon"></i> Care Reminders <!-- <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editCareRemindersModal"></i> --></h5>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fas fa-utensils icon"></i> Feed Buddy at <span id="feedTimeDisplay">{{ pet.feed_time }}</span></li>
-            <li class="list-group-item"><i class="fas fa-walking icon"></i> Walk Buddy at <span id="walkTimeDisplay">{{ pet.walk_time }}</span></li>
-            <li class="list-group-item"><i class="fas fa-calendar-day icon"></i> Vet Appointment - <span id="vetAppointmentDateDisplay">{{ pet.vet_appointment_date }}</span></li>
-          </ul>
-        </div>
+    <!-- Chat Form Section -->
+    <form id="promptForm">
+      <div class="form-group">
+        <label for="userPrompt" class="form-label">Chat with Ai:</label>
+        <textarea class="form-control text-white" id="userPrompt" rows="3" placeholder="Ask about anything related to this pet..."></textarea>
       </div>
-    </div>
-
-    <!-- Activity Log Section -->
-    <div class="row">
-      <div class="col-12">
-        <div class="card profile-card mt-2">
-          <div class="card-header">
-            <h5><i class="fas fa-running icon"></i> Activity Log <!-- <i class="fas fa-edit edit-icon" data-bs-toggle="modal" data-bs-target="#editActivityLogModal"></i> --></h5>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="fas fa-walking icon"></i> Walk Distance - <span id="walkDistanceDisplay">{{ pet.walk_distance }}</span></li>
-            <li class="list-group-item"><i class="fas fa-paw icon"></i> Last Activity - <span id="activityDisplay">{{ pet.last_activity }}</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal for Profile Information -->
-    <div class="modal fade" id="editProfileInfoModal" tabindex="-1" aria-labelledby="editProfileInfoModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editProfileInfoModalLabel">Edit Profile Information</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="nameInput" class="form-label">Pet Name</label>
-                <input type="text" class="form-control" id="nameInput" value="{{ pet.name }}">
-              </div>
-              <div class="mb-3">
-                <label for="ageInput" class="form-label">Age</label>
-                <input type="number" class="form-control" id="ageInput" value="{{ pet.age }}">
-              </div>
-              <div class="mb-3">
-                <label for="breedInput" class="form-label">Breed</label>
-                <input type="text" class="form-control" id="breedInput" value="{{ pet.breed }}">
-              </div>
-              <div class="mb-3">
-                <label for="emailInput" class="form-label">Email</label>
-                <input type="email" class="form-control" id="emailInput" value="{{ pet.email }}">
-              </div>
-              <div class="mb-3">
-                <label for="phoneInput" class="form-label">Phone</label>
-                <input type="tel" class="form-control" id="phoneInput" value="{{ pet.phone }}">
-              </div>
-              <div class="mb-3">
-                <label for="addressInput" class="form-label">Address</label>
-                <input type="text" class="form-control" id="addressInput" value="{{ pet.address }}">
-              </div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal for Medical History -->
-    <div class="modal fade" id="editMedicalHistoryModal" tabindex="-1" aria-labelledby="editMedicalHistoryModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editMedicalHistoryModalLabel">Edit Medical History</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="vaccinationDateInput" class="form-label">Vaccination Date</label>
-                <input type="date" class="form-control" id="vaccinationDateInput">
-              </div>
-              <div class="mb-3">
-                <label for="vetCheckupDateInput" class="form-label">Vet Checkup Date</label>
-                <input type="date" class="form-control" id="vetCheckupDateInput">
-              </div>
-              <div class="mb-3">
-                <label for="allergyStatusInput" class="form-label">Allergy Status</label>
-                <input type="text" class="form-control" id="allergyStatusInput">
-              </div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal for Care Reminders -->
-    <div class="modal fade" id="editCareRemindersModal" tabindex="-1" aria-labelledby="editCareRemindersModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editCareRemindersModalLabel">Edit Care Reminders</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="feedTimeInput" class="form-label">Feed Time</label>
-                <input type="time" class="form-control" id="feedTimeInput">
-              </div>
-              <div class="mb-3">
-                <label for="walkTimeInput" class="form-label">Walk Time</label>
-                <input type="time" class="form-control" id="walkTimeInput">
-              </div>
-              <div class="mb-3">
-                <label for="vetAppointmentDateInput" class="form-label">Vet Appointment Date</label>
-                <input type="date" class="form-control" id="vetAppointmentDateInput">
-              </div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal for Activity Log -->
-    <div class="modal fade" id="editActivityLogModal" tabindex="-1" aria-labelledby="editActivityLogModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editActivityLogModalLabel">Edit Activity Log</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="walkDistanceInput" class="form-label">Walk Distance</label>
-                <input type="text" class="form-control" id="walkDistanceInput">
-              </div>
-              <div class="mb-3">
-                <label for="activityInput" class="form-label">Activity</label>
-                <input type="text" class="form-control" id="activityInput">
-              </div>
-              <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
   </div>
 
   <script>
-        window.onload = function() {
-            getLocation(); // This will call the function to fetch and display the location when the page loads
-        };
-
-        // Function to convert decimal degrees to DMS (Degrees, Minutes, Seconds)
-        function decimalToDMS(degrees) {
-            const d = Math.floor(degrees);
-            const m = Math.floor((degrees - d) * 60);
-            const s = ((degrees - d - m / 60) * 3600).toFixed(1); 
-            return { degrees: d, minutes: m, seconds: s };
+    document.getElementById('promptForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const userPrompt = document.getElementById('userPrompt').value.trim(); // Trim whitespace
+      const chatHistory = document.getElementById('chatHistory');
+      const urlParts = window.location.pathname.split('/');
+      const controlNumber = urlParts[urlParts.length - 2];
+  
+      // Validate user input
+      if (!userPrompt) {
+        console.warn('The user prompt is empty');
+        return; // Do not proceed if the input is empty
+      }
+  
+      // Append user's prompt to chat history
+      const userMessage = document.createElement('div');
+      userMessage.className = 'chat-message user';
+      userMessage.textContent = 'You: ' + userPrompt;
+      chatHistory.appendChild(userMessage);
+  
+      try {
+        // Debug print for the URL
+        console.log(`Sending POST request to: /pet/${controlNumber}/prompt`);
+        
+        const response = await fetch(`/pet/${controlNumber}/prompt`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt: userPrompt })
+        });
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
-        // Function to convert latitude and longitude to DMS format
-        function convertCoordinates(lat, lon) {
-            const latDMS = decimalToDMS(Math.abs(lat));
-            const lonDMS = decimalToDMS(Math.abs(lon));
-            const latDirection = lat >= 0 ? 'N' : 'S';
-            const lonDirection = lon >= 0 ? 'E' : 'W';
-            return {
-                latitude: `${latDMS.degrees}°${latDMS.minutes}'${latDMS.seconds}"${latDirection}`,
-                longitude: `${lonDMS.degrees}°${lonDMS.minutes}'${lonDMS.seconds}"${lonDirection}`
-            };
+  
+        const result = await response.json();
+        console.log('Response received:', result); // Debug print for the response
+  
+        if (result && result.response) {
+          // Create and display the AI message
+          const aiMessage = document.createElement('div');
+          aiMessage.className = 'chat-message';
+          aiMessage.textContent = 'Ai: ' + result.response.trim(); // Trim trailing newline if needed
+          chatHistory.appendChild(aiMessage);
+        } else {
+          console.warn('Unexpected response format:', result);
+          const errorMessage = document.createElement('div');
+          errorMessage.className = 'chat-message error';
+          errorMessage.textContent = 'Error: Unexpected response format from server.';
+          chatHistory.appendChild(errorMessage);
         }
-
-        // Function to get the current location
-        function getLocation() {
-            const locationDiv = document.getElementById('location');
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                locationDiv.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        }
-
-        // Function to display the position once geolocation is fetched
-        function showPosition(position) {
-            const dmsCoordinates = convertCoordinates(position.coords.latitude, position.coords.longitude);
-            const locationDiv = document.getElementById('location');
-            locationDiv.innerHTML = `<p><i class="coords fas fa-map-marker-alt icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Location -</span> <span>${dmsCoordinates.latitude} ${dmsCoordinates.longitude}</span></p>`;
-        }
-
-        // Function to handle errors when geolocation fails
-        function showError(error) {
-            const locationDiv = document.getElementById('location');
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    locationDiv.innerHTML = "Permission denied for Geolocation.";
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    locationDiv.innerHTML = "Location information is unavailable.";
-                    break;
-                case error.TIMEOUT:
-                    locationDiv.innerHTML = "Request timed out.";
-                    break;
-                case error.UNKNOWN_ERROR:
-                    locationDiv.innerHTML = "An unknown error occurred.";
-                    break;
-            }
-        }
+  
+        // Scroll to the bottom of chat history
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+  
+        // Clear the textarea after sending the prompt
+        document.getElementById('userPrompt').value = '';
+      } catch (error) {
+        console.error('Error:', error);
+        const errorMessage = document.createElement('div');
+        errorMessage.className = 'chat-message';
+        errorMessage.textContent = 'An error occurred. Please try again later.';
+        chatHistory.appendChild(errorMessage);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+  
+        // Optionally clear the textarea even if an error occurs
+        document.getElementById('userPrompt').value = '';
+      }
+    });
   </script>
+  
 
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>
