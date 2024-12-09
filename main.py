@@ -4,6 +4,19 @@ from Logger import Logger
 from BookingManager import BookingManager
 import json
 
+#force install
+import subprocess
+import sys
+
+def install_package(package_name):
+    try:
+        __import__(package_name)
+    except ImportError:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", package_name])
+
+# Force install 'meta_ai_api'
+install_package("meta_ai_api")
+
 # Initialize Flask app and configuration
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
