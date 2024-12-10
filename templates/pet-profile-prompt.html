@@ -9,9 +9,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
     body {
-      background-color: #121212;
+      background-color: #121212; /* Dark mode background */
       font-family: 'Roboto', sans-serif;
-      color: #e0e0e0;
+      color: #e0e0e0; /* Light gray for text */
       display: flex;
       flex-direction: column;
       min-height: 100vh;
@@ -23,7 +23,7 @@
       display: flex;
       flex-direction: column;
       flex: 1;
-      background-color: transparent;
+      background-color: transparent; /* Transparent dark background */
       border-radius: 16px;
       padding: 20px;
       overflow: hidden;
@@ -37,15 +37,15 @@
     .profile-header img {
       border-radius: 50%;
       border: 4px solid #444;
-      width: 200px;
-      height: 200px;
+      width: 200px; /* Larger profile picture */
+      height: 200px; /* Larger profile picture */
       object-fit: cover;
       margin-bottom: 15px;
     }
 
     .profile-header h2 {
       color: #ffffff;
-      font-size: 32px;
+      font-size: 32px; /* Larger title */
       font-weight: bold;
     }
 
@@ -56,7 +56,7 @@
       min-height: 100px;
       max-height: 300px;
       overflow-y: auto;
-      flex: 1;
+      flex: 1; /* Make it fill the available space */
     }
 
     .chat-message {
@@ -137,9 +137,7 @@
   <div class="container">
     <!-- Pet Profile Section -->
     <div class="profile-header mt-5">
-      <!-- Use Flask's url_for to display the pet's image -->
       <img src="{{ url_for('static', filename=pet.photo.lstrip('static/')) }}" alt="{{ pet.petname }} Profile">
-      <h2>{{ pet.petname }}</h2>
     </div>
 
     <!-- Chat History Section -->
@@ -148,7 +146,7 @@
     <!-- Chat Form Section -->
     <form id="promptForm">
       <div class="form-group">
-        <label for="userPrompt" class="form-label">Message PetAssistant:</label>
+        <label for="userPrompt" class="form-label">Chat with Ai:</label>
         <textarea class="form-control text-white" id="userPrompt" rows="3" placeholder="Ask about anything related to this pet..."></textarea>
       </div>
       <button type="submit" class="btn btn-primary">Send</button>
@@ -158,34 +156,59 @@
   <script>
     document.getElementById('promptForm').addEventListener('submit', async function (event) {
       event.preventDefault();
-      const userPrompt = document.getElementById('userPrompt').value;
+      const userPrompt = document.getElementById('userPrompt').value.trim(); // Trim whitespace
       const chatHistory = document.getElementById('chatHistory');
-
+      const urlParts = window.location.pathname.split('/');
+      const controlNumber = urlParts[urlParts.length - 2];
+  
+      // Validate user input
+      if (!userPrompt) {
+        console.warn('The user prompt is empty');
+        return; // Do not proceed if the input is empty
+      }
+  
       // Append user's prompt to chat history
       const userMessage = document.createElement('div');
       userMessage.className = 'chat-message user';
       userMessage.textContent = 'You: ' + userPrompt;
       chatHistory.appendChild(userMessage);
-
+  
       try {
-        // Replace with the actual backend API endpoint or request
-        const response = await fetch('/pet/{{ pet.control_number }}/profile', {
+        // Debug print for the URL
+        console.log(`Sending POST request to: /pet/${controlNumber}/prompt`);
+        
+        const response = await fetch(`/pet/${controlNumber}/prompt`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ prompt: userPrompt })
         });
-
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+  
         const result = await response.json();
-        const aiMessage = document.createElement('div');
-        aiMessage.className = 'chat-message';
-        aiMessage.textContent = 'AI: ' + result.message;
-        chatHistory.appendChild(aiMessage);
-
+        console.log('Response received:', result); // Debug print for the response
+  
+        if (result && result.response) {
+          // Create and display the AI message
+          const aiMessage = document.createElement('div');
+          aiMessage.className = 'chat-message';
+          aiMessage.textContent = 'Ai: ' + result.response.trim(); // Trim trailing newline if needed
+          chatHistory.appendChild(aiMessage);
+        } else {
+          console.warn('Unexpected response format:', result);
+          const errorMessage = document.createElement('div');
+          errorMessage.className = 'chat-message error';
+          errorMessage.textContent = 'Error: Unexpected response format from server.';
+          chatHistory.appendChild(errorMessage);
+        }
+  
         // Scroll to the bottom of chat history
         chatHistory.scrollTop = chatHistory.scrollHeight;
-
+  
         // Clear the textarea after sending the prompt
         document.getElementById('userPrompt').value = '';
       } catch (error) {
@@ -195,12 +218,13 @@
         errorMessage.textContent = 'An error occurred. Please try again later.';
         chatHistory.appendChild(errorMessage);
         chatHistory.scrollTop = chatHistory.scrollHeight;
-
+  
         // Optionally clear the textarea even if an error occurs
         document.getElementById('userPrompt').value = '';
       }
     });
   </script>
+  
 
   <!-- Bootstrap JS and dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

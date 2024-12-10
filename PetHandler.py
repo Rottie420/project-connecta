@@ -6,6 +6,36 @@ from config import JSON_FILE_PATH
 from Logger import Logger
 from FileHandler import FileHandler
 from flask import request, render_template, jsonify
+import google.generativeai as ai
+
+class PromptProcessor:
+    """Class to handle text prompts and responses using Google Gemini AI."""
+    
+    def __init__(self, api_key):
+        """
+        Initializes the PromptProcessor with the Google Gemini API key.
+        
+        :param api_key: API key for authentication.
+        """
+        ai.configure(api_key=api_key)
+        self.model = ai.GenerativeModel("gemini-pro")
+        self.chat = self.model.start_chat()
+
+    def generate_message(self, prompt):
+        """
+        Sends a prompt to the Gemini model and retrieves the response.
+        
+        :param prompt: The text prompt to send.
+        :return: Response message from the model.
+        """
+        try:
+            response = self.chat.send_message(prompt)
+            response_msg = response.text
+            return response_msg
+        
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            return "An unexpected error occurred while generating the response."
 
 class PetHandler:
     def __init__(self, json_file_path=JSON_FILE_PATH):
@@ -223,3 +253,28 @@ class PetHandler:
         
 
         return jsonify({"success": True})
+
+    def prompt_message(self, control_number, user_input):
+        pet_data = self.pets.get(control_number)
+        if not pet_data:
+            return jsonify({"success": False, "message": "Pet not found"}), 404
+
+        # Create an instance of PromptProcessor with the API key
+        prompt_processor = PromptProcessor(api_key='AIzaSyC0CI07I0ozsLXFVNaEkMec_I4iTuyrmFE')
+        
+        owner_keywords = ["contact the owner", "owner's email", "who is the owner", "owner contact", "reach the owner"]
+
+        if any(keyword in user_input.lower() for keyword in owner_keywords):
+            owner_email = pet_data.get('email', 'No email found.')
+            owner_phone = pet_data.get('phone', 'No phone number found.')
+            user_input = f"{user_input} The owner's email is {owner_email} and phone number is {owner_phone}."
+
+        prompt = f"{user_input} Use this information to answer: {pet_data}"
+        try:
+            response = prompt_processor.generate_message(prompt)
+            Logger.log(f"AI Response: {response}")
+            return jsonify({"response": response})
+        except Exception as e:
+            Logger.log(f"Error generating AI response: {e}")
+            return jsonify({"success": False, "message": "Error generating AI response."}), 500
+
