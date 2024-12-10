@@ -269,8 +269,11 @@ class PetHandler:
             owner_phone = pet_data.get('phone', 'No phone number found.')
             user_input = f"{user_input} The owner's email is {owner_email} and phone number is {owner_phone}."
 
-        prompt = f"YOU ARE A HELPFUL ASSISTANT. Analyze the following user input: {user_input}. Use the information from {pet_data} to respond. If the required information is not present in {pet_data}, refer to the internet for additional information."
-
+        prompt = f"""YOU ARE A HELPFUL ASSISTANT. Analyze the following user input: {user_input}.
+                Use this information to answer based on the given pet data: {pet_data}.
+                If the required information is not found in the provided data, 
+                search the google for additional information and use it to complete your response.
+                """
         
         try:
             response = prompt_processor.generate_message(prompt)
