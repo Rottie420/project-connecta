@@ -59,6 +59,7 @@
       flex: 1; /* Fill available space */
       overflow-y: auto; /* Scrollable chat history */
       max-height: calc(100vh - 300px); /* Adjust height dynamically */
+      scroll-behavior: smooth; /* Smooth scrolling */
     }
 
     .chat-message {
@@ -174,6 +175,32 @@
   </footer>
 
   <script>
+    // Function to scroll chat history to the bottom
+    function scrollToBottom() {
+      const chatHistory = document.getElementById('chatHistory');
+      chatHistory.scrollTop = chatHistory.scrollHeight; // Always scroll to the latest content
+    }
+  
+    // Function for typing effect (letter by letter, super fast)
+    function typeText(element, text, speed) {
+      let index = 0;
+      element.innerHTML = ''; // Clear existing content if any
+      const chatHistory = document.getElementById('chatHistory'); // Reference to chat history
+      const interval = setInterval(() => {
+        if (index < text.length) {
+          if (text.charAt(index) === '\n') {
+            element.innerHTML += '<br>'; // Insert a <br> for line breaks
+          } else {
+            element.innerHTML += text.charAt(index); // Add each character
+          }
+          index++;
+          scrollToBottom(); // Scroll to the bottom with each new character
+        } else {
+          clearInterval(interval); // Stop interval after typing completes
+        }
+      }, speed); // Speed set for typing delay per character
+    }
+  
     document.getElementById('promptForm').addEventListener('submit', async function (event) {
       event.preventDefault();
       const userPrompt = document.getElementById('userPrompt').value.trim();
@@ -186,10 +213,12 @@
         return;
       }
   
+      // User message (appears instantly)
       const userMessage = document.createElement('div');
       userMessage.className = 'chat-message user';
       userMessage.textContent = 'You: ' + userPrompt;
       chatHistory.appendChild(userMessage);
+      scrollToBottom();
   
       try {
         const response = await fetch(`/pet/${controlNumber}/prompt`, {
@@ -209,30 +238,28 @@
           const aiMessage = document.createElement('div');
           aiMessage.className = 'chat-message';
   
-          // Get the response text and remove the '**' symbols
           let responseText = result.response.trim();
           responseText = responseText.replace(/\*\*/g, ''); // Remove '**' symbols
   
-          // Check if the response contains bullet points (indicated by `*` at the start of a line)
           if (responseText.includes('*')) {
             const lines = responseText.split('\n');
             let formattedResponse = '';
   
             lines.forEach(line => {
               if (line.startsWith('*')) {
-                formattedResponse += `<li>${line.replace('*', '').trim()}</li>`;
+                formattedResponse += `• ${line.replace('*', '').trim()}\n`; // Using bullet points as plain text
               } else {
-                formattedResponse += `<p>${line.trim()}</p>`;
+                formattedResponse += `${line.trim()}\n`; // Regular text
               }
             });
   
-            aiMessage.innerHTML = formattedResponse; // Use innerHTML to insert the formatted response
+            aiMessage.textContent = formattedResponse.trim();
           } else {
-            // If no bullet points, just add plain text
-            aiMessage.innerHTML = responseText.replace(/\n/g, '<br>'); // Replace line breaks with <br> tags for better formatting
+            aiMessage.textContent = responseText.replace(/\n/g, '\n'); // Maintain line breaks
           }
   
           chatHistory.appendChild(aiMessage);
+          typeText(aiMessage, aiMessage.textContent, 3); // Typing speed set to 3ms per character
         } else {
           const errorMessage = document.createElement('div');
           errorMessage.className = 'chat-message error';
@@ -240,7 +267,6 @@
           chatHistory.appendChild(errorMessage);
         }
   
-        chatHistory.scrollTop = chatHistory.scrollHeight;
         document.getElementById('userPrompt').value = '';
       } catch (error) {
         console.error('Error:', error);
@@ -248,11 +274,12 @@
         errorMessage.className = 'chat-message';
         errorMessage.textContent = 'An error occurred. Please try again.';
         chatHistory.appendChild(errorMessage);
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-        document.getElementById('userPrompt').value = '';
+      } finally {
+        scrollToBottom(); // Ensure scrolling happens regardless of success or error
       }
     });
   </script>
+  
 </body>
 
 </html>
