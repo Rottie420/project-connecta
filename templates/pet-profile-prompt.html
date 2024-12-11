@@ -176,17 +176,17 @@
       const chatHistory = document.getElementById('chatHistory');
       const urlParts = window.location.pathname.split('/');
       const controlNumber = urlParts[urlParts.length - 2];
-
+  
       if (!userPrompt) {
         console.warn('The user prompt is empty');
         return;
       }
-
+  
       const userMessage = document.createElement('div');
       userMessage.className = 'chat-message user';
       userMessage.textContent = 'You: ' + userPrompt;
       chatHistory.appendChild(userMessage);
-
+  
       try {
         const response = await fetch(`/pet/${controlNumber}/prompt`, {
           method: 'POST',
@@ -195,16 +195,39 @@
           },
           body: JSON.stringify({ prompt: userPrompt })
         });
-
+  
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
+  
         const result = await response.json();
         if (result && result.response) {
           const aiMessage = document.createElement('div');
           aiMessage.className = 'chat-message';
-          aiMessage.textContent = 'AI: ' + result.response.trim();
+  
+          // Get the response text and remove the '**' symbols
+          let responseText = result.response.trim();
+          responseText = responseText.replace(/\*\*/g, ''); // Remove '**' symbols
+  
+          // Check if the response contains bullet points (indicated by `*` at the start of a line)
+          if (responseText.includes('*')) {
+            const lines = responseText.split('\n');
+            let formattedResponse = '';
+  
+            lines.forEach(line => {
+              if (line.startsWith('*')) {
+                formattedResponse += `<li>${line.replace('*', '').trim()}</li>`;
+              } else {
+                formattedResponse += `<p>${line.trim()}</p>`;
+              }
+            });
+  
+            aiMessage.innerHTML = formattedResponse; // Use innerHTML to insert the formatted response
+          } else {
+            // If no bullet points, just add plain text
+            aiMessage.innerHTML = responseText.replace(/\n/g, '<br>'); // Replace line breaks with <br> tags for better formatting
+          }
+  
           chatHistory.appendChild(aiMessage);
         } else {
           const errorMessage = document.createElement('div');
@@ -212,7 +235,7 @@
           errorMessage.textContent = 'Error: Unexpected response from server.';
           chatHistory.appendChild(errorMessage);
         }
-
+  
         chatHistory.scrollTop = chatHistory.scrollHeight;
         document.getElementById('userPrompt').value = '';
       } catch (error) {
