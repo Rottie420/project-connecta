@@ -164,10 +164,9 @@
     <!-- Chat Form Section -->
     <form id="promptForm">
       <div class="form-group position-relative">
-        <label for="userPrompt" class="form-label" style="color: #888888">Chat with AI:</label>
         <textarea class="form-control text-white" id="userPrompt" rows="3" placeholder="Ask about anything related to this pet..."></textarea>
         <button type="submit" class="btn btn-primary">
-          <i class="bi bi-arrow-up-circle-fill fs-3 fs-md-2 fs-lg-1"></i>
+          <i class="bi bi-arrow-up-circle-fill fs-2 fs-md-2 fs-lg-1"></i>
         </button>
       </div>
     </form>
@@ -216,7 +215,7 @@
       // User message (appears instantly)
       const userMessage = document.createElement('div');
       userMessage.className = 'chat-message user';
-      userMessage.textContent = 'You: ' + userPrompt;
+      userMessage.textContent = userPrompt;
       chatHistory.appendChild(userMessage);
       scrollToBottom();
   
