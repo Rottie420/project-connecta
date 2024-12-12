@@ -49,6 +49,8 @@ def pet_profile_prompt(control_number):
 
             # Extract the user input, expecting 'prompt' from the front-end
             user_input = data.get('prompt')
+            Logger.log(user_input)
+            
             if not isinstance(user_input, str) or not user_input.strip():
                 return jsonify({"success": False, "message": "Invalid or empty prompt."}), 400
 
