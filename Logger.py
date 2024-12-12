@@ -1,5 +1,6 @@
 from datetime import datetime
 from config import LOG_FILE_PATH, TRAINING_DATA_FILE
+import json
 
 class Logger:
     @staticmethod
