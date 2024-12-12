@@ -64,9 +64,9 @@ def pet_profile_prompt(control_number):
             # Check if response is a valid Flask Response object and read its JSON data
             if isinstance(response, Response):
                 response_data = response.get_data(as_text=True)
+                Logger.log_for_ai_training(user_input, response_data)
                 try:
                     response_json = json.loads(response_data)  # Parse response data to JSON
-                    print(f"Parsed response from pet handler: {response_json}")
                     return jsonify(response_json)
                 except json.JSONDecodeError:
                     return jsonify({"success": False, "message": "Error decoding JSON response from pet_handler."}), 500
