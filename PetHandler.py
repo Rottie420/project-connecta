@@ -277,7 +277,7 @@ class PetHandler:
         
         try:
             response = prompt_processor.generate_message(prompt)
-            Logger.log(f"AI Response: {response}")
+            Logger.log_for_ai_training(response)
             return jsonify({"response": response})
         except Exception as e:
             Logger.log(f"Error generating AI response: {e}")
