@@ -51,6 +51,23 @@ class PetHandler:
             Logger.log(f"Error loading pets data: {e}")
         return {}
 
+    def load_training_data(self, control_number):
+        """
+        Load training data from a .jsonl file and filter by user/pet control number.
+        Returns a list of previous interactions that can be used as context in the prompt.
+        """
+        training_data = []
+        try:
+            with open('training_data.jsonl', 'r') as file:
+                for line in file:
+                    entry = json.loads(line.strip())  # Parse each line
+                    if control_number in entry:  # Check if the control number is a key in the entry
+                        training_data.append(entry[control_number])  # Append the data associated with the control number
+        except Exception as e:
+            Logger.log(f"Error loading training data for {control_number}: {e}")
+        return training_data
+
+
     def save_pets(self):
         try:
             with open(self.json_file_path, 'w', encoding='utf-8') as f:
@@ -255,30 +272,56 @@ class PetHandler:
         return jsonify({"success": True})
 
     def prompt_message(self, control_number, user_input):
+        """
+        Handles user input, retrieves relevant data, and generates a response using an AI prompt processor.
+        """
         pet_data = self.pets.get(control_number)
+        training_data = self.load_training_data(control_number)
+
         if not pet_data:
             return jsonify({"success": False, "message": "Pet not found"}), 404
 
         # Create an instance of PromptProcessor with the API key
         prompt_processor = PromptProcessor(api_key='AIzaSyC0CI07I0ozsLXFVNaEkMec_I4iTuyrmFE')
-        
+
+        # Keywords to check for owner-related questions
         owner_keywords = ["contact the owner", "owner's email", "who is the owner", "owner contact", "reach the owner"]
 
+        # Add training data as context to the prompt
+        training_context = "\n".join(
+            [f"Input: {entry['input']}\nResponse: {entry['output']}" for entry in training_data]
+        )
+
+        # Check for owner-related questions and modify the user input
         if any(keyword in user_input.lower() for keyword in owner_keywords):
             owner_email = pet_data.get('email', 'No email found.')
             owner_phone = pet_data.get('phone', 'No phone number found.')
             user_input = f"{user_input} The owner's email is {owner_email} and phone number is {owner_phone}."
 
-        prompt = f"""YOU ARE A HELPFUL ASSISTANT. Analyze the following user input: {user_input}.
-                Use this information to answer based on the given pet data: {pet_data}.
-                If the required information is not found in the provided data, 
-                search the google for additional information and use it to complete your response.
-                """
-        
+        # Prepare the prompt for the AI with additional context from past training data
+        prompt = f"""
+            YOU ARE A HELPFUL AND KNOWLEDGEABLE ASSISTANT. 
+
+            Please carefully analyze the following user input: {user_input}.
+            
+            Use the provided pet data to craft an accurate and relevant response:
+            {pet_data}.
+
+            Here is additional context from previous conversations that may help provide a more informed answer:
+            {training_context}
+
+            IMPORTANT INSTRUCTIONS:
+            1. **Accuracy is key**: Ensure the response is factual and based on the provided pet data.
+            2. **Completeness**: If the pet data lacks the necessary information, make sure to mention what is missing in your response.
+            3. **Web Search**: If critical information is missing, search the web for reliable sources to complete your response. Mention the source of the information if you refer to an external source.
+
+            Respond as clearly and precisely as possible, taking into account the pet's details and any relevant past interactions.
+            """
+
         try:
+            # Generate AI response using the PromptProcessor
             response = prompt_processor.generate_message(prompt)
             return jsonify({"response": response})
         except Exception as e:
             Logger.log(f"Error generating AI response: {e}")
             return jsonify({"success": False, "message": "Error generating AI response."}), 500
-

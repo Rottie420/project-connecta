@@ -38,6 +38,9 @@ def pet_profile_view(control_number):
 
 @app.route('/pet/<control_number>/prompt', methods=['GET', 'POST'])
 def pet_profile_prompt(control_number):
+    """
+    Handles POST requests for generating AI responses and GET requests for displaying pet profiles.
+    """
     print(f"Received control number: {control_number}")  # Debug print
 
     if request.method == 'POST':
@@ -49,24 +52,25 @@ def pet_profile_prompt(control_number):
 
             # Extract the user input, expecting 'prompt' from the front-end
             user_input = data.get('prompt')
-            
+
             if not isinstance(user_input, str) or not user_input.strip():
                 return jsonify({"success": False, "message": "Invalid or empty prompt."}), 400
 
-
-            if not user_input:
-                return jsonify({"success": False, "message": "Prompt is empty."}), 400
-
             # Process the prompt using the pet handler
             response = pet_handler.prompt_message(control_number, user_input)
-            
+
             # Check if response is a valid Flask Response object and read its JSON data
             if isinstance(response, Response):
                 response_data = response.get_data(as_text=True)
-                
+
                 try:
                     response_json = json.loads(response_data)  # Parse response data to JSON
-                    Logger.log_for_ai_training(user_input, response_json)
+
+                    # Ensure AI response is logged in the new format
+                    ai_response = response_json.get("response")
+                    if ai_response:  # Log only if there is a valid AI response
+                        Logger.log_for_ai_training(control_number, user_input, ai_response)
+
                     return jsonify(response_json)
                 except json.JSONDecodeError:
                     return jsonify({"success": False, "message": "Error decoding JSON response from pet_handler."}), 500
@@ -84,8 +88,6 @@ def pet_profile_prompt(control_number):
         return jsonify({"success": False, "message": "Pet not found"}), 404
 
     return render_template('pet-profile-prompt.html', pet=pet_data, control_number=control_number)
-
-
 
 @app.route('/search-tag-number', methods=['GET'])
 def search_tag_number():
