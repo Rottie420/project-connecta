@@ -152,8 +152,21 @@
 <body>
   <div class="container">
     <!-- Pet Profile Section -->
-    <div class="profile-header mt-3">
-      <img src="{{ url_for('static', filename=pet.photo.lstrip('static/')) }}" alt="{{ pet.petname }} Profile">
+    <div class="card mt-5" style="border-radius: 10px; background: linear-gradient(135deg, #6a0dad, #9b4dca);">
+      <div class="position-relative">
+        <!-- Overlapping Circular Photo -->
+        <div class="position-absolute" style="right: 1em; top: -2em;">
+          <img src="{{ url_for('static', filename=pet.photo.lstrip('static/')) }}"
+               alt="{{ pet.petname }} Profile"
+               class="rounded-circle border border-4 border-white" 
+               style="width: 100px; height: 100px; object-fit: cover;">
+        </div>
+      </div>
+      <!-- Welcome Note -->
+      <div class="card-body text-left">
+        <h5 class="card-title">I'm your AI assistant</h5>
+        <p class="card-text">How can I help today?</p>
+      </div>
     </div>
 
     <!-- Chat History Section -->
