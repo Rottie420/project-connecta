@@ -22,7 +22,18 @@ def index():
 
 @app.route('/order-now/<color>')
 def order_now(color):
-    return render_page_with_logging('order-form.html', "Order Form", color)
+    stock_data = {
+                    'red': 0,
+                    'blue': 0,
+                    'green': 1,
+                    'white': 1,
+                    'grey': 0,
+                    'blue': 0,
+                    'orange': 2,
+                }
+
+    stock = stock_data.get(color)
+    return render_template('order-form.html', color=color, stock=stock)
 
 @app.route('/terms-and-conditions')
 def terms_and_conditions():

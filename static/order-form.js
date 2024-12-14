@@ -9,6 +9,10 @@ const shippingOptions = {
 const taxRate = 0.09; // 9% tax rate
 let selectedShipping = "standard"; // Default shipping option
 
+// Get stock level and color from the hidden inputs
+const stockLevel = parseInt(document.getElementById('stockLevel').value, 10);
+const itemColor = document.getElementById('itemColor').value;
+
 // Event listeners for quantity buttons
 decreaseBtns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
@@ -28,11 +32,18 @@ increaseBtns.forEach((btn) => {
         e.preventDefault();
         const quantityElement = btn.previousElementSibling;
         let quantity = parseInt(quantityElement.textContent);
-        quantity += 1;
-        quantityElement.textContent = quantity;
+
+        // Check if quantity is less than the stock level
+        if (quantity < stockLevel) {
+            quantity += 1;
+            quantityElement.textContent = quantity;
+        } else {
+            alert(`Sorry, we don't have enough stock for the ${itemColor} item.`);
+        }
         updateSummary();
     });
 });
+
 
 // Event listener for shipping selection
 document.querySelector(".form-select").addEventListener("change", (e) => {
@@ -66,6 +77,7 @@ function updateSummary() {
 
 // Initialize the summary
 updateSummary();
+
 
 // PayPal Button Render
 paypal.Buttons({
@@ -149,7 +161,7 @@ onApprove: (data, actions) => {
 },
 onError: (err) => {
     // Display error message in an alert
-    alert('An error occurred during the payment process. Please check delivery info if correct.');
+    alert('Payment error. Please check your delivery info and item quantity. Contact support if the issue persists.');
 },
 onCancel: (data) => {
     // Display cancellation message in an alert
