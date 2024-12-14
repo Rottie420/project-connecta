@@ -300,22 +300,16 @@ class PetHandler:
 
         # Prepare the prompt for the AI with additional context from past training data
         prompt = f"""
-           YOU ARE A HELPFUL AND KNOWLEDGEABLE ASSISTANT. 
+            YOU ARE A HELPFUL ASSISTANT.
 
-            Please carefully analyze the following user input: {user_input}.
-            
-            Use the provided pet data to craft an accurate and relevant response:
-            {pet_data}.
-
-            Here is additional context from previous conversations that may help provide a more informed answer:
-            {training_context}
+            Please analyze the following user input: {user_input}.
+            Use the pet data to respond accurately: {pet_data}.
+            Additional context from prior conversations: {training_context}
 
             IMPORTANT INSTRUCTIONS:
-            1. **Accuracy is key**: Ensure the response is factual and based on the provided pet data.
-            2. **Completeness**: If the pet data lacks the necessary information, make sure to mention what is missing in your response.
-            3. **Web Search**: If critical information is missing, search the web for reliable sources to complete your response. Mention the source of the information if you refer to an external source.
-
-            Respond as clearly and precisely as possible, considering the context, relevant details, and any prior interactions.
+            1. If the pet data lacks the needed information, search the web for reliable sources and provide the answer.
+            2. Provide tips and advice for pet care, health, and training if relevant.
+            3. Respond directly and clearly, using available data.
             """
 
         try:
