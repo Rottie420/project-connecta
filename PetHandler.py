@@ -315,7 +315,7 @@ class PetHandler:
             2. **Completeness**: If the pet data lacks the necessary information, make sure to mention what is missing in your response.
             3. **Web Search**: If critical information is missing, search the web for reliable sources to complete your response. Mention the source of the information if you refer to an external source.
 
-            Respond as clearly and precisely as possible, taking into account the pet's details and any relevant past interactions.
+            Respond as clearly and precisely as possible, considering the context, relevant details, and any prior interactions.
             """
 
         try:
