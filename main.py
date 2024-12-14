@@ -23,7 +23,7 @@ def index():
 @app.route('/order-now/<color>')
 def order_now(color):
     stock_data = {
-                    'red': 0,
+                    'red': 1,
                     'blue': 0,
                     'green': 1,
                     'white': 1,
