@@ -1,0 +1,464 @@
+/* Base Styles */
+body {
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    color: #333;
+    background-color: #090b11;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: white;
+}
+
+
+.nav-link {
+    font-weight: 500;
+    color: white !important;
+}
+
+.nav-link:hover {
+    color: #007bff !important;
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: #090b11;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(152, 152, 152, 0.5);
+    padding: 80px 0;
+}
+
+.hero-content {
+    text-align: left;
+    padding: 20px;
+}
+
+.hero-content h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+
+.hero-content p {
+    font-size: 1.25em;
+    margin-bottom: 30px;
+}
+
+.hero-image img {
+    max-width: 85%;
+    margin-bottom: -5em;
+}
+
+/* Adjustments for larger screens */
+@media (min-width: 768px) {
+    .hero-section {
+        padding: 120px 0;
+    }
+
+    .hero-content h1 {
+        font-size: 3.5em;
+    }
+}
+
+.btn-startup {
+    background-color: rgb(255, 255, 0);
+    color: #333;
+    border-radius: 50px;
+    padding: 10px 30px;
+    font-weight: 600;
+    transition: transform 0.3s;
+}
+
+.btn-startup:hover {
+    background-color: white;
+    color: #333;
+}
+
+/* Product Overview */
+.product-overview {
+    text-align: center;
+    padding: 50px 0;
+}
+
+.product-overview h2 {
+    font-weight: 600;
+    font-size: 2.5em;
+    color: #333;
+}
+
+/* Use Cases */
+#icon-grid {
+    padding: 50px 0;
+    background: transparent;
+    margin-top: 5em;
+    margin-bottom: 5em;
+}
+
+.card {
+    border: none;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 15px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card i {
+    font-size: 2.5em;
+    color: #007bff;
+}
+
+.card-title {
+    font-size: 1.25em;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+/* FAQ Section */
+.accordion-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.accordion-body {
+    color: white;
+}
+.accordion-button {
+    font-weight: 500;
+    color: white !important;
+}
+
+/* Footer */
+footer {
+    background-image: linear-gradient(to right bottom, #090b11, #090b11);
+    height: 150px;
+    padding: 20px 0px;
+    text-align: center;
+    color: white;
+    box-shadow: 0px -4px 10px rgba(0, 0, 0, 0.05);
+    margin-top: auto;  /* Ensure the footer is pushed to the bottom */
+}
+
+.list-inline-item a {
+    text-decoration: none;
+    color: white;
+    font-size: 0.9em;
+}
+
+.list-inline-item a:hover {
+    color: whitesmoke;
+    font-size: 1em;
+}
+
+header {
+    background-color: #090b11;
+}
+
+.navbar-nav .nav-link {
+    color: white; /* Readable text color */
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #007bff; /* Highlight on hover */
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='white' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.faq-section {
+    background-color: transparent !important;/* Semi-transparent background */
+    border-radius: 15px; /* Rounded corners for aesthetic */
+    padding: 20px; /* Padding for spacing */
+    backdrop-filter: blur(10px); /* Optional: Blurring background */
+    color: white !important;
+    margin-bottom: 150px;
+}
+
+.accordion {
+    max-width: 800px; /* Set a maximum width for larger screens */
+    margin: 0 auto; /* Center the accordion */
+}
+
+/* car-split Section */
+.card-split {
+    margin: 0 auto;
+    width: 100%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 35px !important;
+    border: transparent;
+}
+
+@media(max-width: 767px) {
+    .card-split {
+        margin: 0 auto;
+    }
+}
+
+.split-1 {
+    background-color: #18191b;
+    padding: 2rem;
+    border-top-left-radius: 35px;
+    border-bottom-left-radius: 35px;
+}
+
+@media(max-width: 767px) {
+    .split-1 {
+        padding: 2rem;
+        border-top-left-radius: 35px;
+        border-top-right-radius: 35px;
+        border-bottom-left-radius: unset;
+    }
+}
+
+.split-2 {
+    background-color: #0b2f3b;
+    border-top-right-radius: 35px;
+    border-bottom-right-radius: 35px;
+    padding: 2rem;
+    color: white;
+}
+
+@media(max-width: 767px) {
+    .split-2 {
+        border-top-right-radius: unset;
+        border-bottom-left-radius: 35px;
+    }
+}
+
+.pricing-features li {
+    text-align: left;  /* Align text to the left */
+    margin-left: 20%;
+    margin-top: 10px;  /* Add top spacing */
+    margin-bottom: 10px;  /* Add bottom spacing */
+}
+
+/* Style the pop-up container */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: hidden; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Pop-up content */
+.popup-content {
+    background-color: #fefefe;
+    margin: 30% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    border-radius: 20px;
+    width: 95%; /* Could be more or less, depending on screen size */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Close button */
+.close {
+    background-color: white;
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Style the form */
+.signup-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.signup-form input[type="submit"] {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: None;
+    border-radius: 20px;
+    cursor: pointer;
+
+}
+
+.signup-form input::placeholder {
+    text-align: center;
+}
+
+.signup-form input[type="submit"]:hover {
+    background-color: #333;
+}
+
+/* Default styles for #hero-section-2 */
+#hero-section-2 {
+    padding-left: 8em;
+    font-size: larger;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 767px) {
+    #hero-section-2 {
+        padding-left: 2em;
+    }
+}
+
+/* Product styles */
+.product-card {
+    padding: 2em;
+    background-color:rgba(255, 255, 255, 0.1);
+    border: 1px solid #2c2c2c;
+    border-radius: 35px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.product-card:hover {
+    transform: scale(1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+.product-img {
+    height: 150px;
+    object-fit: contain;
+}
+.product-title {
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+.product-price {
+    color: #28a745;
+    font-weight: bold;
+}
+.star-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.star-rating .bi {
+    color: #ffc107;
+    font-size: 1rem;
+}
+.rating-count {
+    font-size: 0.9rem;
+    color: #adb5bd;
+}
+.btn-buy {
+    background-color: rgb(255, 255, 0);
+    color: #333;
+    border-radius: 50px;
+    padding: 10px 30px;
+    font-weight: 600;
+    transition: transform 0.3s;
+}
+.btn-buy:hover {
+    background-color: white;
+}
+
+/* Apply a modern font to the entire section */
+.neon-icon {
+  font-size: 2.5rem;
+  color: #00ffcc;
+  text-shadow: 0 0 8px #00ffcc, 0 0 16px #00ffcc, 0 0 24px #00ffcc, 0 0 32px rgba(0, 255, 204, 0.8);
+}
+
+.icon-item {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5em;
+  border-radius: 35px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.icon-item h3 {
+  font-size: 1.25rem; /* Adjust heading size */
+  margin-bottom: 0.75em; /* Add space between the heading and text */
+}
+
+.icon-item p {
+  font-size: 0.9rem; /* Adjust text size for readability */
+}
+
+.icon-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 255, 204, 0.5);
+}
+
+/* Ensure all cards are the same size */
+.col {
+  display: flex;
+  justify-content: center;
+}
+
+.icon-item {
+  min-height: 350px; /* Ensure all items have the same minimum height */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.neon-icon {
+  font-size: 2.5rem;
+  color: #00ffcc;
+  text-shadow: 0 0 8px #00ffcc, 0 0 16px #00ffcc, 0 0 24px #00ffcc, 0 0 32px rgba(0, 255, 204, 0.8);
+}
+
+.icon-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 255, 204, 0.5);
+}
+
+/* Style for WhatsApp icon */
+#whatsapp-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    justify-content: center;
+    font-size: 2rem; /* Adjust size */
+    cursor: pointer;
+}
+
+#whatsapp-icon:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    background-color: #1da851; /* Slightly darker green */
+}
+
+#whatsapp-icon i {
+    font-size: 1.5rem; /* Icon size */
+}

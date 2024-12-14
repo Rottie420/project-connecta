@@ -1,0 +1,134 @@
+body {
+    background: #090b11;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.title {
+    margin-bottom: 5vh;
+}
+
+.card {
+    margin: auto;
+    max-width: 950px;
+    width: 90%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 35px !important;
+    border: transparent;
+}
+
+@media(max-width: 767px) {
+    .card {
+        margin: 3vh auto;
+    }
+}
+
+.cart {
+    background-color: #fff;
+    padding: 2rem;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+@media(max-width: 767px) {
+    .cart {
+        padding: 2rem;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+}
+
+.summary {
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 2rem;
+    color: rgb(65, 65, 65);
+}
+
+@media(max-width: 767px) {
+    .summary {
+        border-top-right-radius: unset;
+        border-bottom-left-radius: 1rem;
+    }
+}
+
+.row {
+    margin: 0;
+}
+
+.title b {
+    font-size: 1.5rem;
+}
+
+h4, h5 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+form {
+    padding: 2vh 0;
+}
+
+input {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1rem;
+    margin-bottom: 2vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247);
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
+
+input:focus {
+    border-color: #000;
+}
+
+.btn {
+    background-color: #000;
+    border-color: #000;
+    color: white;
+    width: 100%;
+    font-size: 1rem;
+    margin-top: 2vh;
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+}
+
+.btn:focus {
+    box-shadow: none;
+    outline: none;
+    color: white;
+    transition: none;
+}
+
+.btn:hover {
+    color: white;
+}
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.back-to-shop {
+    margin-top: 4.5rem;
+}
+
+.img-fluid {
+    min-width: 50px;
+    margin-left: -1rem;
+}
