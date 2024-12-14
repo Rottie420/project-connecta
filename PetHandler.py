@@ -300,10 +300,10 @@ class PetHandler:
 
         # Prepare the prompt for the AI with additional context from past training data
         prompt = f"""
-            YOU ARE A HELPFUL AND KNOWLEDGEABLE ASSISTANT.
+           YOU ARE A HELPFUL AND KNOWLEDGEABLE ASSISTANT. 
 
             Please carefully analyze the following user input: {user_input}.
-
+            
             Use the provided pet data to craft an accurate and relevant response:
             {pet_data}.
 
@@ -314,12 +314,8 @@ class PetHandler:
             1. **Accuracy is key**: Ensure the response is factual and based on the provided pet data.
             2. **Completeness**: If the pet data lacks the necessary information, make sure to mention what is missing in your response.
             3. **Web Search**: If critical information is missing, search the web for reliable sources to complete your response. Mention the source of the information if you refer to an external source.
-            4. **Adaptation**: If the pet data has changed since the last interaction (e.g., new information has been added or updated), use the most recent data and adjust your response accordingly.
-            5. **Handling Ambiguities**: If the user input is unclear or ambiguous, ask clarifying questions to better understand their needs. Avoid making assumptions or giving answers that might not be accurate.
-            6. **Avoid Repetition**: If a similar question has been answered previously, reference prior conversations or provide a more concise response to avoid repeating the same answer. 
-            7. **Transparency**: If the information you need is missing or incomplete, acknowledge that and be transparent with the user. If you rely on external sources, mention where you obtained the information.
 
-            Respond as clearly and precisely as possible, taking into account the pet's details and any relevant past interactions. Always prioritize user satisfaction by delivering accurate, well-informed, and helpful responses.
+            Respond as clearly and precisely as possible, taking into account the pet's details and any relevant past interactions.
             """
 
         try:
