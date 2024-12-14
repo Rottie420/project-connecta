@@ -52,20 +52,22 @@ class PetHandler:
         return {}
 
     def load_training_data(self, control_number):
-        """
-        Load training data from a .jsonl file and filter by user/pet control number.
-        Returns a list of previous interactions that can be used as context in the prompt.
-        """
-        training_data = []
         try:
+            training_data = []
             with open('training_data.jsonl', 'r') as file:
                 for line in file:
-                    entry = json.loads(line.strip())  # Parse each line
-                    if control_number in entry:  # Check if the control number is a key in the entry
-                        training_data.append(entry[control_number])  # Append the data associated with the control number
+                    entry = json.loads(line.strip())
+                    if control_number in entry:
+                        training_data.append(entry[control_number])
+            
+            # Prioritize recent training data
+            training_data = sorted(training_data, key=lambda x: x['timestamp'], reverse=True)
+            
+            return training_data
+
         except Exception as e:
             Logger.log(f"Error loading training data for {control_number}: {e}")
-        return training_data
+            return []
 
 
     def save_pets(self):
