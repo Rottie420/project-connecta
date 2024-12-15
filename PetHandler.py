@@ -292,19 +292,19 @@ class PetHandler:
 
         # Add training data as context to the prompt
         training_context = "\n".join(
-            [f"Input: {entry['input']}\nResponse: {entry['output']}" for entry in training_data]
+            [f"{entry['input']}\n{entry['output']}" for entry in training_data]
         )
 
         # Prepare the AI prompt with detailed instructions
         prompt = f"""
             YOU ARE A FRIENDLY AND HELPFUL ASSISTANT SPECIALLY DESIGNED FOR KIDS AND FIRST-TIME PET OWNERS.
 
-            User Input: {user_input}
-            Pet Data: {pet_data if pet_data else 'Pet data not available.'}
-            Owner Contact Information:
-                Email: {owner_email}
-                Phone: {owner_phone}
-            Training Context (if available): {training_context if training_context else 'No training data provided.'}
+            Please analyze the following user input: {user_input}.
+            Use the pet data to respond accurately: {pet_data}.
+            Additional context from prior conversations: {training_context}.
+            Use the owner email and owner phone if the user input ask for owner contact information: 
+            {owner_email}, {owner_phone}.
+        
 
             IMPORTANT INSTRUCTIONS:
             1. Use simple and kind language that even kids can understand.
