@@ -286,38 +286,77 @@ class PetHandler:
         # Create an instance of PromptProcessor with the API key
         prompt_processor = PromptProcessor(api_key='AIzaSyC0CI07I0ozsLXFVNaEkMec_I4iTuyrmFE')
 
-        # Keywords to check for owner-related questions
-        owner_keywords = ["contact the owner", "owner's email", "who is the owner", "owner contact", "reach the owner"]
+        # Extract owner details
+        owner_email = pet_data.get('email', 'No email found.')
+        owner_phone = pet_data.get('phone', 'No phone number found.')
 
         # Add training data as context to the prompt
         training_context = "\n".join(
             [f"Input: {entry['input']}\nResponse: {entry['output']}" for entry in training_data]
         )
 
-        # Check for owner-related questions and modify the user input
-        if any(keyword in user_input.lower() for keyword in owner_keywords):
-            owner_email = pet_data.get('email', 'No email found.')
-            owner_phone = pet_data.get('phone', 'No phone number found.')
-            user_input = f"{user_input} The owner's email is {owner_email} and phone number is {owner_phone}."
-
-        # Prepare the prompt for the AI with additional context from past training data
+        # Prepare the AI prompt with detailed instructions
         prompt = f"""
-            YOU ARE A HELPFUL ASSISTANT.
+            YOU ARE A FRIENDLY AND HELPFUL ASSISTANT SPECIALLY DESIGNED FOR KIDS AND FIRST-TIME PET OWNERS.
 
-            Please analyze the following user input: {user_input}.
-            Use the pet data to respond accurately: {pet_data}.
-            Additional context from prior conversations: {training_context}
+            User Input: {user_input}
+            Pet Data: {pet_data if pet_data else 'Pet data not available.'}
+            Owner Contact Information:
+                Email: {owner_email}
+                Phone: {owner_phone}
+            Training Context (if available): {training_context if training_context else 'No training data provided.'}
 
             IMPORTANT INSTRUCTIONS:
-            1. If the pet data lacks the needed information, search the web for reliable sources and provide the answer.
-            2. Provide tips and advice for pet care, health, and training if relevant.
-            3. Respond directly and clearly, using available data.
-            """
+            1. Use simple and kind language that even kids can understand.
+            2. Depending on the query:
+                - Describe the pet’s details in a fun and friendly way.
+                - Provide easy, practical advice for feeding, grooming, and playing with the pet.
+                - Explain body parts or organs in a positive, non-scary way.
+                - For health issues, provide steps to help (e.g., "Make sure Max drinks water and rests.").
+                - If asked about the owner, provide their contact details clearly.
+            3. If specific data is missing:
+                - Search the internet for reliable information to answer the question.
+                - Clearly explain that the information comes from online research.
+            4. Always respond cheerfully, encouraging the user to ask more questions or learn more about pet care.
+        """
 
         try:
             # Generate AI response using the PromptProcessor
             response = prompt_processor.generate_message(prompt)
+            
+            # Fallback: Use the internet if the AI response is vague or insufficient
+            if "I cannot answer" in response or not response.strip():
+                # Perform a web search
+                search_results = self.perform_web_search(user_input)
+                if search_results:
+                    response = (
+                        f"I couldn't find specific data in the records, but here's what I found online: {search_results}. "
+                        "Let me know if you'd like more help!"
+                    )
+                else:
+                    response = (
+                        "I'm here to help! While I don't have enough data to answer that specific question, "
+                        "I can assist with general pet information, tips for care, or updating the NFC tag. Let me know how I can help!"
+                    )
+            
             return jsonify({"response": response})
         except Exception as e:
             Logger.log(f"Error generating AI response: {e}")
-            return jsonify({"success": False, "message": "Error generating AI response."}), 500
+            return jsonify({"success": False, "message": "An error occurred while generating the response."}), 500
+
+    def perform_web_search(self, query):
+        """
+        Performs a web search and returns a summary of results.
+        """
+        try:
+            # Use the browser tool to search the web
+            search_results = browser.search(query)
+            if search_results:
+                # Fetch the top few results
+                detailed_results = browser.mclick([res['id'] for res in search_results[:3]])
+                # Summarize the content
+                return "\n".join([res['snippet'] for res in detailed_results if 'snippet' in res])
+            return None
+        except Exception as e:
+            Logger.log(f"Error performing web search: {e}")
+            return None
