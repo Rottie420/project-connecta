@@ -1,0 +1,1 @@
+16-12-2024 14:25:42 : Error generating AI response: 'PromptHandler' object has no attribute 'prompt_processor'

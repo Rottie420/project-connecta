@@ -4,3 +4,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 LOG_FILE_PATH = 'log.txt'
 DATA_FILE = 'consultations.json'
 TRAINING_DATA_FILE = 'training_data.jsonl'
+API_KEY = 'AIzaSyC0CI07I0ozsLXFVNaEkMec_I4iTuyrmFE'
+GOOGLE_API_KEY = "your_google_api_key"
+SEARCH_ENGINE_ID = "your_custom_search_engine_id"
