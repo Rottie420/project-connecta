@@ -1,1 +1,7 @@
 16-12-2024 14:25:42 : Error generating AI response: 'PromptHandler' object has no attribute 'prompt_processor'
+18-12-2024 12:33:57 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
+18-12-2024 12:35:02 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
+18-12-2024 12:36:57 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
+18-12-2024 15:02:21 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
+18-12-2024 15:02:31 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
+18-12-2024 15:03:32 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
