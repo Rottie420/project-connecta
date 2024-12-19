@@ -108,8 +108,27 @@ class PromptHandler:
         try:
             response = self.generate_message(prompt)
             
-            if "I cannot answer" in response or not response.strip():
-                search_results = self.perform_google_search(user_input)
+            no_answer_responses = [
+                "I cannot answer",
+                "I'm sorry, but I don't know",
+                "I don't have enough information",
+                "I'm not sure",
+                "I can't help",
+                "That's beyond my knowledge",
+                "I don't have an answer",
+                "I need more information",
+                "Unfortunately, I can't provide an answer",
+                "I don't understand",
+                "Could you clarify?",
+                "Invalid input",
+                "I couldn't process your request",
+                "An error occurred"
+            ]
+
+            response = self.generate_message(prompt)
+
+            if any(phrase.lower() in response.lower() for phrase in no_answer_responses) or not response.strip():
+                search_results = self.perform_duckduckgo_search(user_input)
                 if search_results:
                     response = (
                         f"I couldn't find specific data in the records, but here's what I found online: {search_results}. "
@@ -122,31 +141,27 @@ class PromptHandler:
                     )
             
             return jsonify({"response": response})
+            
         except Exception as e:
-            Logger.log(f"Error generating AI response: {e}")
+            Logger.log(f"Error generating response: {e}")
             return jsonify({"success": False, "message": "An error occurred while generating the response."}), 500
 
-    def perform_google_search(query):
-        search_url = "https://www.googleapis.com/customsearch/v1"
+    def perform_duckduckgo_search(query):
+        search_url = "https://api.duckduckgo.com/"
         params = {
             "q": query,
-            "key": GOOGLE_API_KEY,
-            "cx": SEARCH_ENGINE_ID,
-            "num": 3, 
+            "format": "json",
+            "no_html": 1,
+            "skip_disambig": 1,
         }
 
         try:
             response = requests.get(search_url, params=params)
             response.raise_for_status()
-            search_results = response.json()
-
-            summaries = [
-                item["snippet"] for item in search_results.get("items", [])
-            ]
-            return "\n".join(summaries)
-
+            data = response.json()
+            return data.get("AbstractText", "No results found")
         except Exception as e:
-            Logger.log(f"Error performing Google search: {e}")
+            Logger.log(f"Error performing DuckDuckGo search: {e}")
             return None
 
     def handle_prompt(self, control_number):
