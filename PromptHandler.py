@@ -19,6 +19,7 @@ class PromptHandler:
 
     def configure_model(self):
         self.api_key = self.api_keys[self.current_key_index]
+        self.api_keys = ai.configure(api_key=self.api_key)
         self.model = ai.GenerativeModel("gemini-2.0-flash-exp")
         self.chat = self.model.start_chat()
 
