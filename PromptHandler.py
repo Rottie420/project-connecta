@@ -108,26 +108,14 @@ class PromptHandler:
         try:
             response = self.generate_message(prompt)
             
-            no_answer_responses = [
-                "I cannot answer",
-                "I'm sorry, but I don't know",
-                "I don't have enough information",
-                "I'm not sure",
-                "I can't help",
-                "That's beyond my knowledge",
-                "I don't have an answer",
-                "I need more information",
-                "Unfortunately, I can't provide an answer",
-                "I don't understand",
-                "Could you clarify?",
-                "Invalid input",
-                "I couldn't process your request",
-                "An error occurred"
+            no_answer_keywords = [
+                "sorry", "can't", "don't know", "don't understand", "help", "unable", "error", "clarify",
+                "information", "not sure", "beyond my knowledge", "not able", "process"
             ]
 
             response = self.generate_message(prompt)
 
-            if any(phrase.lower() in response.lower() for phrase in no_answer_responses) or not response.strip():
+            if any(keyword.lower() in response.lower() for keyword in no_answer_keywords) or not response.strip():
                 search_results = self.perform_duckduckgo_search(user_input)
                 if search_results:
                     response = (
@@ -141,7 +129,7 @@ class PromptHandler:
                     )
             
             return jsonify({"response": response})
-            
+
         except Exception as e:
             Logger.log(f"Error generating response: {e}")
             return jsonify({"success": False, "message": "An error occurred while generating the response."}), 500
