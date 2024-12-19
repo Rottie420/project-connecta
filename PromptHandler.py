@@ -113,8 +113,6 @@ class PromptHandler:
                 "information", "not sure", "beyond my knowledge", "not able", "process"
             ]
 
-            response = self.generate_message(prompt)
-
             if any(keyword.lower() in response.lower() for keyword in no_answer_keywords) or not response.strip():
                 search_results = self.perform_duckduckgo_search(user_input)
                 if search_results:
@@ -134,7 +132,7 @@ class PromptHandler:
             Logger.log(f"Error generating response: {e}")
             return jsonify({"success": False, "message": "An error occurred while generating the response."}), 500
 
-    def perform_duckduckgo_search(query):
+    def perform_duckduckgo_search(self, query):
         search_url = "https://api.duckduckgo.com/"
         params = {
             "q": query,
