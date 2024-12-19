@@ -89,8 +89,6 @@ class PromptHandler:
             Please analyze the following user input: {user_input}.
             Use the pet data to respond accurately: {user_data}.
             Additional context from prior conversations: {training_context}.
-            Use the owner email and owner phone if the user input ask for owner contact information: 
-            {owner_email}, {owner_phone}.
         
             IMPORTANT INSTRUCTIONS:
             1. Use simple and kind language that even kids can understand.
@@ -99,7 +97,7 @@ class PromptHandler:
                 - Provide easy, practical advice for feeding, grooming, and playing with the pet.
                 - Explain body parts or organs in a positive, non-scary way.
                 - For health issues, provide steps to help (e.g., "Make sure Max drinks water and rests.").
-                - If asked about the owner, provide their contact details clearly.
+                - If asked about the owner, provide their contact details: {owner_email}, {owner_phone}.
             3. If specific data is missing:
                 - Search the internet for reliable information to answer the question.
                 - Clearly explain that the information comes from online research.
