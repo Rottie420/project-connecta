@@ -14,18 +14,14 @@ class PromptHandler:
         self.api_keys = API_KEY
         self.current_key_index = 0
         self.api_key = self.api_keys[self.current_key_index]
-        self.user_data = JSON_FILE_PATH
-        self.user = self.load_user()
-
-    def configure_model(self):
-        self.api_key = self.api_keys[self.current_key_index]
         self.api_keys = ai.configure(api_key=self.api_key)
         self.model = ai.GenerativeModel("gemini-2.0-flash-exp")
         self.chat = self.model.start_chat()
+        self.user_data = JSON_FILE_PATH
+        self.user = self.load_user()
 
     def switch_api_key(self):
         self.current_key_index = (self.current_key_index + 1) % len(self.api_keys)
-        self.configure_model()
     
     def generate_message(self, prompt):
         retries = 0
