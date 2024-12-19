@@ -2,6 +2,7 @@ import json
 import os
 import requests
 import google.generativeai as ai
+from time import sleep
 from config import JSON_FILE_PATH, API_KEY, GOOGLE_API_KEY, SEARCH_ENGINE_ID
 from flask import render_template, request, jsonify, Response
 from Logger import Logger
@@ -17,14 +18,23 @@ class PromptHandler:
         self.user = self.load_user()
 
     def generate_message(self, prompt):
-        try:
-            response = self.chat.send_message(prompt)
-            response_msg = response.text
-            return response_msg
-        
-        except Exception as e:
-            print(f"Unexpected error: {e}")
-            return "An unexpected error occurred while generating the response."
+        retries = 0
+        max_retries = 3
+        delay = 5
+
+        while retries < max_retries:
+            try:
+                response = self.chat.send_message(prompt)
+                response_msg = response.text
+                return response_msg
+            
+            except Exception as e:
+                Logger.log(f"response error({retries +1}): {e}")
+                retries+=1
+                if retries < max_retries:
+                    sleep(delay)
+
+        return "An unexpected error occurred while generating the response."
 
     def load_user(self):
         try:
@@ -87,6 +97,7 @@ class PromptHandler:
                 - Search the internet for reliable information to answer the question.
                 - Clearly explain that the information comes from online research.
             4. Always respond cheerfully, encouraging the user to ask more questions or learn more about pet care.
+            5. Try to make short response as possible.
         """
 
         try:
