@@ -5,3 +5,4 @@
 18-12-2024 15:02:21 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
 18-12-2024 15:02:31 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
 18-12-2024 15:03:32 : Error generating AI response: PromptHandler.perform_google_search() takes 1 positional argument but 2 were given
+19-12-2024 10:05:03 : response error(1): 'PromptHandler' object has no attribute 'chat', switched to new API key
