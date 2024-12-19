@@ -134,10 +134,10 @@ class PromptHandler:
             Logger.log(f"Error generating response: {e}")
             return jsonify({"success": False, "message": "An error occurred while generating the response."}), 500
 
-    def perform_duckduckgo_search(query):
+    def perform_duckduckgo_search(query, more_query):
         search_url = "https://api.duckduckgo.com/"
         params = {
-            "q": query,
+            "q": query + " " + more_query,
             "format": "json",
             "no_html": 1,
             "skip_disambig": 1,
