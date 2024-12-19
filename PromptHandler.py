@@ -11,12 +11,21 @@ from flask import jsonify
 
 class PromptHandler:   
     def __init__(self):
-        self.api_key = ai.configure(api_key=API_KEY)
-        self.model = ai.GenerativeModel("gemini-pro")
-        self.chat = self.model.start_chat()
+        self.api_keys = API_KEY
+        self.current_key_index = 0
+        self.api_key = self.api_keys[self.current_key_index]
         self.user_data = JSON_FILE_PATH
         self.user = self.load_user()
 
+    def configure_model(self):
+        self.api_key = self.api_keys[self.current_key_index]
+        self.model = ai.GenerativeModel("gemini-2.0-flash-exp")
+        self.chat = self.model.start_chat()
+
+    def switch_api_key(self):
+        self.current_key_index = (self.current_key_index + 1) % len(self.api_keys)
+        self.configure_model()
+    
     def generate_message(self, prompt):
         retries = 0
         max_retries = 3
@@ -29,9 +38,10 @@ class PromptHandler:
                 return response_msg
             
             except Exception as e:
-                Logger.log(f"response error({retries +1}): {e}")
+                Logger.log(f"response error({retries +1}): {e}, switched to new API key")
                 retries+=1
                 if retries < max_retries:
+                    self.switch_api_key()
                     sleep(delay)
 
         return "An unexpected error occurred while generating the response."
