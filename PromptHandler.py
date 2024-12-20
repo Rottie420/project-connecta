@@ -86,18 +86,18 @@ class PromptHandler:
             f"Use the pet data to respond accurately: {user_data}.\n"
             f"Additional context from prior conversations: {training_context}.\n\n"
             f"IMPORTANT INSTRUCTIONS:\n"
-            f"1. Use simple and kind language that even kids can understand.\n"
-            f"2. Depending on the query:\n"
+            f"1. Make responses as brief as possible.\n"
+            f"2. Use simple and kind language that even kids can understand.\n"
+            f"3. Depending on the query:\n"
             f"   - Describe the pet’s details in a fun and friendly way.\n"
             f"   - Provide easy, practical advice for feeding, grooming, and playing with the pet.\n"
             f"   - Explain body parts or organs in a positive, non-scary way.\n"
             f"   - For health issues, provide steps to help (e.g., 'Make sure Max drinks water and rests.').\n"
             f"   - If asked about the owner, provide their contact details: {owner_email}, {owner_phone}.\n"
-            f"3. If specific data is missing:\n"
+            f"4. If specific data is missing:\n"
             f"   - Search the internet for reliable information to answer the question.\n"
             f"   - Clearly explain that the information comes from online research.\n"
-            f"4. Always respond cheerfully, encouraging the user to ask more questions or learn more about pet care.\n"
-            f"5. Try to make responses as short as possible.\n"
+            f"5. Always respond cheerfully, encouraging the user to ask more questions or learn more about pet care.\n"
         )
 
         try:
