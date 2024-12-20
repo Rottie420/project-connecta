@@ -66,58 +66,61 @@ class PromptHandler:
             Logger.log(f"Error loading training data for {control_number}: {e}")
             return []
 
-    def prompt_message(self, control_number, user_input):
+    def prompt_message(self, control_number, user_input): 
+        user_data = self.user.get(control_number)
+        if not user_data:
+            return jsonify({"success": False, "message": "Pet not found"}), 404
+
+        training_data = self.load_training_data(control_number)
+
+        owner_email = user_data.get('email', 'No email found.')
+        owner_phone = user_data.get('phone', 'No phone number found.')
+
+        training_context = "\n".join(
+            f"{entry['input']}\n{entry['output']}" for entry in training_data
+        )
+
+        prompt = (
+            f"YOU ARE A FRIENDLY AND HELPFUL ASSISTANT SPECIALLY DESIGNED FOR KIDS AND FIRST-TIME PET OWNERS.\n\n"
+            f"Please analyze the following user input: {user_input}.\n"
+            f"Use the pet data to respond accurately: {user_data}.\n"
+            f"Additional context from prior conversations: {training_context}.\n\n"
+            f"IMPORTANT INSTRUCTIONS:\n"
+            f"1. Use simple and kind language that even kids can understand.\n"
+            f"2. Depending on the query:\n"
+            f"   - Describe the pet’s details in a fun and friendly way.\n"
+            f"   - Provide easy, practical advice for feeding, grooming, and playing with the pet.\n"
+            f"   - Explain body parts or organs in a positive, non-scary way.\n"
+            f"   - For health issues, provide steps to help (e.g., 'Make sure Max drinks water and rests.').\n"
+            f"   - If asked about the owner, provide their contact details: {owner_email}, {owner_phone}.\n"
+            f"3. If specific data is missing:\n"
+            f"   - Search the internet for reliable information to answer the question.\n"
+            f"   - Clearly explain that the information comes from online research.\n"
+            f"4. Always respond cheerfully, encouraging the user to ask more questions or learn more about pet care.\n"
+            f"5. Try to make responses as short as possible.\n"
+        )
+
         try:
-            user_data = self.user.get(control_number)
-            if not user_data:
-                return jsonify({"success": False, "message": "Pet not found"}), 404
-
-            training_data = self.load_training_data(control_number)
-
-            owner_email = user_data.get('email', 'No email found.')
-            owner_phone = user_data.get('phone', 'No phone number found.')
-
-            training_context = "\n".join(
-                f"{entry['input']}\n{entry['output']}" for entry in training_data
-            )
-
-            prompt = (
-                f"YOU ARE A FRIENDLY AND HELPFUL ASSISTANT SPECIALLY DESIGNED FOR KIDS AND FIRST-TIME PET OWNERS.\n\n"
-                f"Please analyze the following user input: {user_input}.\n"
-                f"Use the pet data to respond accurately: {user_data}.\n"
-                f"Additional context from prior conversations: {training_context}.\n\n"
-                f"IMPORTANT INSTRUCTIONS:\n"
-                f"1. Use simple and kind language that even kids can understand.\n"
-                f"2. Depending on the query:\n"
-                f"   - Describe the pet’s details in a fun and friendly way.\n"
-                f"   - Provide easy, practical advice for feeding, grooming, and playing with the pet.\n"
-                f"   - Explain body parts or organs in a positive, non-scary way.\n"
-                f"   - For health issues, provide steps to help (e.g., 'Make sure Max drinks water and rests.').\n"
-                f"   - If asked about the owner, provide their contact details: {owner_email}, {owner_phone}.\n"
-                f"3. If specific data is missing:\n"
-                f"   - Search the internet for reliable information to answer the question.\n"
-                f"   - Clearly explain that the information comes from online research.\n"
-                f"4. Always respond cheerfully, encouraging the user to ask more questions or learn more about pet care.\n"
-                f"5. Try to make responses as short as possible.\n"
-            )
-
             response = self.generate_message(prompt)
 
-            if not response or any(
-                keyword in response.lower()
-                for keyword in [
-                    "sorry", "can't", "don't know", "don't understand", "help", "unable",
-                    "error", "clarify", "information", "not sure", "beyond my knowledge", "not able", "process"
+            if not response:
+                no_answer_keywords = [
+                    "sorry", "can't", "don't know", "don't understand", "help", "unable", "error", "clarify",
+                    "information", "not sure", "beyond my knowledge", "not able", "process"
                 ]
-            ):
-                search_results = self.perform_duckduckgo_search(user_input)
-                response = (
-                    f"I couldn't find specific data in the records, but here's what I found online: {search_results}. "
-                    "Let me know if you'd like more help!"
-                ) if search_results else (
-                    "I'm here to help! While I don't have enough data to answer that specific question, "
-                    "I can assist with general pet information, tips for care, or updating the NFC tag. Let me know how I can help!"
-                )
+
+                if any(keyword.lower() in response.lower() for keyword in no_answer_keywords) or not response.strip():
+                    search_results = self.perform_duckduckgo_search(user_input)
+                    if search_results:
+                        response = (
+                            f"I couldn't find specific data in the records, but here's what I found online: {search_results}. "
+                            "Let me know if you'd like more help!"
+                        )
+                    else:
+                        response = (
+                            "I'm here to help! While I don't have enough data to answer that specific question, "
+                            "I can assist with general pet information, tips for care, or updating the NFC tag. Let me know how I can help!"
+                        )
 
             return jsonify({"response": response})
 
