@@ -24,20 +24,17 @@ class PromptHandler:
         self.current_key_index = (self.current_key_index + 1) % len(self.api_keys)
     
     def generate_message(self, prompt):
-        retries = 0
         max_retries = 3
         delay = 5
 
-        while retries < max_retries:
+        for attempt in range(1, max_retries + 1):
             try:
                 response = self.chat.send_message(prompt)
-                response_msg = response.text
-                return response_msg
+                return response.text  
             
             except Exception as e:
-                Logger.log(f"response error({retries +1}): {e}, switched to new API key")
-                retries+=1
-                if retries < max_retries:
+                Logger.log(f"Response error (attempt {attempt}): {e}. Switching to new API key.")
+                if attempt < max_retries:
                     self.switch_api_key()
                     sleep(delay)
 
@@ -69,71 +66,65 @@ class PromptHandler:
             Logger.log(f"Error loading training data for {control_number}: {e}")
             return []
 
-
     def prompt_message(self, control_number, user_input):
-        user_data = self.user.get(control_number)
-        training_data = self.load_training_data(control_number)
-
-        if not user_data:
-            return jsonify({"success": False, "message": "Pet not found"}), 404
-
-        owner_email = user_data.get('email', 'No email found.')
-        owner_phone = user_data.get('phone', 'No phone number found.')
-
-        training_context = "\n".join(
-            [f"{entry['input']}\n{entry['output']}" for entry in training_data]
-        )
-
-        prompt = f"""
-            YOU ARE A FRIENDLY AND HELPFUL ASSISTANT SPECIALLY DESIGNED FOR KIDS AND FIRST-TIME PET OWNERS.
-
-            Please analyze the following user input: {user_input}.
-            Use the pet data to respond accurately: {user_data}.
-            Additional context from prior conversations: {training_context}.
-        
-            IMPORTANT INSTRUCTIONS:
-            1. Use simple and kind language that even kids can understand.
-            2. Depending on the query:
-                - Describe the pet’s details in a fun and friendly way.
-                - Provide easy, practical advice for feeding, grooming, and playing with the pet.
-                - Explain body parts or organs in a positive, non-scary way.
-                - For health issues, provide steps to help (e.g., "Make sure Max drinks water and rests.").
-                - If asked about the owner, provide their contact details: {owner_email}, {owner_phone}.
-            3. If specific data is missing:
-                - Search the internet for reliable information to answer the question.
-                - Clearly explain that the information comes from online research.
-            4. Always respond cheerfully, encouraging the user to ask more questions or learn more about pet care.
-            5. Try to make short response as possible.
-        """
-
         try:
+            user_data = self.user.get(control_number)
+            if not user_data:
+                return jsonify({"success": False, "message": "Pet not found"}), 404
+
+            training_data = self.load_training_data(control_number)
+
+            owner_email = user_data.get('email', 'No email found.')
+            owner_phone = user_data.get('phone', 'No phone number found.')
+
+            training_context = "\n".join(
+                f"{entry['input']}\n{entry['output']}" for entry in training_data
+            )
+
+            prompt = (
+                f"YOU ARE A FRIENDLY AND HELPFUL ASSISTANT SPECIALLY DESIGNED FOR KIDS AND FIRST-TIME PET OWNERS.\n\n"
+                f"Please analyze the following user input: {user_input}.\n"
+                f"Use the pet data to respond accurately: {user_data}.\n"
+                f"Additional context from prior conversations: {training_context}.\n\n"
+                f"IMPORTANT INSTRUCTIONS:\n"
+                f"1. Use simple and kind language that even kids can understand.\n"
+                f"2. Depending on the query:\n"
+                f"   - Describe the pet’s details in a fun and friendly way.\n"
+                f"   - Provide easy, practical advice for feeding, grooming, and playing with the pet.\n"
+                f"   - Explain body parts or organs in a positive, non-scary way.\n"
+                f"   - For health issues, provide steps to help (e.g., 'Make sure Max drinks water and rests.').\n"
+                f"   - If asked about the owner, provide their contact details: {owner_email}, {owner_phone}.\n"
+                f"3. If specific data is missing:\n"
+                f"   - Search the internet for reliable information to answer the question.\n"
+                f"   - Clearly explain that the information comes from online research.\n"
+                f"4. Always respond cheerfully, encouraging the user to ask more questions or learn more about pet care.\n"
+                f"5. Try to make responses as short as possible.\n"
+            )
+
             response = self.generate_message(prompt)
 
-            if not response:
-                no_answer_keywords = [
-                    "sorry", "can't", "don't know", "don't understand", "help", "unable", "error", "clarify",
-                    "information", "not sure", "beyond my knowledge", "not able", "process"
+            if not response or any(
+                keyword in response.lower()
+                for keyword in [
+                    "sorry", "can't", "don't know", "don't understand", "help", "unable",
+                    "error", "clarify", "information", "not sure", "beyond my knowledge", "not able", "process"
                 ]
+            ):
+                search_results = self.perform_duckduckgo_search(user_input)
+                response = (
+                    f"I couldn't find specific data in the records, but here's what I found online: {search_results}. "
+                    "Let me know if you'd like more help!"
+                ) if search_results else (
+                    "I'm here to help! While I don't have enough data to answer that specific question, "
+                    "I can assist with general pet information, tips for care, or updating the NFC tag. Let me know how I can help!"
+                )
 
-                if any(keyword.lower() in response.lower() for keyword in no_answer_keywords) or not response.strip():
-                    search_results = self.perform_duckduckgo_search(user_input)
-                    if search_results:
-                        response = (
-                            f"I couldn't find specific data in the records, but here's what I found online: {search_results}. "
-                            "Let me know if you'd like more help!"
-                        )
-                    else:
-                        response = (
-                            "I'm here to help! While I don't have enough data to answer that specific question, "
-                            "I can assist with general pet information, tips for care, or updating the NFC tag. Let me know how I can help!"
-                        )
-                
-                return jsonify({"response": response})   
             return jsonify({"response": response})
 
         except Exception as e:
             Logger.log(f"Error generating response: {e}")
             return jsonify({"success": False, "message": "An error occurred while generating the response."}), 500
+
 
     def perform_duckduckgo_search(self, query):
         search_url = "https://api.duckduckgo.com/"
@@ -154,41 +145,40 @@ class PromptHandler:
             return None
 
     def handle_prompt(self, control_number):
-        if request.method == 'POST':
-            try:
+        try:
+            if request.method == 'POST':
                 data = request.get_json()
                 if not data:
                     return jsonify({"success": False, "message": "No data received in POST body."}), 400
 
-                user_input = data.get('prompt')
-
-                if not isinstance(user_input, str) or not user_input.strip():
+                user_input = data.get('prompt', '').strip()
+                if not user_input:
                     return jsonify({"success": False, "message": "Invalid or empty prompt."}), 400
 
                 response = self.prompt_message(control_number, user_input)
 
                 if isinstance(response, Response):
-                    response_data = response.get_data(as_text=True)
-
                     try:
-                        response_json = json.loads(response_data) 
+                        response_json = response.get_json()
                         ai_response = response_json.get("response")
-                        if ai_response: 
+                        
+                        if ai_response:
                             Logger.log_for_ai_training(control_number, user_input, ai_response)
 
                         return jsonify(response_json)
-                    except json.JSONDecodeError:
+
+                    except Exception as decode_error:
+                        Logger.log(f"Error decoding JSON response: {decode_error}")
                         return jsonify({"success": False, "message": "Error decoding JSON response from pet_handler."}), 500
-                else:
-                    return jsonify({"success": False, "message": "Unexpected response format from pet_handler."}), 500
 
-            except Exception as e:
-                Logger.log(f"Error processing prompt for pet {control_number}: {e}")
-                return jsonify({"success": False, "message": "An error occurred while processing your request."}), 500
+                return jsonify({"success": False, "message": "Unexpected response format from pet_handler."}), 500
 
-        pet_data = self.user.get(control_number)
-        print(f"Fetched pet data: {pet_data}")
-        if not pet_data:
-            return jsonify({"success": False, "message": "Pet not found"}), 404
+            pet_data = self.user.get(control_number)
+            if not pet_data:
+                return jsonify({"success": False, "message": "Pet not found"}), 404
 
-        return render_template('pet-profile-prompt.html', pet=pet_data, control_number=control_number)
+            return render_template('pet-profile-prompt.html', pet=pet_data, control_number=control_number)
+
+        except Exception as e:
+            Logger.log(f"Error processing prompt for pet {control_number}: {e}")
+            return jsonify({"success": False, "message": "An error occurred while processing your request."}), 500
