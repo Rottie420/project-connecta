@@ -86,7 +86,7 @@ class PromptHandler:
             f"Use the pet data to respond accurately: {user_data}.\n"
             f"Additional context from prior conversations: {training_context}.\n\n"
             f"IMPORTANT INSTRUCTIONS:\n"
-            f"1. Provide brief answers, avoid repetition.\n"
+            f"1. Give a short, clear answer without repetition.\n"
             f"2. Use simple and kind language that even kids can understand.\n"
             f"3. Depending on the query:\n"
             f"   - Describe the pet’s details in a fun and friendly way.\n"
