@@ -53,21 +53,22 @@ class PromptHandler:
         return {}
 
     def load_training_data(self, control_number):
-            try:
-                training_data = []
-                with open('training_data.jsonl', 'r') as file:
-                    for line in file:
-                        entry = json.loads(line.strip())
-                        if control_number in entry:
-                            training_data.append(entry[control_number])
-                
-                training_data = sorted(training_data, key=lambda x: x['timestamp'], reverse=True)
-                
-                return training_data
+        try:
+            with open('training_data.jsonl', 'r') as file:
+                training_data = [
+                    json.loads(line.strip())[control_number]
+                    for line in file
+                    if control_number in json.loads(line.strip())
+                ]
+            
+            training_data.sort(key=lambda x: x['timestamp'], reverse=True)
+            
+            return training_data
 
-            except Exception as e:
-                Logger.log(f"Error loading training data for {control_number}: {e}")
-                return []
+        except Exception as e:
+            Logger.log(f"Error loading training data for {control_number}: {e}")
+            return []
+
 
     def prompt_message(self, control_number, user_input):
         user_data = self.user.get(control_number)
