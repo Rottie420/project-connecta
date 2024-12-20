@@ -41,7 +41,7 @@ class PromptHandler:
                     self.switch_api_key()
                     sleep(delay)
 
-        return "An unexpected error occurred while generating the response."
+        return False
 
     def load_user(self):
         try:
@@ -107,25 +107,27 @@ class PromptHandler:
 
         try:
             response = self.generate_message(prompt)
-            
-            no_answer_keywords = [
-                "sorry", "can't", "don't know", "don't understand", "help", "unable", "error", "clarify",
-                "information", "not sure", "beyond my knowledge", "not able", "process"
-            ]
 
-            if any(keyword.lower() in response.lower() for keyword in no_answer_keywords) or not response.strip():
-                search_results = self.perform_duckduckgo_search(user_input)
-                if search_results:
-                    response = (
-                        f"I couldn't find specific data in the records, but here's what I found online: {search_results}. "
-                        "Let me know if you'd like more help!"
-                    )
-                else:
-                    response = (
-                        "I'm here to help! While I don't have enough data to answer that specific question, "
-                        "I can assist with general pet information, tips for care, or updating the NFC tag. Let me know how I can help!"
-                    )
-            
+            if not response:
+                no_answer_keywords = [
+                    "sorry", "can't", "don't know", "don't understand", "help", "unable", "error", "clarify",
+                    "information", "not sure", "beyond my knowledge", "not able", "process"
+                ]
+
+                if any(keyword.lower() in response.lower() for keyword in no_answer_keywords) or not response.strip():
+                    search_results = self.perform_duckduckgo_search(user_input)
+                    if search_results:
+                        response = (
+                            f"I couldn't find specific data in the records, but here's what I found online: {search_results}. "
+                            "Let me know if you'd like more help!"
+                        )
+                    else:
+                        response = (
+                            "I'm here to help! While I don't have enough data to answer that specific question, "
+                            "I can assist with general pet information, tips for care, or updating the NFC tag. Let me know how I can help!"
+                        )
+                
+                return jsonify({"response": response})   
             return jsonify({"response": response})
 
         except Exception as e:
