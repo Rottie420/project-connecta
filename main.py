@@ -7,11 +7,11 @@ app = Flask(__name__, template_folder='templates', static_folder='static')
 pet_handler = PetHandler()
 prompt_handler = PromptHandler()
 booking_manager = BookingManager()
-stock_data = {'red': 1, 'blue': 0, 'green': 1, 'white': 1, 'grey': 0, 'blue': 0, 'orange': 2}
+stock_data = {'red': 1, 'blue': 0, 'green': 1, 'white': 1, 'grey': 0, 'orange': 2}
 
 @app.route('/')
 def index():
-    return render_template('home-v2.html'), 500
+    return render_template('home-v2.html')
 
 @app.route('/order-now/<color>')
 def order_now(color):
