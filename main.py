@@ -2,11 +2,13 @@ from flask import Flask, render_template, request, redirect, url_for, jsonify
 from PetHandler import PetHandler
 from PromptHandler import PromptHandler
 from BookingManager import BookingManager
+from OpenMapper import OpenMapper
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 pet_handler = PetHandler()
 prompt_handler = PromptHandler()
 booking_manager = BookingManager()
+mapper = OpenMapper()
 stock_data = {'red': 1, 'blue': 0, 'green': 1, 'white': 1, 'grey': 0, 'orange': 2}
 
 @app.route('/')
@@ -26,8 +28,11 @@ def terms_and_conditions():
 def pet_profile_edit(control_number):
     return pet_handler.pet_profile_edit(control_number)
 
-@app.route('/pet/<control_number>/view', methods=['GET'])
+@app.route('/pet/<control_number>/view', methods=['GET', 'POST'])
 def pet_profile_view(control_number):
+    global data 
+    data = request.form.get('location')
+    print(data)
     return pet_handler.pet_profile_view(control_number)
 
 @app.route('/pet/<control_number>/prompt', methods=['GET', 'POST'])
@@ -60,30 +65,9 @@ def update_activity_log():
     data = request.json
     return pet_handler.update_activity_log(data)
 
-@app.route('/consult-now', methods=['GET', 'POST'])
-def consult_now():
-    if request.method == 'POST':
-        booking_info = get_booking_info()
-        response, status_code = booking_manager.book_demo(booking_info)
-        return jsonify(response), status_code
-    return render_template('consult-now.html')
-
-@app.route('/admin-dashboard')
-def admin_dashboard():
-    logs = booking_manager.get_admin_dashboard_data()
-    if isinstance(logs, tuple):
-        return jsonify(logs[0]), logs[1]
-    return render_template('admin-dashboard.html', logs=logs)
-
-def get_booking_info():
-    return {
-        'name': request.json.get('name') if request.is_json else request.form.get('name'),
-        'email': request.json.get('email') if request.is_json else request.form.get('email'),
-        'phone': request.json.get('phone') if request.is_json else request.form.get('phone'),
-        'date': request.json.get('date') if request.is_json else request.form.get('date'),
-        'time': request.json.get('time') if request.is_json else request.form.get('time'),
-        'message': request.json.get('message') if request.is_json else request.form.get('message')
-    }
+@app.route('/open-map')
+def open_map():
+    return mapper.render_map(data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
