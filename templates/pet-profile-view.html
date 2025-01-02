@@ -171,13 +171,7 @@
               <p><i class="fas fa-paw icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Breed -</span> <span id="petBreedDisplay">{{ pet.petbreed }}</span></p>
               <p><i class="fas fa-envelope icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Email -</span> <a href="mailto:{{ pet.email }}" style="color: #00aaff;">{{ pet.email }}</a></p>
               <p><i class="fas fa-phone icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Phone -</span> <a href="tel:{{ pet.phone }}" style="color: #00aaff;">{{ pet.phone }}</a></p>
-              <p id="location" style="display: none;"></p>
-               {% if location_data %}
-                    <p><i class="fas fa-map-marker-alt icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Location -</span> 
-                    <a href="https://www.google.com/maps?q={{ location_data }}" target="_blank">{{ location_data }}</a></p>
-                {% else %}
-                    <p>No location available.</p>
-                {% endif %}
+              <p id="location"></p>
             </div>
         </div>
         </div>
@@ -394,7 +388,7 @@
         function showPosition(position) {
             const dmsCoordinates = convertCoordinates(position.coords.latitude, position.coords.longitude);
             const locationDiv = document.getElementById('location');
-            locationDiv.innerHTML = `<p><i class="coords fas fa-map-marker-alt icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Location -</span> <span>${dmsCoordinates.latitude} ${dmsCoordinates.longitude}</span></p>`;
+            locationDiv.innerHTML = `<p><i class="coords fas fa-map-marker-alt icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Location -</span> <a href="https://www.google.com/maps?q=${dmsCoordinates.latitude} ${dmsCoordinates.longitude}" target="_blank">>${dmsCoordinates.latitude} ${dmsCoordinates.longitude}</a></p>`;
         }
 
         // Function to handle errors when geolocation fails

@@ -30,9 +30,6 @@ def pet_profile_edit(control_number):
 
 @app.route('/pet/<control_number>/view', methods=['GET', 'POST'])
 def pet_profile_view(control_number):
-    global data 
-    data = request.form.get('location')
-    print(data)
     return pet_handler.pet_profile_view(control_number)
 
 @app.route('/pet/<control_number>/prompt', methods=['GET', 'POST'])
