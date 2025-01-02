@@ -133,7 +133,11 @@ class PetHandler:
                 'walk distance': request.form.get('walkDistanceInput', ''),
                 'last activity': request.form.get('lastActivityInput', '')
             }
-
+            
+            location_data = request.form.get('location')
+            if location_data:
+                pet_data['location'] = location_data
+                
             control_number = pet_data["control_number"]
                 
             # Validate control number
@@ -159,7 +163,7 @@ class PetHandler:
             self.save_pets()
             
         
-        return render_template(template, pet=pet)
+        return render_template(template, pet=pet, location_data=location_data)
 
     def pet_profile_edit(self, control_number):
         return self.handle_pet_profile(control_number, 'pet-profile-edit.html')
