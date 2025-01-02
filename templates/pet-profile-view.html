@@ -388,7 +388,7 @@
         function showPosition(position) {
             const dmsCoordinates = convertCoordinates(position.coords.latitude, position.coords.longitude);
             const locationDiv = document.getElementById('location');
-            locationDiv.innerHTML = `<p><i class="coords fas fa-map-marker-alt icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Location -</span> <a href="https://www.google.com/maps?q=${dmsCoordinates.latitude} ${dmsCoordinates.longitude}" target="_blank">${dmsCoordinates.latitude} ${dmsCoordinates.longitude}</a></p>`;
+            locationDiv.innerHTML = `<p><i class="coords fas fa-map-marker-alt icon" style="margin-right: 12px; min-width: 18px; color: #00aaff; font-size: 18px;"></i> <span>Location -</span> <a href="https://www.google.com/maps?q=${position.coords.latitude} ${position.coords.longitude}" target="_blank">${dmsCoordinates.latitude} ${dmsCoordinates.longitude}</a></p>`;
         }
 
         // Function to handle errors when geolocation fails
