@@ -62,9 +62,6 @@ def update_activity_log():
     data = request.json
     return pet_handler.update_activity_log(data)
 
-@app.route('/open-map')
-def open_map():
-    return mapper.render_map(data)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
