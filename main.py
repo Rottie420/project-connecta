@@ -11,8 +11,7 @@ prompt_handler = PromptHandler()
 booking_manager = BookingManager()
 mapper = OpenMapper()
 stock_data = {'red': 1, 'blue': 0, 'green': 1, 'white': 1, 'grey': 0, 'orange': 2}
-original_price = 14.49
-discounted_price = 8.69
+global control_number
 
 @app.route('/')
 def index():
