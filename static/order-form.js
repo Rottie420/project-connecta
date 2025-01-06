@@ -1,6 +1,6 @@
 const decreaseBtns = document.querySelectorAll('.decrease');
 const increaseBtns = document.querySelectorAll('.increase');
-const itemPrice = 14.49;
+const itemPrice = 8.69;
 const shippingOptions = {
     standard: 5.00,
     express: 10.00,

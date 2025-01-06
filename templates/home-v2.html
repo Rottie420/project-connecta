@@ -51,6 +51,7 @@
     <title>Connecta | Ai Pet Tags</title>
 </head>
 <body>
+  {% include 'infomsg.html' %}
     <!-- Header -->
     <header class="shadow-sm sticky-top">
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent border-0">
@@ -80,7 +81,7 @@
             </div>
         </nav>
     </header>
-
+    
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
@@ -98,6 +99,57 @@
             </div>
         </div>
     </section>
+
+  <!-- Hero Section -->
+  <section class="hero-section py-5 mt-5">
+    <div class="container">
+        <h1 class="pb-2 text-center text-white">Track and Locate Your Pet</h1>
+        <p class="text-center text-white mb-5">Ensure your pet's safety and location with passive tracking features activated by NFC tap.</p>
+        <div class="row align-items-center">
+            <!-- Image on the right for desktop, below text on mobile -->
+            <div class="col-12 col-md-6 hero-content text-center text-md-start order-2 order-md-1">
+                <img src="/static/track-locate-pets.webp"
+                    style="border-radius: 25px;" 
+                    class="img-fluid shadow-sm" 
+                    alt="Pet Tracking Device">
+            </div>
+            <!-- Text content on the left -->
+            <div class="col-12 col-md-6 hero-image text-start text-md-start mt-4 mt-md-0 order-1 order-md-2" id="hero-section-2">
+                <ul class="list-unstyled">
+                    <li class="mb-5 d-flex align-items-start">
+                        <i class="bi bi-phone-vibrate text-primary fs-2 me-3"></i>
+                        <div>
+                            <h6 class="fw-bold">NFC-Activated Tracking</h6>
+                            <p class="mb-0">Access your pet's location details instantly with a simple NFC tap.</p>
+                        </div>
+                    </li>
+                    <li class="mb-5 d-flex align-items-start">
+                        <i class="bi bi-clock-history text-info fs-2 me-3"></i>
+                        <div>
+                            <h6 class="fw-bold">Location History</h6>
+                            <p class="mb-0">Review your pet's movement history anytime with ease.</p>
+                        </div>
+                    </li>
+                    <li class="mb-5 d-flex align-items-start">
+                        <i class="bi bi-file-earmark-text text-warning fs-2 me-3"></i>
+                        <div>
+                            <h6 class="fw-bold">Effortless Data Access</h6>
+                            <p class="mb-0">Retrieve and update tracking details via NFC-enabled devices.</p>
+                        </div>
+                    </li>
+                    <li class="d-flex align-items-start">
+                        <i class="bi bi-shield text-success fs-2 me-3"></i>
+                        <div>
+                            <h6 class="fw-bold">Long-Lasting Reliability</h6>
+                            <p class="mb-0">Durable and waterproof, ensuring consistent performance for everyday use.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>          
+        </div>
+    </div>
+  </section>
+
 
    <!-- Hero Section -->
     <section class="hero-section py-5 mt-5">
@@ -313,7 +365,10 @@
                   </div>
                   <span class="rating-count">(1,250)</span>
                 </div>
-                <p class="product-price">$14.49</p>
+                <p>
+                  <span class="original-price" style="text-decoration: line-through; color: #888;">{{ original_price }}</span>
+                  <span class="product-price">{{ discounted_price }}</span>
+                </p>
                 <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
                 <div class="d-flex align-items-center justify-content-center mt-4">
                   <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
@@ -341,7 +396,10 @@
                   </div>
                   <span class="rating-count">(201)</span>
                 </div>
-                <p class="product-price">$14.49</p>
+                <p>
+                  <span class="original-price" style="text-decoration: line-through; color: #888;">{{ original_price }}</span>
+                  <span class="product-price">{{ discounted_price }}</span>
+                </p>
                 <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
                 <div class="d-flex align-items-center justify-content-center mt-4">
                   <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
@@ -361,13 +419,16 @@
                   <div>
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i>
+                    <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star"></i>
                     <i class="bi bi-star"></i>
                   </div>
                   <span class="rating-count">(67)</span>
                 </div>
-                <p class="product-price">$14.49</p>
+                <p>
+                  <span class="original-price" style="text-decoration: line-through; color: #888;">{{ original_price }}</span>
+                  <span class="product-price">{{ discounted_price }}</span>
+                </p>
                 <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
                 <div class="d-flex align-items-center justify-content-center mt-4">
                   <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
@@ -393,7 +454,10 @@
                   </div>
                   <span class="rating-count">(93)</span>
                 </div>
-                <p class="product-price">$14.49</p>
+                <p>
+                  <span class="original-price" style="text-decoration: line-through; color: #888;">{{ original_price }}</span>
+                  <span class="product-price">{{ discounted_price }}</span>
+                </p>
                 <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
                 <div class="d-flex align-items-center justify-content-center mt-4">
                   <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
@@ -419,7 +483,10 @@
                   </div>
                   <span class="rating-count">(645)</span>
                 </div>
-                <p class="product-price">$14.49</p>
+                <p>
+                  <span class="original-price" style="text-decoration: line-through; color: #888;">{{ original_price }}</span>
+                  <span class="product-price">{{ discounted_price }}</span>
+                </p>
                 <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
                 <div class="d-flex align-items-center justify-content-center mt-4">
                   <i class="bi bi-truck text-white-50 me-2 mb-3"></i>
@@ -439,13 +506,16 @@
                   <div>
                     <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i>
+                    <i class="bi bi-star-fill"></i>
                     <i class="bi bi-star"></i>
                     <i class="bi bi-star"></i>
                   </div>
                   <span class="rating-count">(78)</span>
                 </div>
-                <p class="product-price">$14.49</p>
+                <p>
+                  <span class="original-price" style="text-decoration: line-through; color: #888;">{{ original_price }}</span>
+                  <span class="product-price">{{ discounted_price }}</span>
+                </p>
                 <p class="text-white-50 small">Durable and stylish NFC pet tag. Perfect for keeping your pet safe.</p>
                 <div class="d-flex align-items-center justify-content-center mt-4">
                   <i class="bi bi-truck text-white-50 me-2 mb-3"></i>

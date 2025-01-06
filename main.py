@@ -1,24 +1,32 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 from PetHandler import PetHandler
 from PromptHandler import PromptHandler
 from BookingManager import BookingManager
 from OpenMapper import OpenMapper
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
+app.config['SECRET_KEY'] = 'my_secret_key'
 pet_handler = PetHandler()
 prompt_handler = PromptHandler()
 booking_manager = BookingManager()
 mapper = OpenMapper()
 stock_data = {'red': 1, 'blue': 0, 'green': 1, 'white': 1, 'grey': 0, 'orange': 2}
+original_price = 14.49
+discounted_price = 8.69
 
 @app.route('/')
 def index():
-    return render_template('home-v2.html')
+    original_price = 14.49
+    discounted_price = 8.69
+    flash('🎉 Limited-Time Offer!  Get 40% OFF on all items   Order Now & Save Big! 🎉')
+    return render_template('home-v2.html', original_price=original_price, discounted_price=discounted_price)
 
 @app.route('/order-now/<color>')
 def order_now(color):
+    original_price = 14.49
+    discounted_price = 8.69
     stock = stock_data.get(color)
-    return render_template('order-form.html', color=color, stock=stock)
+    return render_template('order-form.html', color=color, stock=stock, original_price=original_price, discounted_price=discounted_price)
 
 @app.route('/terms-and-conditions')
 def terms_and_conditions():
