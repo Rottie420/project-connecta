@@ -11,6 +11,10 @@ body {
     height: 100%;
 }
 
+h2 {
+    font-size: 37px;
+}
+
 /* Navbar */
 .navbar-brand {
     font-size: 1.8em;
@@ -58,6 +62,10 @@ body {
     margin-bottom: -5em;
 }
 
+.hero-description {
+    font-size: 16px !important;
+}
+
 /* Adjustments for larger screens */
 @media (min-width: 768px) {
     .hero-section {
@@ -67,6 +75,15 @@ body {
     .hero-content h1 {
         font-size: 3.5em;
     }
+
+    .hero-description {
+        font-size: 20px !important;
+    }
+
+    h2 {
+        font-size: 37px !important;
+    }
+
 }
 
 .btn-startup {
