@@ -27,6 +27,10 @@ def order_now(color):
     stock = stock_data.get(color)
     return render_template('order-form.html', color=color, stock=stock, original_price=original_price, discounted_price=discounted_price)
 
+@app.route('/demo')
+def demo():
+    return render_template('demo.html'), 500
+
 @app.route('/terms-and-conditions')
 def terms_and_conditions():
     return render_template('terms-and-conditions.html'), 500
