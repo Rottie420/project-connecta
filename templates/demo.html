@@ -24,7 +24,7 @@
         }
 
         .navbar .nav-link:hover {
-            color: #fff;
+            color: orangered;
         }
 
         .card {
@@ -64,28 +64,39 @@
             margin-bottom: 1rem;
         }
 
-        .info-section h3 {
+        .info-section h5 {
             font-size: 1.2rem;
             margin-bottom: 0.5rem;
         }
 
-        .info-section p {
+        .info-section h5 {
             margin: 0;
             color: #bbb;
+            font-weight: normal;
+            font-size: 14px !important;
+        }
+
+        .info-section p {
+            margin: 0;
+            color: white;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand fixed-bottom">
         <div class="container-fluid justify-content-around">
-            <a class="nav-link text-center" href="#profile">
-                <i class="bi bi-person"></i><br>Profile
+            <a class="nav-link text-center" href="#profile" style="font-size: 14px;">
+                <i class="bi bi-person" style="font-size: 25px !important;"></i><br>Profile
             </a>
-            <a class="nav-link text-center" href="#medicalHistory">
-                <i class="bi bi-file-medical"></i><br>Medical
+            <a class="nav-link text-center" href="#medicalHistory" style="font-size: 14px;">
+                <i class="bi bi-file-medical" style="font-size: 25px !important;"></i><br>Medical
             </a>
-            <a class="nav-link text-center" href="#map">
-                <i class="bi bi-geo-alt"></i><br>Track
+            <a class="nav-link text-center" href="#map" style="font-size: 14px;">
+                <i class="bi bi-geo-alt" style="font-size: 25px !important;"></i><br>Track
+            </a>
+            <a class="nav-link text-center" href="#call" style="font-size: 14px;">
+                <i class="bi bi-telephone" style="font-size: 25px !important;"></i><br>Contact
             </a>
         </div>
     </nav>
@@ -98,17 +109,17 @@
                 alt="Profile Photo" id="profilePhoto">
             </div>
             <div class="p-4">
-                <h2 class="mb-3">Pet Profile</h2>
+                <h5 class="mb-3 fw-bold">Pet Profile</h5>
                 <div class="info-section">
-                    <h3>Name</h3>
+                    <h5>Name</h5>
                     <p id="petName">Buddy</p>
                 </div>
                 <div class="info-section">
-                    <h3>Age</h3>
+                    <h5>Age</h5>
                     <p id="petAge">3 years</p>
                 </div>
                 <div class="info-section">
-                    <h3>Breed</h3>
+                    <h5>Breed</h5>
                     <p id="petBreed">Golden Retriever</p>
                 </div>
             </div>
@@ -116,20 +127,164 @@
 
         <!-- Medical History Page -->
         <section id="medicalHistory" class="card p-4 mb-4">
-            <h2 class="mb-3">Medical History</h2>
+            <h5 class="mb-3 fw-bold">Medical History</h5>
             <div class="info-section">
-                <h3>Vaccinations</h3>
+                <h5>Vaccinations</h5>
                 <p id="vaccinations">Rabies, Distemper, Parvovirus</p>
             </div>
             <div class="info-section">
-                <h3>Allergies</h3>
+                <h5>Allergies</h5>
                 <p id="allergies">None</p>
             </div>
         </section>
 
+        <section id="appointment" class="card p-4 mb-4">
+            <h5 class="mb-3 fw-bold">Scheduled Appointments</h5>
+            <div class="calendar-view">
+                <table class="table text-center">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calendarBody">
+                        <!-- Calendar days will be dynamically generated -->
+                    </tbody>
+                </table>
+                <p class="mt-4 text-center fw-bold" id="appointmentDetails">Click on a date to view details.</p>
+            </div>
+        </section>
+        
+        <script>
+            // Appointment Data
+            const appointments = [
+                {
+                    date: "2025-01-25",
+                    time: "2:00 PM",
+                    reason: "Routine Check-up"
+                }
+            ];
+        
+            // Generate the Calendar
+            function generateCalendar(year, month) {
+                const calendarBody = document.getElementById("calendarBody");
+                calendarBody.innerHTML = ""; // Clear previous calendar
+        
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+        
+                let date = 1;
+        
+                // Create rows for weeks
+                for (let i = 0; i < 6; i++) {
+                    const row = document.createElement("tr");
+        
+                    for (let j = 0; j < 7; j++) {
+                        const cell = document.createElement("td");
+                        cell.classList.add("calendar-cell");
+        
+                        if (i === 0 && j < firstDay) {
+                            cell.innerHTML = ""; // Empty cells before first day
+                        } else if (date > daysInMonth) {
+                            break; // Stop if all days are added
+                        } else {
+                            cell.innerHTML = date;
+        
+                            // Check if the date has an appointment
+                            const appointment = appointments.find(app => {
+                                const appDate = new Date(app.date);
+                                return (
+                                    appDate.getFullYear() === year &&
+                                    appDate.getMonth() === month &&
+                                    appDate.getDate() === date
+                                );
+                            });
+        
+                            if (appointment) {
+                                cell.classList.add("appointment-day");
+                                cell.title = `${appointment.time} - ${appointment.reason}`;
+                                cell.addEventListener("click", () => {
+                                    document.getElementById("appointmentDetails").innerHTML = `
+                                        <strong>Appointment:</strong> ${appointment.date}, ${appointment.time} - ${appointment.reason}
+                                    `;
+                                });
+                            }
+        
+                            date++;
+                        }
+        
+                        row.appendChild(cell);
+                    }
+        
+                    calendarBody.appendChild(row);
+                }
+            }
+        
+            // Initialize the calendar
+            const today = new Date();
+            generateCalendar(today.getFullYear(), today.getMonth());
+        </script>
+        
+        <style>
+            .calendar-view {
+                border: 0.5px solid rgba(221, 221, 221, 0.094);
+                border-radius: 12px;
+                overflow: hidden;
+                background-color: rgba(255, 255, 255, 0.268);
+            }
+        
+            .calendar-view table {
+                margin: 0 auto;
+                border-collapse: collapse;
+            }
+        
+            .calendar-view th {
+                padding: 10px;
+                background-color:rgba(255, 68, 0, 0.838);
+                color: white;
+                font-weight: bold;
+                border: 0.5px solid rgba(221, 221, 221, 0.094);
+            }
+        
+            .calendar-cell {
+                height: 60px;
+                vertical-align: middle;
+                border: 0.5px solid rgba(221, 221, 221, 0.094);
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.2s;
+            }
+        
+            .calendar-cell:hover {
+                background-color: rgba(221, 221, 221, 0.094);
+                transform: scale(1.05);
+            }
+        
+            .appointment-day {
+                background-color:orangered;
+                color: orangered;
+                font-weight: bold;
+                transition: background-color 0.3s , box-shadow 0.3s;
+            }
+        
+            .appointment-day:hover {
+                box-shadow: 0 0 10px orangered;
+            }
+        
+            #appointmentDetails {
+                color:white;
+            }
+        </style>        
+        
+
         <!-- Map Section -->
         <section id="map" class="card p-4 mb-4">
-            <h2 class="mb-3">Location Tracker</h2>
+            <h5 class="mb-3 fw-bold">Location Tracker</h5>
             <div id="mapContainer">
                 <iframe
                     src="https://www.google.com/maps?q=37.7749, -122.4194&output=embed"
@@ -137,6 +292,8 @@
                     loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </section>
+
+        <div style="margin-top: 100px;"></div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
