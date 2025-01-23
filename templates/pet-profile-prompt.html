@@ -12,25 +12,29 @@
 </head>
 
 <body>
-  <div class="container">
-    <!-- Pet Profile Section -->
-    <div class="card mt-5 mb-5" style="border-radius: 10px; background: linear-gradient(135deg, #6a0dad, #9b4dca);">
-      <div class="position-relative">
-        <!-- Overlapping Circular Photo -->
-        <div class="position-absolute" style="right: 1em; top: -2em;">
-          <img src="{{ url_for('static', filename=pet.photo.lstrip('static/')) }}"
-               alt="{{ pet.petname }} Profile"
-               class="rounded-circle border border-3" 
-               style="width: 100px; height: 100px; object-fit: cover; border-color: #cba2e4 !important;">
-        </div>
-      </div>
-      <!-- Welcome Note -->
-      <div class="card-body text-left">
-        <h5 class="card-title">I'm your AI assistant</h5>
-        <p class="card-text">How can I help today?</p>
-      </div>
-    </div>
+  <div id="window" style="width: 100%; overflow: hidden; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+    <!-- Title Bar -->
+  <div style="background: orangered; color: white; padding: 10px; display: flex; align-items: center; justify-content: space-between;">
+      <span style="font-weight: bold; font-size: 16px;">Ai Assistant</span>
+      <a href="/demo" 
+        style="display: inline-block; 
+                background-color: transparent; 
+                color: white; 
+                font-size: 30px; 
+                cursor: pointer; 
+                text-align: center; 
+                width: 30px; 
+                height: 30px; 
+                line-height: 30px; 
+                border-radius: 50%; 
+                transition: background-color 0.3s;
+                text-decoration: none">
+          &times;
+      </a>
 
+  </div>
+  </div>
+  <div class="container">
     <!-- Chat History Section -->
     <div class="chat-history" id="chatHistory"></div>
   </div>

@@ -154,12 +154,12 @@
                 <i class="bi bi-person" style="font-size: 25px !important;"></i><br>Profile
             </a>
             <a class="nav-link text-center" href="#medicalHistory" style="font-size: 14px;">
-                <i class="bi bi-file-medical" style="font-size: 25px !important;"></i><br>Medical
+                <i class="bi bi-heart-pulse" style="font-size: 25px !important;"></i><br>Medical
             </a>
             <a class="nav-link text-center" href="#map" style="font-size: 14px;">
                 <i class="bi bi-geo-alt" style="font-size: 25px !important;"></i><br>Track
             </a>
-            <a class="nav-link text-center" href="#call" style="font-size: 14px;">
+            <a class="nav-link text-center" href="tel:+12 3456 789" style="font-size: 14px;">
                 <i class="bi bi-telephone" style="font-size: 25px !important;"></i><br>Contact
             </a>
         </div>
@@ -182,6 +182,12 @@
                     <h5>Age</h5>
                     <p id="petAge">3 years</p>
                 </div>
+                <button type="button" class="btn float-end"
+                        id="ai-chat-icon"
+                        style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; background-color: orangered; color: white; font-weight: bold;">
+                        &nbsp;&nbsp;&nbsp;<i class="bi bi-chat-quote"></i>
+                        &nbsp;Ask Ai&nbsp;&nbsp;&nbsp;&nbsp;               
+                </button>
                 <div class="info-section">
                     <h5>Breed</h5>
                     <p id="petBreed">Golden Retriever</p>
@@ -367,6 +373,31 @@
                 }
             }
         </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Get the current URL
+                const currentUrl = window.location.href;
+
+                // Extract the ID using regex
+                const match = currentUrl.match(/\/pet\/([^\/]+)\/view/);
+                const petId = match ? match[1] : null;
+
+                // Get the button element
+                const aiChatIcon = document.getElementById('ai-chat-icon');
+
+                // Dynamically set the href based on petId
+                if (aiChatIcon) {
+                    const newHref = '/pet/1a4b3d72/prompt';
+                    aiChatIcon.setAttribute('data-href', newHref); // Set a data-href attribute
+                    aiChatIcon.addEventListener("click", function () {
+                        window.location.href = newHref; // Perform navigation on click
+                    });
+                }
+            });
+        </script>
+
+
         
         <div style="margin-top: 100px;"></div>
                
