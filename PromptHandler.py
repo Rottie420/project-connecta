@@ -157,42 +157,36 @@ class PromptHandler:
             if request.method == 'POST':
                 data = request.get_json()
                 if not data:
-                    Logger.log(f"No data received for pet {control_number}")
                     return jsonify({"success": False, "message": "No data received in POST body."}), 400
 
-                user_input = data['prompt'].strip()
-                Logger.log({user_input})
+                user_input = data.get('prompt', '').strip()
                 if not user_input:
-                    Logger.log(f"Invalid or empty prompt for pet {control_number}")
                     return jsonify({"success": False, "message": "Invalid or empty prompt."}), 400
 
-                Logger.log(f"Received user input: {user_input} for pet {control_number}")
                 response = self.prompt_message(control_number, user_input)
 
                 if isinstance(response, Response):
                     try:
                         response_json = response.get_json()
-                        ai_response = response_json['response']
-                        Logger.log({ai_response})
+                        ai_response = response_json.get("response")
                         
                         if ai_response:
                             Logger.log_for_ai_training(control_number, user_input, ai_response)
 
                         return jsonify(response_json)
+
                     except Exception as decode_error:
                         Logger.log(f"Error decoding JSON response: {decode_error}")
                         return jsonify({"success": False, "message": "Error decoding JSON response from pet_handler."}), 500
-                
-                Logger.log(f"Unexpected response format from pet_handler for pet {control_number}: {response}")
-                return jsonify({"success": False, "message": "Unexpected response from pet_handler."}), 500
+
+                return jsonify({"success": False, "message": "Unexpected response format from pet_handler."}), 500
 
             pet_data = self.user.get(control_number)
             if not pet_data:
-                Logger.log(f"Pet data not found for pet {control_number}")
                 return jsonify({"success": False, "message": "Pet not found"}), 404
 
             return render_template('pet-profile-prompt.html', pet=pet_data, control_number=control_number)
 
         except Exception as e:
-            Logger.log(f"Error processing prompt for pet {control_number}: {str(e)}")
+            Logger.log(f"Error processing prompt for pet {control_number}: {e}")
             return jsonify({"success": False, "message": "An error occurred while processing your request."}), 500
