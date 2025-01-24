@@ -3,6 +3,7 @@ from PetHandler import PetHandler
 from PromptHandler import PromptHandler
 from BookingManager import BookingManager
 from OpenMapper import OpenMapper
+from Logger import Logger
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 app.config['SECRET_KEY'] = 'my_secret_key'
@@ -45,7 +46,11 @@ def pet_profile_view(control_number):
 
 @app.route('/pet/<control_number>/prompt', methods=['GET', 'POST'])
 def pet_profile_prompt(control_number):
-    return prompt_handler.handle_prompt(control_number)
+    try:
+        return prompt_handler.handle_prompt(control_number)
+    except Exception as e:
+        Logger.log(f"Error processing pet profile prompt for pet {control_number}: {str(e)}")
+        return jsonify({"success": False, "message": "An error occurred while processing your request."}), 500
    
 @app.route('/search-tag-number', methods=['GET'])
 def search_tag_number():
