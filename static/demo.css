@@ -1,0 +1,137 @@
+body {
+    background-color: #0d0d0d;
+    color: #eaeaea;
+    font-family: 'Roboto', sans-serif;
+}
+
+.navbar {
+    background-color: #1a1a1a;
+}
+
+.navbar .nav-link {
+    color: #aaa;
+    transition: color 0.3s;
+}
+
+.navbar .nav-link:hover {
+    color: orangered;
+}
+
+.card {
+    background-color: #1f1f1f;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+#mapContainer {
+    height: 250px;
+    background-color: #2a2a2a;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 1rem;
+}
+
+.profile-photo {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background-color: #2a2a2a;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info-section {
+    margin-bottom: 1rem;
+}
+
+.info-section h5 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-section h5 {
+    margin: 0;
+    color: #bbb;
+    font-weight: normal;
+    font-size: 14px !important;
+}
+
+.info-section p {
+    margin: 0;
+    color: white;
+    font-weight: bold;
+}
+
+.dark-mode-card {
+        background-color: #1e1e1e;
+        border-radius: 8px;
+}
+
+.dark-mode-card h5 {
+    color: #ff7043;
+}
+
+iframe {
+    filter: invert(90%) hue-rotate(180deg);
+}
+
+.calendar-view {
+    border: 0.5px solid rgba(221, 221, 221, 0.094);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.268);
+}
+
+.calendar-view table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.calendar-view th {
+    padding: 8px;
+    background-color:rgba(255, 68, 0, 0.838);
+    font-size: 16px;
+    color: white;
+    font-weight: bold;
+    border: 0.5px solid rgba(221, 221, 221, 0.094);
+}
+
+.calendar-cell {
+    height: 60px;
+    padding: 5px;
+    font-size: 14px;
+    vertical-align: middle;
+    border: 0.5px solid rgba(221, 221, 221, 0.094);
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.calendar-cell:hover {
+    background-color: rgba(221, 221, 221, 0.094);
+    transform: scale(1.05);
+}
+
+.appointment-day {
+    background-color:orangered;
+    color: orangered;
+    font-weight: bold;
+    transition: background-color 0.3s , box-shadow 0.3s;
+}
+
+.appointment-day:hover {
+    box-shadow: 0 0 10px orangered;
+}
+
+#appointmentDetails {
+    color:white;
+}
