@@ -156,11 +156,14 @@ class PromptHandler:
         try:
             if request.method == 'POST':
                 data = request.get_json()
+                Logger.log(f"1")
                 if not data:
+                    Logger.log(f"2")
                     return jsonify({"success": False, "message": "No data received in POST body."}), 400
 
                 user_input = data.get('prompt', '').strip()
                 if not user_input:
+                    Logger.log(f"3")
                     Logger.log(f"Error user_input proccesing: {user_input}")
                     return jsonify({"success": False, "message": "Invalid or empty prompt."}), 400
 
@@ -180,9 +183,9 @@ class PromptHandler:
                         Logger.log(f"Error decoding JSON response: {decode_error}")
                         return jsonify({"success": False, "message": "Error decoding JSON response from pet_handler."}), 500
 
-                Logger.log(f"Error response proccesing: {response}")
                 return jsonify({"success": False, "message": "Unexpected response format from pet_handler."}), 500
-
+            
+            Logger.log(f"4")
             pet_data = self.user.get(control_number)
             if not pet_data:
                 return jsonify({"success": False, "message": "Pet not found"}), 404
