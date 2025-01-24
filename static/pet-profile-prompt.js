@@ -44,12 +44,13 @@ function scrollToBottom() {
     scrollToBottom();
 
     try {
-      const response = await fetch('https://connecta.store/pet/' + controlNumber + '/prompt', {
+      const response = await fetch(`/pet/${controlNumber}/prompt`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: userPrompt }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: userPrompt })
       });
-
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -92,33 +93,11 @@ function scrollToBottom() {
       document.getElementById('userPrompt').value = '';
     } catch (error) {
       console.error('Error:', error);
-    
       const errorMessage = document.createElement('div');
-      errorMessage.className = 'chat-message error';
-    
-      if (error instanceof TypeError) {
-        // Handle TypeError (e.g., network issues, fetch call errors)
-        errorMessage.textContent = 'Network error occurred. Please check your connection.';
-      } else if (error.message.includes('HTTP error')) {
-        // Handle HTTP errors explicitly
-        const statusMatch = error.message.match(/Status: (\d+)/);
-        const statusCode = statusMatch ? statusMatch[1] : 'unknown';
-        errorMessage.textContent = `Server error (Status: ${statusCode}). Please try again later.`;
-      } else if (error instanceof SyntaxError) {
-        // Handle JSON parsing issues or unexpected responses
-        errorMessage.textContent = 'Unexpected response from the server. Please contact support.';
-      } else {
-        // Generic fallback for any other errors
-        errorMessage.textContent = 'An unknown error occurred. Please try again.';
-      }
-    
-      // Append error message to chat history
+      errorMessage.className = 'chat-message';
+      errorMessage.textContent = 'An error occurred. Please try again.';
       chatHistory.appendChild(errorMessage);
-    
-      // Optionally, alert the user for critical errors
-      // alert('A critical error occurred. Please refresh the page.');
-    }
-     finally {
+    } finally {
       scrollToBottom(); // Ensure scrolling happens regardless of success or error
     }
   });
