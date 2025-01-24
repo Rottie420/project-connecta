@@ -160,7 +160,8 @@ class PromptHandler:
                     Logger.log(f"No data received for pet {control_number}")
                     return jsonify({"success": False, "message": "No data received in POST body."}), 400
 
-                user_input = data.get('prompt', '').strip()
+                user_input = data['prompt'].strip()
+                Logger.log({user_input})
                 if not user_input:
                     Logger.log(f"Invalid or empty prompt for pet {control_number}")
                     return jsonify({"success": False, "message": "Invalid or empty prompt."}), 400
@@ -171,7 +172,8 @@ class PromptHandler:
                 if isinstance(response, Response):
                     try:
                         response_json = response.get_json()
-                        ai_response = response_json.get("response")
+                        ai_response = response_json['response']
+                        Logger.log({ai_response})
                         
                         if ai_response:
                             Logger.log_for_ai_training(control_number, user_input, ai_response)

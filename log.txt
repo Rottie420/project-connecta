@@ -14,3 +14,9 @@
 24-01-2025 12:56:45 : 4
 24-01-2025 13:10:01 : Received request data for pet 1a4b3d72: {'prompt': 'hi'}
 24-01-2025 13:13:03 : Received request data for pet 1a4b3d72: {'prompt': 'hi'}
+24-01-2025 13:20:15 : Received user input: hi for pet 1a4b3d72
+24-01-2025 13:23:54 : {'hi'}
+24-01-2025 13:23:54 : Received user input: hi for pet 1a4b3d72
+24-01-2025 13:25:50 : {'hi'}
+24-01-2025 13:25:50 : Received user input: hi for pet 1a4b3d72
+24-01-2025 13:25:52 : {"Hi there! I'm Timmie The Dog, a 3-year-old Shih-Tzu who loves to play and cuddle! If you have any questions about me or other pets, ask away! My owner can be reached at kevin_castillo@connecta.store or +6597845231.\n"}
