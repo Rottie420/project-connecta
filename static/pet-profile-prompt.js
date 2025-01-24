@@ -44,13 +44,12 @@ function scrollToBottom() {
     scrollToBottom();
 
     try {
-      const response = await fetch(`/pet/${controlNumber}/prompt`, {
+      const response = await fetch('https://connecta.store/pet/' + controlNumber + '/prompt', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: userPrompt })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: userPrompt }),
       });
+
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
