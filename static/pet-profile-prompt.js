@@ -92,11 +92,33 @@ function scrollToBottom() {
       document.getElementById('userPrompt').value = '';
     } catch (error) {
       console.error('Error:', error);
+    
       const errorMessage = document.createElement('div');
-      errorMessage.className = 'chat-message';
-      errorMessage.textContent = 'An error occurred. Please try again.';
+      errorMessage.className = 'chat-message error';
+    
+      if (error instanceof TypeError) {
+        // Handle TypeError (e.g., network issues, fetch call errors)
+        errorMessage.textContent = 'Network error occurred. Please check your connection.';
+      } else if (error.message.includes('HTTP error')) {
+        // Handle HTTP errors explicitly
+        const statusMatch = error.message.match(/Status: (\d+)/);
+        const statusCode = statusMatch ? statusMatch[1] : 'unknown';
+        errorMessage.textContent = `Server error (Status: ${statusCode}). Please try again later.`;
+      } else if (error instanceof SyntaxError) {
+        // Handle JSON parsing issues or unexpected responses
+        errorMessage.textContent = 'Unexpected response from the server. Please contact support.';
+      } else {
+        // Generic fallback for any other errors
+        errorMessage.textContent = 'An unknown error occurred. Please try again.';
+      }
+    
+      // Append error message to chat history
       chatHistory.appendChild(errorMessage);
-    } finally {
+    
+      // Optionally, alert the user for critical errors
+      // alert('A critical error occurred. Please refresh the page.');
+    }
+     finally {
       scrollToBottom(); // Ensure scrolling happens regardless of success or error
     }
   });
