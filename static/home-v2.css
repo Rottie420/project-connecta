@@ -22,6 +22,14 @@ h2 {
     color: white;
 }
 
+@media(max-width: 767px) {
+    /* Navbar */
+    .navbar-brand {
+        font-size: 1.5em;
+        font-weight: 600;
+        color: white;
+    }
+}
 
 .nav-link {
     font-weight: 500;
