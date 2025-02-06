@@ -22,3 +22,35 @@
 24-01-2025 13:25:52 : {"Hi there! I'm Timmie The Dog, a 3-year-old Shih-Tzu who loves to play and cuddle! If you have any questions about me or other pets, ask away! My owner can be reached at kevin_castillo@connecta.store or +6597845231.\n"}
 24-01-2025 06:09:27 : the control number is 1a4b3d72
 24-01-2025 06:09:27 : Updating pet info: Buddy, 3, Golden Retriever
+01-02-2025 14:59:11 : Response error (attempt 1): 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]. Switching to new API key.
+01-02-2025 14:59:11 : Error generating response: object of type 'NoneType' has no len()
+01-02-2025 14:59:24 : Response error (attempt 1): 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]. Switching to new API key.
+01-02-2025 14:59:24 : Error generating response: object of type 'NoneType' has no len()
+01-02-2025 14:59:34 : Response error (attempt 1): 400 API key expired. Please renew the API key. [reason: "API_KEY_INVALID"
+domain: "googleapis.com"
+metadata {
+  key: "service"
+  value: "generativelanguage.googleapis.com"
+}
+, locale: "en-US"
+message: "API key expired. Please renew the API key."
+]. Switching to new API key.
+01-02-2025 14:59:34 : Error generating response: object of type 'NoneType' has no len()
+04-02-2025 19:59:29 : New user name was triggered and data was saved successfully
+04-02-2025 20:02:01 : New user name was triggered and data was saved successfully

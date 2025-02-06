@@ -4,6 +4,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 LOG_FILE_PATH = 'log.txt'
 DATA_FILE = 'consultations.json'
 TRAINING_DATA_FILE = 'training_data.jsonl'
-API_KEY = ['AIzaSyC0CI07I0ozsLXFVNaEkMec_I4iTuyrmFE', 'AIzaSyDeFYjLrFpfwbDSepH9fXi3yg0U5u-1bVA', 'AIzaSyAcu8bfUZQB1dLZAqeKGvDOKvUAeHz0s0s']
+API_KEY = ['AIzaSyBZR8jqMIM4NcqjEKNijmR2AExDLiD91q8', 'AIzaSyDdjvm0ni16lJVwFzmSlyRm9sL9V_dzY4w', 'AIzaSyD9LUuXn3Zy5SKhkpZfy6Doz3crVChQq9s', 'AIzaSyAZmB1b_aAwxTZuOCNe1mCt0iDSYn_BPtI', 'AIzaSyDp0rKuR80gSkeulV3Grhc3Bv0AnyplKsI']
 GOOGLE_API_KEY = "your_google_api_key"
 SEARCH_ENGINE_ID = "your_custom_search_engine_id"
